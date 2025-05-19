@@ -48,7 +48,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Djangoasdasd.urls'
+ROOT_URLCONF = 'foodsy.urls'
 
 TEMPLATES = [
     {
