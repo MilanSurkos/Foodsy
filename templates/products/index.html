@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Foodsy - Produkty</title>
+</head>
+<body>
+    <h1>Produkty</h1>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.name }} – {{ product.price }} €</li>
+        {% empty %}
+            <li>Žiadne produkty.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
