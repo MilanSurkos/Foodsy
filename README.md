@@ -2,3 +2,5 @@
 - [ ] Foodsy
 
 Spustenie vývojového servera
+
+asdasd
