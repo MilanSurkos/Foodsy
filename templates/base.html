@@ -1,0 +1,23 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Foodsy</title>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Domov</a></li>
+            <li><a href="{% url 'product_list' %}">Produkty</a></li>
+            <li><a href="{% url 'orders' %}">Objednávky</a></li>
+            <li><a href="{% url 'basket' %}">Košík</a></li>
+        </ul>
+    </nav>
+
+    <!-- Obsah stránky -->
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
