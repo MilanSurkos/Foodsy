@@ -1,9 +1,75 @@
 <!-- templates/base.html -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sk">
 <head>
-    <meta charset="UTF-8">
-    <title>Foodsy</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Foodsy - Objednaj si jedlo online</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0; padding: 0;
+            background: #fff8f0;
+            color: #333;
+        }
+        nav {
+            background-color: #ff6f3c;
+            padding: 10px 20px;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0; padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        section {
+            margin-bottom: 40px;
+        }
+        a.button {
+            background: #ff6f3c;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a.button:hover {
+            background: #e65c28;
+        }
+        form label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        form input[type="number"] {
+            width: 50px;
+            padding: 5px;
+        }
+        form button {
+            background: #ff6f3c;
+            border: none;
+            color: white;
+            padding: 7px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        form button:hover {
+            background: #e65c28;
+        }
+    </style>
 </head>
 <body>
     <!-- Navbar -->
@@ -17,7 +83,56 @@
     </nav>
 
     <!-- Obsah stránky -->
-    {% block content %}
-    {% endblock %}
+    <div class="container">
+        {% block content %}
+        <!-- Tu môžeš použiť niektorý z pripravených popisov ako príklad -->
+
+        <!-- Domov – uvítací banner -->
+        <section>
+            <h1>Vitajte na Foodsy!</h1>
+            <p>Objednajte si svoje obľúbené jedlá online z pohodlia domova. Čerstvé suroviny, rýchle doručenie a široký výber pre každú chuť.</p>
+            <a href="{% url 'product_list' %}" class="button">Prejsť na ponuku</a>
+        </section>
+
+        <!-- Produkty – popis sekcie -->
+        <section>
+            <h2>Naša ponuka jedál</h2>
+            <p>Vyberte si zo širokej ponuky našich jedál – od tradičných slovenských špecialít až po medzinárodné lahôdky. Každé jedlo pripravujeme s dôrazom na kvalitu a čerstvosť.</p>
+        </section>
+
+        <!-- Detail produktu – príklad -->
+        <section>
+            <h3>Pizza Margherita</h3>
+            <p>Tradičná talianska pizza s paradajkovou omáčkou, mozzarellou a čerstvou bazalkou.</p>
+            <p><strong>Cena:</strong> 7.50 €</p>
+            <form method="post" action="#">
+                {% csrf_token %}
+                <label for="mnozstvo">Množstvo:</label>
+                <input type="number" id="mnozstvo" name="mnozstvo" value="1" min="1" max="10" />
+                <button type="submit">Pridať do košíka</button>
+            </form>
+        </section>
+
+        <!-- Košík – popis košíka -->
+        <section>
+            <h2>Váš košík</h2>
+            <p>Skontrolujte položky, ktoré ste si vybrali. Môžete upraviť množstvo alebo odstrániť položky pred dokončením objednávky.</p>
+        </section>
+
+        <!-- Objednávky – popis stránky -->
+        <section>
+            <h2>Vaše objednávky</h2>
+            <p>Tu nájdete prehľad všetkých vašich objednávok vrátane aktuálne spracovávaných a dokončených. Sledujte stav a históriu vašich objednávok jednoducho a prehľadne.</p>
+        </section>
+
+        <!-- Potvrdenie objednávky -->
+        <section>
+            <h2>Ďakujeme za vašu objednávku!</h2>
+            <p>Vaša objednávka bola úspešne prijatá a začíname ju spracovávať. Čoskoro vám prinesieme vaše obľúbené jedlo až k dverám.</p>
+            <a href="{% url 'home' %}" class="button">Späť na domovskú stránku</a>
+        </section>
+
+        {% endblock %}
+    </div>
 </body>
 </html>
