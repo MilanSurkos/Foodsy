@@ -1,8 +1,5 @@
 from django.db import models
-
-# Create your models here.
-
-from django.db import models
+from django.conf import settings
 
 class Kategorie(models.Model):
     nazev = models.CharField(max_length=100)
@@ -22,7 +19,10 @@ class Product(models.Model):
 
     name = models.CharField(max_length=255)
     description = models.TextField()
-    image = models.URLField(blank=True)
+
+    # Tu pridávame ImageField
+    image = models.ImageField(upload_to='product/images/', blank=True, null=True)
+
     category = models.ForeignKey(Kategorie, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     type = models.CharField(max_length=50, choices=PRODUCT_TYPES)

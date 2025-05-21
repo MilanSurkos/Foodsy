@@ -19,6 +19,9 @@ from django.urls import path
 from products import views
 from django.urls import path, include
 from django.shortcuts import render
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
        path('admin/', admin.site.urls),
@@ -27,3 +30,6 @@ urlpatterns = [
        path('orders/', include('orders.urls')),  # <-- include this
        path('basket/', include('basket.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

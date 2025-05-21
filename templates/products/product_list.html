@@ -1,11 +1,52 @@
-<!-- templates/products/product_list.html -->
 {% extends 'base.html' %}
+{% load static %}
+
 
 {% block content %}
-<h1>Produkty</h1>
-<ul>
+<h1>Naša ponuka</h1>
+
+<style>
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+    .product-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        padding: 15px;
+        text-align: center;
+    }
+    .product-card img {
+        max-width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+    .product-card h2 {
+        font-size: 1.2rem;
+        margin: 10px 0 5px 0;
+    }
+    .product-card p {
+        margin: 5px 0;
+        color: #666;
+    }
+</style>
+
+<div class="product-grid">
     {% for product in products %}
-        <li>{{ product.name }} - {{ product.price }}€</li>
+        <div class="product-card">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <img src="{% static 'images/default-food.jpg' %}" alt="Žiadny obrázok">
+            {% endif %}
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description|truncatewords:20 }}</p>
+            <p><strong>{{ product.price }} €</strong></p>
+        </div>
     {% endfor %}
-</ul>
+</div>
 {% endblock %}

@@ -4,14 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="Urls prvy web uprava">
-      <change afterPath="$PROJECT_DIR$/static/images/slide1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/slide2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/slide3.jpg" afterDir="false" />
+    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="Slideshow test">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/foodsy/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/foodsy/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foodsy/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/foodsy/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/products/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/products/product_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/products/product_list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +127,7 @@
       <workItem from="1747763479763" duration="86000" />
       <workItem from="1747763568364" duration="91000" />
       <workItem from="1747841865415" duration="1003000" />
-      <workItem from="1747844122368" duration="6496000" />
+      <workItem from="1747844122368" duration="9378000" />
     </task>
     <task id="LOCAL-00001" summary="Structura Djanga">
       <option name="closed" value="true" />
@@ -226,7 +225,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747848702164</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Slideshow test">
+      <option name="closed" value="true" />
+      <created>1747850795146</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1747850795146</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -255,6 +262,7 @@
     <MESSAGE value="aasd" />
     <MESSAGE value="Urls prvy web" />
     <MESSAGE value="Urls prvy web uprava" />
-    <option name="LAST_COMMIT_MESSAGE" value="Urls prvy web uprava" />
+    <MESSAGE value="Slideshow test" />
+    <option name="LAST_COMMIT_MESSAGE" value="Slideshow test" />
   </component>
 </project>
