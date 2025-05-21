@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="aasd">
-      <change beforePath="$PROJECT_DIR$/.idea/foodsy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/foodsy.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/foodsy/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/foodsy/urls.py" afterDir="false" />
-    </list>
+    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="zmena v Readme.md" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -127,7 +122,7 @@
       <workItem from="1747763318194" duration="159000" />
       <workItem from="1747763479763" duration="86000" />
       <workItem from="1747763568364" duration="91000" />
-      <workItem from="1747840654957" duration="1481000" />
+      <workItem from="1747840654957" duration="1925000" />
     </task>
     <task id="LOCAL-00001" summary="Structura Djanga">
       <option name="closed" value="true" />
@@ -209,7 +204,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747763507285</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="zmena v Readme.md">
+      <option name="closed" value="true" />
+      <created>1747842830396</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1747842830396</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -236,6 +239,7 @@
     <MESSAGE value="test" />
     <MESSAGE value="Skuska prveho rozhrania" />
     <MESSAGE value="aasd" />
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="zmena v Readme.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="zmena v Readme.md" />
   </component>
 </project>
