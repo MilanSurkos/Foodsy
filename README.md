@@ -1,16 +1,16 @@
 # Foodsy
 Foodsy
- -[ ] 1.Vytvorenie priečinka pre projekt Foodsy :
+ -[x] 1.Vytvorenie priečinka pre projekt Foodsy :
 django-admin startproject Foodsy
- - [ ] 2.Spustenie vývojového servera :
+- [x] 2.Spustenie vývojového servera :
 python manage.py runserver
-- [ ] 3.Vytvorenie aplikácií (modulov)
-- [ ] 3a.Vytvor aplikácie pomocou súboru manage.py:
+- [x] 3.Vytvorenie aplikácií (modulov)
+- [x] 3a.Vytvor aplikácie pomocou súboru manage.py:
 python manage.py startapp products
 python manage.py startapp users
 python manage.py startapp orders
 python manage.py startapp basket
-- [ ] 3b.Zaregistruj aplikácie v settings.py :
+- [x] 3b.Zaregistruj aplikácie v settings.py :
   - Otvor Foodsy/settings.py a na koniec zoznamu INSTALLED_APPS pridaj:
 INSTALLED_APPS = [
 ...
@@ -19,15 +19,15 @@ INSTALLED_APPS = [
 'orders',
 'basket',
 ]
-- [ ] 3c. Spustenie základných migrácií :
+- [x] 3c. Spustenie základných migrácií :
 python manage.py migrate
-- [ ] 3d. Vytvorenie superužívateľa :
+- [x] 3d. Vytvorenie superužívateľa :
 python manage.py createsuperuser
   - Systém ťa vyzve na zadanie mena, e-mailu a hesla
-- [ ] 3e. Opätovné spustenie servera :
+- [x] 3e. Opätovné spustenie servera :
 python manage.py runserver
-- [ ] 4.Vytvorenie hlavných modelov
-- [ ] 4a. Model Kategorie (v products/models.py):
+- [x] 4.Vytvorenie hlavných modelov
+- [x] 4a. Model Kategorie (v products/models.py):
 from django.db import models
 class Kategorie(models.Model):
     nazev = models.CharField(max_length=100)
@@ -36,7 +36,7 @@ class Kategorie(models.Model):
     )
     def __str__(self):
         return self.nazev
-- [ ] 4b. Model Product (pokračovanie v products/models.py):
+- [x] 4b. Model Product (pokračovanie v products/models.py):
 class Product(models.Model):
     PRODUCT_TYPES = [
         ('food', 'Food'),
