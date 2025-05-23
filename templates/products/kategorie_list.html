@@ -1,0 +1,126 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Kategórie</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        .category-menu {
+            list-style: none;
+            padding: 0;
+            max-width: 400px;
+            margin: auto;
+        }
+        .category-item {
+            cursor: pointer;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+        .subcategory, .subsubcategory {
+            display: none;
+            margin-left: 20px;
+            list-style-type: disc;
+            font-weight: normal;
+            padding-left: 15px;
+        }
+        .subcategory li,
+        .subsubcategory li {
+            padding: 5px 0;
+        }
+        .category-item:hover {
+            background-color: #f1f1f1;
+        }
+        .clickable {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Domov</a></li>
+            <li><a href="{% url 'products:kategorie_list' %}">Produkty</a></li>
+
+            <li><a href="{% url 'orders' %}">Objednávky</a></li>
+            <li><a href="{% url 'basket' %}">Košík</a></li>
+        </ul>
+    </nav>
+<div class="container mt-4">
+    <h2>Kategórie produktov</h2>
+
+    <ul class="category-menu">
+        <li class="category-item" onclick="toggleSubcategories(this)">
+            Jedlo
+            <ul class="subcategory">
+                <li class="clickable" onclick="toggleSubSubcategories(event, this)">
+                    Čerstvé potraviny
+                    <ul class="subsubcategory">
+                        <li><a href="{% url 'products:produkty_podla_kategorie' 10 %}">Ovocie</a></li>
+                        <li><a href="{% url 'products:produkty_podla_kategorie' 11 %}">Zelenina</a></li>
+                        <li><a href="{% url 'products:produkty_podla_kategorie' 12 %}">Mliečne výrobky</a></li>
+                    </ul>
+                </li>
+
+                <li class="clickable" onclick="toggleSubSubcategories(event, this)">
+                    Trvanlivé potraviny
+                    <ul class="subsubcategory">
+                        <li><a href="{% url 'products:produkty_podla_kategorie' 13 %}">Konzervy</a></li>
+                        <li><a href="{% url 'products:produkty_podla_kategorie' 14 %}">Sušené potraviny</a></li>
+                        <li><a href="{% url 'products:produkty_podla_kategorie' 15 %}">Cestoviny a ryža</a></li>
+                    </ul>
+                </li>
+
+                <li class="clickable" onclick="toggleSubSubcategories(event, this)">
+                    Mrazené potraviny
+                    <ul class="subsubcategory">
+                        <li><a href="{% url 'products:produkty_podla_kategorie' 16 %}">Mrazená zelenina</a></li>
+                        <li><a href="{% url 'products:produkty_podla_kategorie' 17 %}">Mrazené ovocie</a></li>
+                        <li><a href="{% url 'products:produkty_podla_kategorie' 18 %}">Mrazené mäsové výrobky</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+
+        <li class="category-item" onclick="toggleSubcategories(this)">
+            Pitie
+            <ul class="subcategory">
+                <li><a href="{% url 'products:produkty_podla_kategorie' 4 %}">Nealkoholické nápoje</a></li>
+                <li><a href="{% url 'products:produkty_podla_kategorie' 5 %}">Alkoholické nápoje</a></li>
+                <li><a href="{% url 'products:produkty_podla_kategorie' 6 %}">Teplé nápoje</a></li>
+            </ul>
+        </li>
+
+        <li class="category-item" onclick="toggleSubcategories(this)">
+            Ostatné
+            <ul class="subcategory">
+                <li><a href="{% url 'products:produkty_podla_kategorie' 7 %}">Domácnosť a hygiena</a></li>
+                <li><a href="{% url 'products:produkty_podla_kategorie' 8 %}">Pre deti a domácich miláčikov</a></li>
+                <li><a href="{% url 'products:produkty_podla_kategorie' 9 %}">Drobný tovar a sezónne veci</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<script>
+    function toggleSubcategories(element) {
+        const submenu = element.querySelector('.subcategory');
+        if (submenu) {
+            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        }
+    }
+
+    function toggleSubSubcategories(event, element) {
+        event.stopPropagation();  // Zabraňuje otvoreniu nadradenej kategórie
+        const submenu = element.querySelector('.subsubcategory');
+        if (submenu) {
+            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        }
+    }
+</script>
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
