@@ -1,11 +1,10 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="sk">
-<head>
-    <meta charset="UTF-8">
-    <title>Kategórie</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Kategórie produktov</h2>
+
     <style>
         .category-menu {
             list-style: none;
@@ -37,19 +36,6 @@
             cursor: pointer;
         }
     </style>
-</head>
-<body>
-<nav>
-        <ul>
-            <li><a href="{% url 'home' %}">Domov</a></li>
-            <li><a href="{% url 'products:kategorie_list' %}">Produkty</a></li>
-
-            <li><a href="{% url 'orders' %}">Objednávky</a></li>
-            <li><a href="{% url 'basket' %}">Košík</a></li>
-        </ul>
-    </nav>
-<div class="container mt-4">
-    <h2>Kategórie produktov</h2>
 
     <ul class="category-menu">
         <li class="category-item" onclick="toggleSubcategories(this)">
@@ -113,7 +99,7 @@
     }
 
     function toggleSubSubcategories(event, element) {
-        event.stopPropagation();  // Zabraňuje otvoreniu nadradenej kategórie
+        event.stopPropagation();
         const submenu = element.querySelector('.subsubcategory');
         if (submenu) {
             submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
@@ -122,5 +108,4 @@
 </script>
 
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-</body>
-</html>
+{% endblock %}
