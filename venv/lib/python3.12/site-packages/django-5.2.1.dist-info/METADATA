@@ -1,6 +1,6 @@
-Metadata-Version: 2.1
+Metadata-Version: 2.4
 Name: Django
-Version: 5.2
+Version: 5.2.1
 Summary: A high-level Python web framework that encourages rapid development and clean, pragmatic design.
 Author-email: Django Software Foundation <foundation@djangoproject.com>
 License: BSD-3-Clause
@@ -40,6 +40,7 @@ Provides-Extra: argon2
 Requires-Dist: argon2-cffi>=19.1.0; extra == "argon2"
 Provides-Extra: bcrypt
 Requires-Dist: bcrypt; extra == "bcrypt"
+Dynamic: license-file
 
 ======
 Django

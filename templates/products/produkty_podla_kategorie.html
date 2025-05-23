@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ kategoria.nazev }}</h2>
+
+<ul>
+  {% for produkt in produkty %}
+    <li>
+      <h3>{{ produkt.name }}</h3>
+      <p>{{ produkt.price }} €</p>
+      {% if produkt.image %}
+        <img src="{{ produkt.image.url }}" width="100" alt="{{ produkt.name }}">
+      {% endif %}
+      <p>{{ produkt.description }}</p>
+    </li>
+  {% empty %}
+    <p>Žiadne produkty v tejto kategórii.</p>
+  {% endfor %}
+</ul>
+{% endblock %}

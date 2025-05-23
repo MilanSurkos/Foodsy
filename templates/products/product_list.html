@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<h1>Naša ponuka produktov zmena</h1>
+
+
+<div class="product-grid">
+    {% for product in products %}
+        <div class="product-card">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            {% else %}
+                <img src="{% static 'images/default-food.jpg' %}" alt="Žiadny obrázok">
+            {% endif %}
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description|truncatewords:20 }}</p>
+            <p><strong>{{ product.price }} €</strong></p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

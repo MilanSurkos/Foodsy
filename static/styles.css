@@ -1,0 +1,140 @@
+/* === Všeobecné štýly === */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #fff8f0;
+    color: #333;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
+/* === Navigácia === */
+nav {
+    background-color: #ff6f3c;
+    padding: 10px 20px;
+}
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+nav ul li a:hover {
+    text-decoration: underline;
+}
+
+/* === Slideshow štýly === */
+.slideshow-container {
+    position: relative;
+    max-width: 100%;
+    height: 400px;
+    overflow: hidden;
+    background-color: #ddd; /* Záložná farba, pre prípad nenačítania obrázkov */
+}
+.slide {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.slide.active {
+    display: block;
+    animation: fade 2s;
+}
+
+/* === Kontajner pre obsah stránky === */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 15px;
+    background-color: #fff; /* Krémový podklad pre lepší čitateľný obsah */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+section {
+    margin-bottom: 40px;
+}
+
+/* === Tlačidlá a formuláre === */
+a.button,
+form button {
+    background: #ff6f3c;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+    display: inline-block;
+}
+a.button:hover,
+form button:hover {
+    background: #e65c28;
+}
+form label {
+    margin-right: 10px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+form input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* === Pätička stránky === */
+.page-footer {
+    background-color: #333;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 50px;
+}
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.footer-section h3 {
+    color: #ff6f3c;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+.footer-section p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* === Responzívny dizajn === */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    .container {
+        padding: 10px;
+    }
+}
