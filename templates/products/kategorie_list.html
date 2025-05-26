@@ -41,50 +41,34 @@
         <li class="category-item" onclick="toggleSubcategories(this)">
             Jedlo
             <ul class="subcategory">
+                {% for subcat in jedlo_sub %}
                 <li class="clickable" onclick="toggleSubSubcategories(event, this)">
-                    Čerstvé potraviny
+                    {{ subcat.name }}
                     <ul class="subsubcategory">
-                        <li><a href="{% url 'products:produkty_podla_kategorie' 10 %}">Ovocie</a></li>
-                        <li><a href="{% url 'products:produkty_podla_kategorie' 11 %}">Zelenina</a></li>
-                        <li><a href="{% url 'products:produkty_podla_kategorie' 12 %}">Mliečne výrobky</a></li>
+                        {% for subsub in subcat.subsubcategories %}
+                        <li><a href="{% url 'products:produkty_podla_kategorie' subsub.id %}">{{ subsub.name }}</a></li>
+                        {% endfor %}
                     </ul>
                 </li>
-
-                <li class="clickable" onclick="toggleSubSubcategories(event, this)">
-                    Trvanlivé potraviny
-                    <ul class="subsubcategory">
-                        <li><a href="{% url 'products:produkty_podla_kategorie' 13 %}">Konzervy</a></li>
-                        <li><a href="{% url 'products:produkty_podla_kategorie' 14 %}">Sušené potraviny</a></li>
-                        <li><a href="{% url 'products:produkty_podla_kategorie' 15 %}">Cestoviny a ryža</a></li>
-                    </ul>
-                </li>
-
-                <li class="clickable" onclick="toggleSubSubcategories(event, this)">
-                    Mrazené potraviny
-                    <ul class="subsubcategory">
-                        <li><a href="{% url 'products:produkty_podla_kategorie' 16 %}">Mrazená zelenina</a></li>
-                        <li><a href="{% url 'products:produkty_podla_kategorie' 17 %}">Mrazené ovocie</a></li>
-                        <li><a href="{% url 'products:produkty_podla_kategorie' 18 %}">Mrazené mäsové výrobky</a></li>
-                    </ul>
-                </li>
+                {% endfor %}
             </ul>
         </li>
 
         <li class="category-item" onclick="toggleSubcategories(this)">
             Pitie
             <ul class="subcategory">
-                <li><a href="{% url 'products:produkty_podla_kategorie' 4 %}">Nealkoholické nápoje</a></li>
-                <li><a href="{% url 'products:produkty_podla_kategorie' 5 %}">Alkoholické nápoje</a></li>
-                <li><a href="{% url 'products:produkty_podla_kategorie' 6 %}">Teplé nápoje</a></li>
+                {% for subcat in pitie_sub %}
+                <li><a href="{% url 'products:produkty_podla_kategorie' subcat.subsubcategories.0.id %}">{{ subcat.name }}</a></li>
+                {% endfor %}
             </ul>
         </li>
 
         <li class="category-item" onclick="toggleSubcategories(this)">
             Ostatné
             <ul class="subcategory">
-                <li><a href="{% url 'products:produkty_podla_kategorie' 7 %}">Domácnosť a hygiena</a></li>
-                <li><a href="{% url 'products:produkty_podla_kategorie' 8 %}">Pre deti a domácich miláčikov</a></li>
-                <li><a href="{% url 'products:produkty_podla_kategorie' 9 %}">Drobný tovar a sezónne veci</a></li>
+                {% for subcat in ostatne_sub %}
+                <li><a href="{% url 'products:produkty_podla_kategorie' subcat.subsubcategories.0.id %}">{{ subcat.name }}</a></li>
+                {% endfor %}
             </ul>
         </li>
     </ul>

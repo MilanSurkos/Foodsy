@@ -1,0 +1,8 @@
+{% for sub in subcategories %}
+    <li class="clickable" onclick="toggleSubSubcategories(event, this)">
+        {{ sub.name }}
+        <ul class="subsubcategory">
+            {% include "products/subsubcategory_item.html" with subsubcategories=sub.subsubcategories %}
+        </ul>
+    </li>
+{% endfor %}
