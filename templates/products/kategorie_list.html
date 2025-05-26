@@ -9,7 +9,7 @@
         .category-menu {
             list-style: none;
             padding: 0;
-            max-width: 400px;
+            max-width: 500px;
             margin: auto;
         }
         .category-item {
@@ -38,28 +38,27 @@
     </style>
 
     <ul class="category-menu">
-        <li class="category-item" onclick="toggleSubcategories(this)">
         {% for kat_1 in kategorie_list %}
             {% if not kat_1.parent %}
-            {{ kat_1.nazev }} <br>
-            {% endif  %}
-            <ul class="subcategory">
-            {% for kat_2 in kat_1.potomci.all %}
-                <li class="clickable" onclick="toggleSubSubcategories(event, this)">
-                {{ kat_2.nazev }}
-                <ul class="subsubcategory">
-                    {% for kat_3 in kat_2.potomci.all %}
-                        <li class="clickable" onclick="toggleSubSubcategories(event, this)">
-                        <a href="{% url 'produkty_podla_kategorie' kat_3.id %}"> {{ kat_3.nazev }} </a>
-                        </li>
+                <li class="category-item" onclick="toggleSubcategories(this)">
+                    {{ kat_1.nazev }}
+                    <ul class="subcategory">
+                        {% for kat_2 in kat_1.potomci.all %}
+                            <li class="clickable" onclick="toggleSubSubcategories(event, this)">
+                                {{ kat_2.nazev }}
+                                <ul class="subsubcategory">
+                                    {% for kat_3 in kat_2.potomci.all %}
+                                        <li class="clickable" onclick="toggleSubSubcategories(event, this)">
+                                            <a href="{% url 'produkty_podla_kategorie' kat_3.id %}">{{ kat_3.nazev }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
                         {% endfor %}
-                </ul>
+                    </ul>
                 </li>
-                {% endfor %}
-            </ul>
+            {% endif %}
         {% endfor %}
-
-        </li>
     </ul>
 </div>
 
