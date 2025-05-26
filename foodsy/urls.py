@@ -29,6 +29,8 @@ urlpatterns = [
     path('products/', include('products.urls', namespace='products')),  # keep this one only
     path('orders/', include('orders.urls')),
     path('basket/', include('basket.urls')),
+    path('kategorie/', views.kategorie_list, name='kategorie_list'),
+    path('kategoria/<int:category_id>/', views.produkty_podla_kategorie, name='produkty_podla_kategorie'),
 ]
 
 

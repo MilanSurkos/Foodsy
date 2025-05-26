@@ -39,37 +39,26 @@
 
     <ul class="category-menu">
         <li class="category-item" onclick="toggleSubcategories(this)">
-            Jedlo
+        {% for kat_1 in kategorie_list %}
+            {% if not kat_1.parent %}
+            {{ kat_1.nazev }} <br>
+            {% endif  %}
             <ul class="subcategory">
-                {% for subcat in jedlo_sub %}
+            {% for kat_2 in kat_1.potomci.all %}
                 <li class="clickable" onclick="toggleSubSubcategories(event, this)">
-                    {{ subcat.name }}
-                    <ul class="subsubcategory">
-                        {% for subsub in subcat.subsubcategories %}
-                        <li><a href="{% url 'products:produkty_podla_kategorie' subsub.id %}">{{ subsub.name }}</a></li>
+                {{ kat_2.nazev }}
+                <ul class="subsubcategory">
+                    {% for kat_3 in kat_2.potomci.all %}
+                        <li class="clickable" onclick="toggleSubSubcategories(event, this)">
+                        <a href="{% url 'produkty_podla_kategorie' kat_3.id %}"> {{ kat_3.nazev }} </a>
+                        </li>
                         {% endfor %}
-                    </ul>
+                </ul>
                 </li>
                 {% endfor %}
             </ul>
-        </li>
+        {% endfor %}
 
-        <li class="category-item" onclick="toggleSubcategories(this)">
-            Pitie
-            <ul class="subcategory">
-                {% for subcat in pitie_sub %}
-                <li><a href="{% url 'products:produkty_podla_kategorie' subcat.subsubcategories.0.id %}">{{ subcat.name }}</a></li>
-                {% endfor %}
-            </ul>
-        </li>
-
-        <li class="category-item" onclick="toggleSubcategories(this)">
-            Ostatné
-            <ul class="subcategory">
-                {% for subcat in ostatne_sub %}
-                <li><a href="{% url 'products:produkty_podla_kategorie' subcat.subsubcategories.0.id %}">{{ subcat.name }}</a></li>
-                {% endfor %}
-            </ul>
         </li>
     </ul>
 </div>

@@ -1,7 +1,10 @@
 from django.shortcuts import render
 
+from products.models import Kategorie
+
+
 def kategorie_list(request):
-    jedlo_sub = [
+    """jedlo_sub = [
         {
             'name': 'Čerstvé potraviny',
             'subsubcategories': [
@@ -62,11 +65,13 @@ def kategorie_list(request):
         'jedlo_sub': jedlo_sub,
         'pitie_sub': pitie_sub,
         'ostatne_sub': ostatne_sub,
-    }
+    } """
+    context = {"kategorie_list": Kategorie.objects.all()}
 
     return render(request, 'products/kategorie_list.html', context)
 
 
 def produkty_podla_kategorie(request, category_id):
-
-    return render(request, 'products/produkty_podla_kategorie.html', {'category_id': category_id})
+    kategorie = Kategorie.objects.get(id=category_id)
+    return render(request, 'products/produkty_podla_kategorie.html', {'category_id': category_id,
+                                                                      'produkty': kategorie.produkty.all })
