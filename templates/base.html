@@ -15,7 +15,8 @@
             <li><a href="{% url 'products:kategorie_list' %}">Produkty</a></li>
 
             <li><a href="{% url 'orders' %}">Objednávky</a></li>
-            <li><a href="{% url 'basket' %}">Košík</a></li>
+            <!-- Tu je upravené URL na košík s namespace basket -->
+            <li><a href="{% url 'basket:basket' %}">Košík</a></li>
         </ul>
     </nav>
 
