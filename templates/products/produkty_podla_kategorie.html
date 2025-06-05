@@ -5,13 +5,21 @@
 
 <ul>
   {% for produkt in produkty %}
-    <li>
+    <li style="margin-bottom: 30px;">
       <h3>{{ produkt.name }}</h3>
       <p>{{ produkt.price }} €</p>
+
       {% if produkt.image %}
         <img src="{{ produkt.image.url }}" width="100" alt="{{ produkt.name }}">
       {% endif %}
+
       <p>{{ produkt.description }}</p>
+
+      <!-- Formulár pre pridanie do košíka -->
+      <form method="post" action="{% url 'basket:add_to_basket' produkt.id %}" style="margin-top: 10px;">
+        {% csrf_token %}
+        <button type="submit">Pridať do košíka</button>
+      </form>
     </li>
   {% empty %}
     <p>Žiadne produkty v tejto kategórii.</p>

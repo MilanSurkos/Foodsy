@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
-from products.models import Kategorie
+from products.models import Kategorie, Product
 
 
 def kategorie_list(request):
@@ -72,6 +73,17 @@ def kategorie_list(request):
 
 
 def produkty_podla_kategorie(request, category_id):
-    kategorie = Kategorie.objects.get(id=category_id)
-    return render(request, 'products/produkty_podla_kategorie.html', {'category_id': category_id,
-                                                                      'produkty': kategorie.produkty.all })
+    kategoria = get_object_or_404(Kategorie, id=category_id)
+    produkty = kategoria.produkty.all()
+
+    if request.method == 'POST':
+        produkt_id = request.POST.get('produkt_id')
+        kosik = request.session.get('kosik', {})
+        kosik[produkt_id] = kosik.get(produkt_id, 0) + 1
+        request.session['kosik'] = kosik
+        return redirect('produkty_podla_kategorie', category_id=category_id)
+
+    return render(request, 'products/produkty_podla_kategorie.html', {
+        'produkty': produkty,
+        'kategoria': kategoria,
+    })

@@ -32,7 +32,8 @@ urlpatterns = [
 
     # Aplikácie
     path('products/', include('products.urls', namespace='products')),
-    path('orders/', include('orders.urls')),
+    path('orders/', include(('orders.urls', 'orders'), namespace='orders')),
+
     path('basket/', include('basket.urls')),
 
     # Produkty podľa kategórie

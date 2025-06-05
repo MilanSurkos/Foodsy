@@ -82,8 +82,10 @@
     <ul>
         <li><a href="{% url 'home' %}">Domov</a></li>
         <li><a href="{% url 'products:kategorie_list' %}">Produkty</a></li>
-        <li><a href="{% url 'orders' %}">Objednávky</a></li>
-        <li><a href="{% url 'basket' %}">Košík</a></li>
+        <li><a href="{% url 'orders:orders' %}">Objednávky</a></li>
+
+        <li><a href="{% url 'basket:view_basket' %}">Košík</a></li>
+
     </ul>
 
     <div>

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Vytvoriť objednávku</h2>
+
+<form method="post">
+  {% csrf_token %}
+  <label for="address">Doručovacia adresa:</label><br>
+  <input type="text" id="address" name="delivery_address" style="width: 300px;" required><br><br>
+
+  <button type="submit">Potvrdiť objednávku</button>
+</form>
+
+<a href="{% url 'basket:view_basket' %}">← Späť do košíka</a>
+{% endblock %}
