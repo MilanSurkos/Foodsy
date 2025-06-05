@@ -6,71 +6,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Foodsy - Objednaj si jedlo online</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #f8f8f8;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+        }
+        nav ul li a, nav div a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        nav div {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .slideshow-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            margin-top: 10px;
+        }
+        .slide {
+            display: none;
+            width: 100%;
+        }
+        .slide.active {
+            display: block;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+        .page-footer {
+            background-color: #222;
+            color: #fff;
+            padding: 30px 0;
+            text-align: center;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .footer-section {
+            margin: 10px;
+        }
+        .footer-section h3 {
+            margin-bottom: 10px;
+        }
+        .avatar-img {
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            object-fit: cover;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav>
-        <ul>
-            <li><a href="{% url 'home' %}">Domov</a></li>
-            <li><a href="{% url 'products:kategorie_list' %}">Produkty</a></li>
 
-            <li><a href="{% url 'orders' %}">Objednávky</a></li>
-            <li><a href="{% url 'basket' %}">Košík</a></li>
-        </ul>
-    </nav>
+<!-- Navbar -->
+<nav>
+    <ul>
+        <li><a href="{% url 'home' %}">Domov</a></li>
+        <li><a href="{% url 'products:kategorie_list' %}">Produkty</a></li>
+        <li><a href="{% url 'orders' %}">Objednávky</a></li>
+        <li><a href="{% url 'basket' %}">Košík</a></li>
+    </ul>
 
-    <!-- Slideshow -->
-    <div class="slideshow-container">
-        <div class="slide active">
-            <img src="{% static 'images/slide1.jpg' %}" alt="Slide 1">
-        </div>
-        <div class="slide">
-            <img src="{% static 'images/slide2.jpg' %}" alt="Slide 2">
-        </div>
-        <div class="slide">
-            <img src="{% static 'images/slide3.jpg' %}" alt="Slide 3">
-        </div>
+    <div>
+        {% if user.is_authenticated %}
+            <span>Vitaj, {{ user.username }}</span>
+            {% if user.avatar %}
+                <img src="{{ user.avatar.url }}" alt="Avatar" class="avatar-img">
+            {% endif %}
+            <a href="{% url 'logout' %}">Odhlásiť</a>
+        {% else %}
+            <a href="{% url 'login' %}">Prihlásenie</a>
+            <a href="{% url 'register' %}">Registrácia</a>
+        {% endif %}
     </div>
+</nav>
 
-    <script>
-        let slideIndex = 0;
-        const slides = document.getElementsByClassName("slide");
+<!-- Slideshow -->
+<div class="slideshow-container">
+    <div class="slide active">
+        <img src="{% static 'images/slide1.jpg' %}" alt="Slide 1">
+    </div>
+    <div class="slide">
+        <img src="{% static 'images/slide2.jpg' %}" alt="Slide 2">
+    </div>
+    <div class="slide">
+        <img src="{% static 'images/slide3.jpg' %}" alt="Slide 3">
+    </div>
+</div>
 
-        function showSlides() {
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove("active");
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) { slideIndex = 1; }
-            slides[slideIndex - 1].classList.add("active");
-            setTimeout(showSlides, 4000);
+<script>
+    let slideIndex = 0;
+    const slides = document.getElementsByClassName("slide");
+
+    function showSlides() {
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].classList.remove("active");
         }
+        slideIndex++;
+        if (slideIndex > slides.length) { slideIndex = 1; }
+        slides[slideIndex - 1].classList.add("active");
+        setTimeout(showSlides, 4000);
+    }
 
-        showSlides();
-    </script>
+    showSlides();
+</script>
 
-    <!-- Obsah stránky -->
-    <div class="container">
-        {% block content %}
-        {% endblock %}
-    </div>
+<!-- Flash správy -->
+<div class="container">
+    {% if messages %}
+        {% for message in messages %}
+            <div style="color: green; margin-bottom: 10px;">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
 
-    <!-- Footer -->
-    <footer class="page-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Info:</h3>
-                <p>Doprava, Platba</p>
-            </div>
-            <div class="footer-section">
-                <h3>O nás:</h3>
-                <p>Tania Iveta Milan</p>
-            </div>
-            <div class="footer-section">
-                <h3>Zajíma Vás:</h3>
-                <p>Často kladené otázky</p>
-            </div>
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- Footer -->
+<footer class="page-footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>Info:</h3>
+            <p>Doprava, Platba</p>
         </div>
-    </footer>
+        <div class="footer-section">
+            <h3>O nás:</h3>
+            <p>Tania Iveta Milan</p>
+        </div>
+        <div class="footer-section">
+            <h3>Zaujíma Vás:</h3>
+            <p>Často kladené otázky</p>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
