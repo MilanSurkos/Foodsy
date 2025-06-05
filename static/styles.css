@@ -1,34 +1,101 @@
 /* === Všeobecné štýly === */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
     background: #fff8f0;
-    color: #333;
+    color: #444;
+    line-height: 1.6;
 }
+
 h1, h2, h3, h4, h5, h6 {
-    font-weight: bold;
+    font-weight: 700;
+    color: #ff6f3c;
+    margin-top: 0;
 }
 
 /* === Navigácia === */
 nav {
     background-color: #ff6f3c;
-    padding: 10px 20px;
+    padding: 12px 30px;
+    box-shadow: 0 2px 6px rgba(255, 111, 60, 0.4);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    display: flex;
+    justify-content: space-between;  /* rozostaví menu a prihlasovanie */
+    align-items: center;
 }
+
 nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
-    gap: 20px;
+    gap: 25px;
 }
+
 nav ul li a {
     color: white;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 1.1rem;
+    padding: 6px 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
-nav ul li a:hover {
-    text-decoration: underline;
+
+nav ul li a:hover,
+nav ul li a:focus {
+    background-color: #e65c28;
+    color: #fff9f4;
+    outline: none;
+}
+
+/* Kontajner pre prihlasovacie odkazy */
+nav > div {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Text vitania */
+nav > div span {
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+/* Avatar obrázok */
+.avatar-img {
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    box-shadow: 0 0 6px rgba(0,0,0,0.2);
+}
+
+/* Tlačidlá prihlasenia/odhlasenia/registrácie */
+nav > div a {
+    background-color: white;
+    color: #ff6f3c;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 111, 60, 0.3);
+    cursor: pointer;
+}
+
+nav > div a:hover,
+nav > div a:focus {
+    background-color: #e65c28;
+    color: white;
+    outline: none;
+    box-shadow: 0 6px 12px rgba(230, 92, 40, 0.6);
 }
 
 /* === Slideshow štýly === */
@@ -37,35 +104,42 @@ nav ul li a:hover {
     max-width: 100%;
     height: 400px;
     overflow: hidden;
-    background-color: #ddd; /* Záložná farba, pre prípad nenačítania obrázkov */
+    background-color: #ddd;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
 }
 .slide {
     display: none;
     position: absolute;
     width: 100%;
     height: 100%;
+    top: 0;
+    left: 0;
 }
 .slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 10px;
 }
 .slide.active {
     display: block;
-    animation: fade 2s;
+    animation: fadeIn 1.5s ease forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 /* === Kontajner pre obsah stránky === */
 .container {
     max-width: 1200px;
-    margin: 20px auto;
-    padding: 0 15px;
-    background-color: #fff; /* Krémový podklad pre lepší čitateľný obsah */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-section {
-    margin-bottom: 40px;
+    margin: 30px auto;
+    padding: 25px 30px;
+    background-color: #fff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
 }
 
 /* === Tlačidlá a formuláre === */
@@ -73,37 +147,51 @@ a.button,
 form button {
     background: #ff6f3c;
     color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 12px 28px;
+    border-radius: 8px;
     text-decoration: none;
-    font-weight: bold;
-    transition: background 0.3s;
-    display: inline-block;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 10px rgba(255, 111, 60, 0.3);
 }
 a.button:hover,
-form button:hover {
+form button:hover,
+a.button:focus,
+form button:focus {
     background: #e65c28;
+    outline: none;
+    box-shadow: 0 6px 12px rgba(230, 92, 40, 0.5);
 }
 form label {
-    margin-right: 10px;
-    font-weight: bold;
-    display: inline-block;
-    margin-bottom: 5px;
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #666;
 }
 form input[type="number"] {
-    width: 50px;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    width: 60px;
+    padding: 7px 10px;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+form input[type="number"]:focus {
+    border-color: #ff6f3c;
+    outline: none;
 }
 
 /* === Pätička stránky === */
 .page-footer {
-    background-color: #333;
+    background-color: #222;
     color: white;
-    padding: 20px 0;
+    padding: 30px 20px;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 60px;
+    font-size: 0.95rem;
 }
 .footer-content {
     display: flex;
@@ -111,23 +199,29 @@ form input[type="number"] {
     max-width: 1200px;
     margin: 0 auto;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 25px;
 }
 .footer-section h3 {
     color: #ff6f3c;
-    font-size: 18px;
-    margin-bottom: 10px;
+    font-size: 1.2rem;
+    margin-bottom: 14px;
 }
 .footer-section p {
     margin: 0;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #bbb;
 }
 
 /* === Responzívny dizajn === */
 @media (max-width: 768px) {
     nav ul {
         flex-direction: column;
+        gap: 12px;
+    }
+    nav > div {
+        justify-content: center;
+        margin-top: 10px;
         gap: 10px;
     }
     .footer-content {
@@ -135,6 +229,7 @@ form input[type="number"] {
         text-align: center;
     }
     .container {
-        padding: 10px;
+        padding: 20px 15px;
+        margin: 20px 10px;
     }
 }
