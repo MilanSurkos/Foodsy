@@ -6,74 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Foodsy - Objednaj si jedlo online</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <style>
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 30px;
-            background-color: #f8f8f8;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 20px;
-            margin: 0;
-            padding: 0;
-        }
-        nav ul li a, nav div a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-        nav div {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        .slideshow-container {
-            width: 100%;
-            overflow: hidden;
-            position: relative;
-            margin-top: 10px;
-        }
-        .slide {
-            display: none;
-            width: 100%;
-        }
-        .slide.active {
-            display: block;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 20px;
-        }
-        .page-footer {
-            background-color: #222;
-            color: #fff;
-            padding: 30px 0;
-            text-align: center;
-        }
-        .footer-content {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
-        .footer-section {
-            margin: 10px;
-        }
-        .footer-section h3 {
-            margin-bottom: 10px;
-        }
-        .avatar-img {
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            object-fit: cover;
-        }
-    </style>
 </head>
 <body>
 
@@ -83,9 +15,7 @@
         <li><a href="{% url 'home' %}">Domov</a></li>
         <li><a href="{% url 'products:kategorie_list' %}">Produkty</a></li>
         <li><a href="{% url 'orders:orders' %}">Objednávky</a></li>
-
         <li><a href="{% url 'basket:view_basket' %}">Košík</a></li>
-
     </ul>
 
     <div>
@@ -94,7 +24,10 @@
             {% if user.avatar %}
                 <img src="{{ user.avatar.url }}" alt="Avatar" class="avatar-img">
             {% endif %}
-            <a href="{% url 'logout' %}">Odhlásiť</a>
+            <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="logout-button">Odhlásiť</button>
+            </form>
         {% else %}
             <a href="{% url 'login' %}">Prihlásenie</a>
             <a href="{% url 'register' %}">Registrácia</a>
