@@ -10,22 +10,22 @@
       {% if product.image %}
         <img src="{{ product.image.url }}" alt="{{ product.name }}">
       {% else %}
-        <img src="{% static 'images/default-food.jpg' %}" alt="Žiadny obrázok">
+        <img src="{% static 'images/default-food.jpg' %}" alt="Žádný obrázek">
       {% endif %}
 
       <h2>{{ product.name }}</h2>
       <p>{{ product.description|truncatewords:20 }}</p>
-      <p><strong>{{ product.price }} €</strong></p>
+      <p><strong>{{ product.price }} Kč</strong></p>
 
       <form method="post" action="{% url 'basket:add_to_basket' product.id %}">
         {% csrf_token %}
-        <label for="quantity_{{ product.id }}">Počet kusov:</label>
+        <label for="quantity_{{ product.id }}">Počet kusů:</label>
         <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
           <button type="button" onclick="decreaseQuantity({{ product.id }})">−</button>
           <input type="number" id="quantity_{{ product.id }}" name="quantity" value="1" min="1" style="width: 50px; text-align: center;">
           <button type="button" onclick="increaseQuantity({{ product.id }})">+</button>
         </div>
-        <button type="submit" class="add-button">Pridať do košíka</button>
+        <button type="submit" class="add-button">Přidat do košíku</button>
       </form>
 
     </div>

@@ -9,34 +9,34 @@
       <tr>
         <th style="border-bottom: 1px solid #ccc; padding: 8px;">Produkt</th>
         <th style="border-bottom: 1px solid #ccc; padding: 8px;">Cena za kus</th>
-        <th style="border-bottom: 1px solid #ccc; padding: 8px;">Množstvo</th>
-        <th style="border-bottom: 1px solid #ccc; padding: 8px;">Cena celkom</th>
+        <th style="border-bottom: 1px solid #ccc; padding: 8px;">Množství</th>
+        <th style="border-bottom: 1px solid #ccc; padding: 8px;">Cena celkem</th>
       </tr>
     </thead>
     <tbody>
       {% for item in basket_items %}
         <tr>
           <td style="padding: 8px;">{{ item.product.name }}</td>
-          <td style="padding: 8px;">{{ item.product.price }} €</td>
+          <td style="padding: 8px;">{{ item.product.price }} Kč</td>
           <td style="padding: 8px;">{{ item.quantity }}</td>
-          <td style="padding: 8px;">{{ item.total_price }} €</td>
+          <td style="padding: 8px;">{{ item.total_price }} Kč</td>
         </tr>
       {% endfor %}
       <tr>
-        <td colspan="3" style="text-align: right; font-weight: bold; padding: 8px;">Spolu:</td>
+        <td colspan="3" style="text-align: right; font-weight: bold; padding: 8px;">Celkem:</td>
         <td style="font-weight: bold; padding: 8px;">
-          {{ total_price }} €
+          {{ total_price }} Kč
         </td>
       </tr>
     </tbody>
   </table>
 
   <div style="margin-top: 20px;">
-    <a href="{% url 'orders:create_order' %}" class="btn btn-primary">Prejsť k objednávke</a>
+    <a href="{% url 'orders:create_order' %}" class="btn btn-primary">Přejít k objednávce</a>
   </div>
 
 {% else %}
-  <p>Váš košík je prázdny.</p>
+  <p>Váš košík je prázdný.</p>
 {% endif %}
 
 {% endblock %}

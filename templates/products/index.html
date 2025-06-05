@@ -7,9 +7,9 @@
     <h1>Produkty</h1>
     <ul>
         {% for product in products %}
-            <li>{{ product.name }} – {{ product.price }} €</li>
+            <li>{{ product.name }} – {{ product.price }} Kč</li>
         {% empty %}
-            <li>Žiadne produkty.</li>
+            <li>Žádné produkty.</li>
         {% endfor %}
     </ul>
 </body>

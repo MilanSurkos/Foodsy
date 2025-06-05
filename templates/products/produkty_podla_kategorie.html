@@ -9,20 +9,20 @@
       {% if produkt.image %}
         <img src="{{ produkt.image.url }}" alt="{{ produkt.name }}">
       {% else %}
-        <img src="{% static 'images/default-food.jpg' %}" alt="Žiadny obrázok">
+        <img src="{% static 'images/default-food.jpg' %}" alt="Žádný obrázek">
       {% endif %}
 
       <h3>{{ produkt.name }}</h3>
       <p class="description">{{ produkt.description|truncatewords:20 }}</p>
-      <p class="price">{{ produkt.price }} €</p>
+      <p class="price">{{ produkt.price }} Kč</p>
 
       <form method="post" action="{% url 'basket:add_to_basket' produkt.id %}">
         {% csrf_token %}
-        <button type="submit" class="add-button">Pridať do košíka</button>
+        <button type="submit" class="add-button">Přidat do košíku</button>
       </form>
     </div>
   {% empty %}
-    <p>Žiadne produkty v tejto kategórii.</p>
+    <p>Žádné produkty v této kategorii.</p>
   {% endfor %}
 </div>
 
