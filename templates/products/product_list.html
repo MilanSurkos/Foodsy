@@ -1,23 +1,50 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block content %}
 <h1>Naša ponuka produktov zmena</h1>
 
-
 <div class="product-grid">
-    {% for product in products %}
-        <div class="product-card">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-            {% else %}
-                <img src="{% static 'images/default-food.jpg' %}" alt="Žiadny obrázok">
-            {% endif %}
-            <h2>{{ product.name }}</h2>
-            <p>{{ product.description|truncatewords:20 }}</p>
-            <p><strong>{{ product.price }} €</strong></p>
+  {% for product in products %}
+    <div class="product-card">
+      {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+      {% else %}
+        <img src="{% static 'images/default-food.jpg' %}" alt="Žiadny obrázok">
+      {% endif %}
+
+      <h2>{{ product.name }}</h2>
+      <p>{{ product.description|truncatewords:20 }}</p>
+      <p><strong>{{ product.price }} €</strong></p>
+
+      <form method="post" action="{% url 'basket:add_to_basket' product.id %}">
+        {% csrf_token %}
+        <label for="quantity_{{ product.id }}">Počet kusov:</label>
+        <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
+          <button type="button" onclick="decreaseQuantity({{ product.id }})">−</button>
+          <input type="number" id="quantity_{{ product.id }}" name="quantity" value="1" min="1" style="width: 50px; text-align: center;">
+          <button type="button" onclick="increaseQuantity({{ product.id }})">+</button>
         </div>
-    {% endfor %}
+        <button type="submit" class="add-button">Pridať do košíka</button>
+      </form>
+
+    </div>
+  {% endfor %}
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function increaseQuantity(id) {
+  let qty = document.getElementById('quantity_' + id);
+  qty.value = parseInt(qty.value) + 1;
+}
+
+function decreaseQuantity(id) {
+  let qty = document.getElementById('quantity_' + id);
+  if (parseInt(qty.value) > 1) {
+    qty.value = parseInt(qty.value) - 1;
+  }
+}
+</script>
 {% endblock %}
