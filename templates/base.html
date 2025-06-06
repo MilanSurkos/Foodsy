@@ -10,6 +10,9 @@
 <body>
     <!-- Navbar -->
     <nav>
+        <a href="{% url 'home' %}" class="logo-link">
+        <img src="{% static 'images/logo.png' %}" alt="Foodsy Logo" class="logo-img">
+        </a>
         <ul class="main-nav">
             <li><a href="{% url 'home' %}">Domov</a></li>
             <li><a href="{% url 'products:kategorie_list' %}">Produkty</a></li>
@@ -17,53 +20,37 @@
             <li><a href="{% url 'basket:basket' %}">Košík</a></li>
         </ul>
 
-       <ul class="auth-links">
-    {% if user.is_authenticated %}
-        <li><span class="welcome">Vitaj, {{ user.username }}!</span></li>
-        <li>
-            <form method="POST" action="{% url 'logout' %}" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit" class="logout-button">Odhlásiť sa</button>
-            </form>
-        </li>
-    {% else %}
-        <li><a href="{% url 'login' %}">Prihlásiť sa</a></li>
-        <li><a href="{% url 'users:register' %}">Registrovať sa</a></li>
-    {% endif %}
-</ul>
-
-
+        <ul class="auth-links">
+            {% if user.is_authenticated %}
+                <li><span class="welcome">Vitaj, {{ user.username }}!</span></li>
+                <li>
+                    <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-button">Odhlásiť sa</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Prihlásiť sa</a></li>
+                <li><a href="{% url 'users:register' %}">Registrovať sa</a></li>
+            {% endif %}
+        </ul>
     </nav>
 
     <!-- Slideshow -->
     <div class="slideshow-container">
         <div class="slide active">
-            <img src="{% static 'images/slide1.jpg' %}" alt="Slide 1">
+            <img src="{% static 'images/slideshow1.jpg' %}" alt="Slide 1">
         </div>
         <div class="slide">
-            <img src="{% static 'images/slide2.jpg' %}" alt="Slide 2">
+            <img src="{% static 'images/slideshow2.jpg' %}" alt="Slide 2">
         </div>
         <div class="slide">
-            <img src="{% static 'images/slide3.jpg' %}" alt="Slide 3">
+            <img src="{% static 'images/slideshow3.jpg' %}" alt="Slide 3">
         </div>
+        <!-- Šípky -->
+        <a class="prev">&#10094;</a>
+        <a class="next">&#10095;</a>
     </div>
-
-    <script>
-        let slideIndex = 0;
-        const slides = document.getElementsByClassName("slide");
-
-        function showSlides() {
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove("active");
-            }
-            slideIndex++;
-            if (slideIndex > slides.length) { slideIndex = 1; }
-            slides[slideIndex - 1].classList.add("active");
-            setTimeout(showSlides, 4000);
-        }
-
-        showSlides();
-    </script>
 
     <!-- Obsah stránky -->
     <div class="container">
@@ -83,10 +70,13 @@
                 <p>Tania Iveta Milan</p>
             </div>
             <div class="footer-section">
-                <h3>Zajíma Vás:</h3>
+                <h3>Zaujíma Vás:</h3>
                 <p>Často kladené otázky</p>
             </div>
         </div>
     </footer>
+
+    <!-- Externý JavaScript -->
+    <script src="{% static 'scripts.js' %}"></script>
 </body>
 </html>
