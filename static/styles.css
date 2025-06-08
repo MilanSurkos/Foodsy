@@ -33,10 +33,14 @@ nav ul {
     margin: 0;
     padding: 0;
     display: flex;
+}
+
+nav ul.main-nav {
     gap: 25px;
 }
 
-nav ul li a {
+/* Hlavné menu (vľavo) */
+nav ul.main-nav li a {
     color: white;
     text-decoration: none;
     font-weight: 700;
@@ -46,38 +50,30 @@ nav ul li a {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-nav ul li a:hover,
-nav ul li a:focus {
+nav ul.main-nav li a:hover,
+nav ul.main-nav li a:focus {
     background-color: #e65c28;
     color: #fff9f4;
     outline: none;
 }
 
-/* Kontajner pre prihlasovacie odkazy */
-nav > div {
+/* Kontajner pre prihlasovacie odkazy (vpravo) */
+nav ul.auth-links {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
 /* Text vitania */
-nav > div span {
+nav ul.auth-links .welcome {
     color: white;
     font-weight: 700;
     font-size: 1rem;
-}
-
-/* Avatar obrázok */
-.avatar-img {
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    object-fit: cover;
-    box-shadow: 0 0 6px rgba(0,0,0,0.2);
+    padding-right: 10px;
 }
 
 /* Tlačidlá prihlasenia/odhlasenia/registrácie */
-nav > div a {
+nav ul.auth-links li a {
     background-color: white;
     color: #ff6f3c;
     padding: 8px 18px;
@@ -90,12 +86,21 @@ nav > div a {
     cursor: pointer;
 }
 
-nav > div a:hover,
-nav > div a:focus {
+nav ul.auth-links li a:hover,
+nav ul.auth-links li a:focus {
     background-color: #e65c28;
     color: white;
     outline: none;
     box-shadow: 0 6px 12px rgba(230, 92, 40, 0.6);
+}
+
+/* Avatar obrázok (ak použiješ) */
+.avatar-img {
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    box-shadow: 0 0 6px rgba(0,0,0,0.2);
 }
 
 /* === Slideshow štýly === */
@@ -215,13 +220,21 @@ form input[type="number"]:focus {
 
 /* === Responzívny dizajn === */
 @media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: flex-start;
+    }
     nav ul {
         flex-direction: column;
         gap: 12px;
+        width: 100%;
     }
-    nav > div {
+    nav ul.main-nav, nav ul.auth-links {
         justify-content: center;
+    }
+    nav ul.auth-links {
         margin-top: 10px;
+        width: 100%;
         gap: 10px;
     }
     .footer-content {
@@ -232,4 +245,25 @@ form input[type="number"]:focus {
         padding: 20px 15px;
         margin: 20px 10px;
     }
+}
+
+
+.logout-button {
+    background-color: white;
+    color: #ff6f3c;
+    padding: 8px 18px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255, 111, 60, 0.3);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.logout-button:hover,
+.logout-button:focus {
+    background-color: #e65c28;
+    color: white;
+    outline: none;
+    box-shadow: 0 6px 12px rgba(230, 92, 40, 0.6);
 }

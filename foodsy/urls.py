@@ -4,22 +4,23 @@ from products import views
 from django.shortcuts import render
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Domovská stránka, môžeš mať aj vlastnú view funkciu namiesto lambda
     path('', lambda request: render(request, 'base.html'), name='home'),
 
-    # Produkty s namespace 'products'
     path('products/', include(('products.urls', 'products'), namespace='products')),
-
-    # Objednávky, bez namespace (ak si nedefinoval v orders/urls.py app_name, nechaj tak)
     path('orders/', include('orders.urls')),
-
-    # Basket s namespace 'basket' (dôležité!)
     path('basket/', include(('basket.urls', 'basket'), namespace='basket')),
 
-    # Kategórie - ak toto používaš mimo namespace products
+    # 🔐 Login/Logout
+    path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
+
+    # ✅ Zapoj register view
+    path('users/', include(('users.urls', 'users'), namespace='users')),
+
     path('kategorie/', views.kategorie_list, name='kategorie_list'),
     path('kategoria/<int:category_id>/', views.produkty_podla_kategorie, name='produkty_podla_kategorie'),
 ]
