@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
 from products.models import Product
 
 
@@ -48,3 +50,26 @@ def add_to_basket(request, produkt_id):
         return redirect(request.META.get('HTTP_REFERER', '/'))
 
     return redirect('/')
+
+
+@require_POST
+def update_quantity(request):
+    produkt_id = request.POST.get('produkt_id')
+    action = request.POST.get('action')
+
+    basket = request.session.get('basket', {})
+
+    if not isinstance(basket, dict):
+        basket = {}
+
+    if produkt_id in basket:
+        if action == 'inc':
+            basket[produkt_id] += 1
+        elif action == 'dec' and basket[produkt_id] > 1:
+            basket[produkt_id] -= 1
+
+        request.session['basket'] = basket
+
+        return JsonResponse({'success': True, 'new_qty': basket[produkt_id]})
+
+    return JsonResponse({'success': False})

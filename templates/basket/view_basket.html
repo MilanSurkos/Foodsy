@@ -15,17 +15,25 @@
     </thead>
     <tbody>
       {% for item in basket_items %}
-        <tr>
+        <tr data-product-id="{{ item.product.id }}">
           <td style="padding: 8px;">{{ item.product.name }}</td>
           <td style="padding: 8px;">{{ item.product.price }} Kč</td>
-          <td style="padding: 8px;">{{ item.quantity }}</td>
-          <td style="padding: 8px;">{{ item.total_price }} Kč</td>
+          <td style="padding: 8px;">
+            <div class="qty-control" style="display: flex; align-items: center; gap: 5px;">
+              <button data-action="dec" style="padding: 2px 6px;">-</button>
+              <span class="qty-number">{{ item.quantity }}</span> <span>kus</span>
+              <button data-action="inc" style="padding: 2px 6px;">+</button>
+            </div>
+          </td>
+          <td style="padding: 8px;">
+            <span class="item-total">{{ item.total_price }}</span> Kč
+          </td>
         </tr>
       {% endfor %}
       <tr>
         <td colspan="3" style="text-align: right; font-weight: bold; padding: 8px;">Celkem:</td>
         <td style="font-weight: bold; padding: 8px;">
-          {{ total_price }} Kč
+          <span id="total-price">{{ total_price }}</span> Kč
         </td>
       </tr>
     </tbody>
@@ -38,5 +46,46 @@
 {% else %}
   <p>Váš košík je prázdný.</p>
 {% endif %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.qty-control').forEach(control => {
+    const row = control.closest('tr');
+    const productId = row.dataset.productId;
+    const qtyElem = control.querySelector('.qty-number');
+    const itemTotalElem = row.querySelector('.item-total');
+    const unitPrice = parseFloat(row.querySelectorAll('td')[1].textContent.replace(',', '.'));
+
+    control.addEventListener('click', function (e) {
+      if (e.target.tagName !== 'BUTTON') return;
+      const action = e.target.dataset.action;
+
+      fetch("{% url 'basket:update_quantity' %}", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: `produkt_id=${productId}&action=${action}`
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          qtyElem.textContent = data.new_qty;
+          const newTotal = (unitPrice * data.new_qty).toFixed(2);
+          itemTotalElem.textContent = newTotal;
+
+          // Prepočítať celkovú cenu v košíku
+          let newTotalPrice = 0;
+          document.querySelectorAll('.item-total').forEach(el => {
+            newTotalPrice += parseFloat(el.textContent.replace(',', '.'));
+          });
+          document.getElementById('total-price').textContent = newTotalPrice.toFixed(2);
+        }
+      });
+    });
+  });
+});
+</script>
 
 {% endblock %}
