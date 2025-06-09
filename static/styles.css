@@ -110,8 +110,7 @@ nav ul.auth-links li a:focus {
     background-color: #ddd;
     border-radius: 10px;
     box-shadow: 0 8px 15px rgba(0,0,0,0.1);
-    padding-top: 120px;
-    padding-bottom: 120px;
+
 }
 
 .slide {
