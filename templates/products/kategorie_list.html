@@ -49,7 +49,7 @@
                                 <ul class="subsubcategory">
                                     {% for kat_3 in kat_2.potomci.all %}
                                         <li class="clickable" onclick="toggleSubSubcategories(event, this)">
-                                            <a href="{% url 'produkty_podla_kategorie' kat_3.id %}">{{ kat_3.nazev }}</a>
+                                            <a href="{% url 'products:produkty_podla_kategorie' kat_3.id %}">{{ kat_3.nazev }}</a>
                                         </li>
                                     {% endfor %}
                                 </ul>

@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_POST
 from products.models import Product
 
 
 def view_basket(request):
     basket = request.session.get('basket', {})
-    # Ochrana: ak nie je dict, inicializuj znova
+
+    # Ak basket nie je dict, inicializuj ho znovu
     if not isinstance(basket, dict):
         basket = {}
         request.session['basket'] = basket
@@ -30,26 +31,30 @@ def view_basket(request):
     })
 
 
+@require_POST
 def add_to_basket(request, produkt_id):
-    if request.method == 'POST':
+    try:
         quantity = int(request.POST.get('quantity', 1))
-        produkt_id_str = str(produkt_id)
+    except (TypeError, ValueError):
+        quantity = 1
 
-        basket = request.session.get('basket', {})
+    produkt_id_str = str(produkt_id)
+    basket = request.session.get('basket', {})
 
-        # Ochrana: ak nie je dict, inicializuj znova
-        if not isinstance(basket, dict):
-            basket = {}
+    if not isinstance(basket, dict):
+        basket = {}
 
-        if produkt_id_str in basket:
-            basket[produkt_id_str] += quantity
-        else:
-            basket[produkt_id_str] = quantity
+    # Pridanie alebo zvýšenie množstva produktu v košíku
+    basket[produkt_id_str] = basket.get(produkt_id_str, 0) + quantity
+    request.session['basket'] = basket
 
-        request.session['basket'] = basket
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({
+            'success': True,
+            'quantity': basket[produkt_id_str]
+        })
 
-    return redirect('/')
+    return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
 @require_POST
@@ -67,9 +72,31 @@ def update_quantity(request):
             basket[produkt_id] += 1
         elif action == 'dec' and basket[produkt_id] > 1:
             basket[produkt_id] -= 1
+        else:
+            # Ak je množstvo 1 a pokus o decrement, nechaj tak
+            pass
 
         request.session['basket'] = basket
-
         return JsonResponse({'success': True, 'new_qty': basket[produkt_id]})
+
+    return JsonResponse({'success': False})
+
+
+@require_POST
+def remove_from_basket(request):
+    produkt_id = request.POST.get('produkt_id')
+
+    if not produkt_id:
+        return HttpResponseBadRequest("Chýba produkt_id.")
+
+    basket = request.session.get('basket', {})
+
+    if not isinstance(basket, dict):
+        basket = {}
+
+    if produkt_id in basket:
+        del basket[produkt_id]
+        request.session['basket'] = basket
+        return JsonResponse({'success': True})
 
     return JsonResponse({'success': False})

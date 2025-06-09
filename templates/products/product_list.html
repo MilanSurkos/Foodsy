@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load basket_tags %} {# Na použitie get_item #}
 
 {% block content %}
-<h1>Naša ponuka produktov zmena</h1>
+<h1>Naša ponuka produktov</h1>
 
 <div class="product-grid">
   {% for product in products %}
-    <div class="product-card">
+    <div class="product-card" data-product-id="{{ product.id }}">
       {% if product.image %}
         <img src="{{ product.image.url }}" alt="{{ product.name }}">
       {% else %}
@@ -15,19 +16,20 @@
 
       <h2>{{ product.name }}</h2>
       <p>{{ product.description|truncatewords:20 }}</p>
-      <p><strong>{{ product.price }} Kč</strong></p>
+      <p>Cena: <span class="item-total">{{ product.price }}</span> Kč</p>
+      <p class="unit-price" style="display:none;">{{ product.price }}</p>
 
-      <form method="post" action="{% url 'basket:add_to_basket' product.id %}">
-        {% csrf_token %}
-        <label for="quantity_{{ product.id }}">Počet kusů:</label>
-        <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 5px;">
-          <button type="button" onclick="decreaseQuantity({{ product.id }})">−</button>
-          <input type="number" id="quantity_{{ product.id }}" name="quantity" value="1" min="1" style="width: 50px; text-align: center;">
-          <button type="button" onclick="increaseQuantity({{ product.id }})">+</button>
+      {% if basket|get_item:product.id %}
+        <div class="qty-control">
+          <button data-action="dec">−</button>
+          <span class="qty-number">{{ basket|get_item:product.id }}</span> <span>kus</span>
+          <button data-action="inc">+</button>
         </div>
-        <button type="submit" class="add-button">Přidat do košíku</button>
-      </form>
+      {% else %}
+        <button class="add-button">Přidat do košíku</button>
+      {% endif %}
 
+      <a href="{% url 'products:product_detail' product.id %}" target="_blank" class="btn btn-info">Detail</a>
     </div>
   {% endfor %}
 </div>
@@ -35,16 +37,83 @@
 
 {% block extra_js %}
 <script>
-function increaseQuantity(id) {
-  let qty = document.getElementById('quantity_' + id);
-  qty.value = parseInt(qty.value) + 1;
-}
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.product-card').forEach(card => {
+    const productId = card.dataset.productId;
+    const addButton = card.querySelector('.add-button');
+    const unitPriceElem = card.querySelector('.unit-price');
+    const itemTotalElem = card.querySelector('.item-total');
+    const unitPrice = unitPriceElem ? parseFloat(unitPriceElem.textContent.replace(',', '.')) : 0;
 
-function decreaseQuantity(id) {
-  let qty = document.getElementById('quantity_' + id);
-  if (parseInt(qty.value) > 1) {
-    qty.value = parseInt(qty.value) - 1;
-  }
-}
+    function updateQtyUI(qty) {
+      let control = card.querySelector('.qty-control');
+      if (!control) {
+        control = document.createElement('div');
+        control.className = 'qty-control';
+        control.innerHTML = `
+          <button data-action="dec">−</button>
+          <span class="qty-number">${qty}</span> <span>kus</span>
+          <button data-action="inc">+</button>
+        `;
+        card.replaceChild(control, addButton);
+        setupControlListeners(control);
+      } else {
+        control.querySelector('.qty-number').textContent = qty;
+      }
+      if(itemTotalElem){
+        itemTotalElem.textContent = (unitPrice * qty).toFixed(2);
+      }
+    }
+
+    function setupControlListeners(control) {
+      control.addEventListener('click', function (e) {
+        if (e.target.tagName !== 'BUTTON') return;
+        const action = e.target.dataset.action;
+
+        fetch("{% url 'basket:update_quantity' %}", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          body: `produkt_id=${encodeURIComponent(productId)}&action=${encodeURIComponent(action)}`
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            if (data.new_qty > 0) {
+              updateQtyUI(data.new_qty);
+            } else {
+              control.remove();
+              if (addButton) addButton.style.display = 'inline-block';
+              if(itemTotalElem){
+                itemTotalElem.textContent = unitPrice.toFixed(2);
+              }
+            }
+          }
+        });
+      });
+    }
+
+    if (addButton) {
+      addButton.addEventListener('click', function () {
+        fetch(`/basket/add/${productId}/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-CSRFToken': '{{ csrf_token }}'
+          },
+          body: 'quantity=1'
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            updateQtyUI(data.quantity);
+          }
+        });
+      });
+    }
+  });
+});
 </script>
 {% endblock %}

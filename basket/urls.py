@@ -7,4 +7,5 @@ urlpatterns = [
     path('', views.view_basket, name='basket'),
     path('pridat/<int:produkt_id>/', views.add_to_basket, name='add_to_basket'),
     path('update-quantity/', views.update_quantity, name='update_quantity'),
+    path('remove/', views.remove_from_basket, name='remove_from_basket'),  # odstránenie produktu z košíka
 ]
