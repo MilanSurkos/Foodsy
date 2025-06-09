@@ -15,11 +15,79 @@
       <h3>{{ produkt.name }}</h3>
       <p class="description">{{ produkt.description|truncatewords:20 }}</p>
       <p class="price">{{ produkt.price }} Kč</p>
+      <p class="product-info">
+        <span>Jednotka predaja: kus</span>
+      </p>
 
-      <form method="post" action="{% url 'basket:add_to_basket' produkt.id %}">
+      <form method="post" action="{% url 'basket:add_to_basket' produkt.id %}" class="add-to-basket-form" data-product-id="{{ produkt.id }}">
         {% csrf_token %}
         <button type="submit" class="add-button">Přidat do košíku</button>
       </form>
+      <div class="qty-control" data-product-id="{{ produkt.id }}" style="display:none; margin-top:8px; justify-content: center;">
+        <button class="qty-btn" data-action="dec" style="background: #28a745; color: #fff; border-radius: 8px 0 0 8px; font-weight: 700; font-size: 1rem; padding: 12px 18px; border: none;">−</button>
+        <span class="qty-number" style="background: #28a745; color: #fff; font-weight: 700; font-size: 1rem; padding: 12px 18px;">1</span>
+        <button class="qty-btn" data-action="inc" style="background: #28a745; color: #fff; border-radius: 0 8px 8px 0; font-weight: 700; font-size: 1rem; padding: 12px 18px; border: none;">+</button>
+      </div>
+      <button type="button" class="button detail-btn" data-product="{{ produkt.id }}" style="margin-top:8px;display:inline-block; background: #ff6f3c; color: #fff; border-radius: 8px; font-weight: 700; font-size: 1rem; padding: 12px 28px; border: none; transition: background 0.2s, box-shadow 0.2s; box-shadow: 0 2px 6px rgba(255, 111, 60, 0.15);">
+        Detail
+      </button>
+    </div>
+
+    <!-- Modal pre detail produktu -->
+    <div id="modal-{{ produkt.id }}" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span class="close" data-product="{{ produkt.id }}">&times;</span>
+        <!-- Produkt obrázok -->
+        {% if produkt.image %}
+          <img src="{{ produkt.image.url }}" alt="{{ produkt.name }}" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;">
+        {% else %}
+          <img src="{% static 'images/default-food.jpg' %}" alt="Žádný obrázek" style="width:100%;max-height:180px;object-fit:cover;border-radius:8px;">
+        {% endif %}
+        <h3 style="margin-top:12px;">{{ produkt.name }}</h3>
+        <form method="post" action="{% url 'basket:add_to_basket' produkt.id %}">
+          {% csrf_token %}
+          <button type="submit" class="add-button" style="margin-bottom:16px;">Přidat do košíku</button>
+        </form>
+        <p style="font-weight:bold;">Cena: {{ produkt.price }} Kč</p>
+        <p style="margin-bottom:12px;">Jednotka predaja: kus</p>
+        <!-- Záložky -->
+        <div class="tabs">
+          <button class="tablinks active" onclick="openTab(event, 'popis-{{ produkt.id }}')">Popis</button>
+          <button class="tablinks" onclick="openTab(event, 'podobne-{{ produkt.id }}')">Podobné produkty</button>
+          <button class="tablinks" onclick="openTab(event, 'recepty-{{ produkt.id }}')">Recepty</button>
+        </div>
+        <div id="popis-{{ produkt.id }}" class="tabcontent" style="display:block;">
+          <p>{{ produkt.description|truncatewords:20 }}</p>
+        </div>
+        <div id="podobne-{{ produkt.id }}" class="tabcontent" style="display:none;">
+          <div class="similar-products-carousel">
+            {% for podobny in produkty %}
+              {% if podobny.id != produkt.id %}
+                <div class="product-card mini">
+                  {% if podobny.image %}
+                    <img src="{{ podobny.image.url }}" alt="{{ podobny.name }}">
+                  {% else %}
+                    <img src="{% static 'images/default-food.jpg' %}" alt="Žádný obrázek">
+                  {% endif %}
+                  <div class="info">
+                    <h4>{{ podobny.name }}</h4>
+                    <p>{{ podobny.price }} Kč</p>
+                    <form method="post" action="{% url 'basket:add_to_basket' podobny.id %}">
+                      {% csrf_token %}
+                      <button type="submit" class="add-button" style="padding:4px 8px;font-size:0.95em;">Přidat do košíku</button>
+                    </form>
+                  </div>
+                </div>
+              {% endif %}
+            {% empty %}
+              <p>Žiadne podobné produkty.</p>
+            {% endfor %}
+          </div>
+        </div>
+        <div id="recepty-{{ produkt.id }}" class="tabcontent" style="display:none;">
+          <p>Recepty zatiaľ nie sú dostupné.</p>
+        </div>
+      </div>
     </div>
   {% empty %}
     <p>Žádné produkty v této kategorii.</p>
@@ -73,6 +141,12 @@
     margin-bottom: 10px;
   }
 
+  .product-info {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+
   .add-button {
     padding: 8px 12px;
     background-color: #28a745;
@@ -80,10 +154,284 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    min-width: 160px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1rem;
+    box-sizing: border-box;
+    height: 40px; /* pridaj túto hodnotu */
+    line-height: 24px; /* pre vertikálne centrovanie textu */
   }
 
   .add-button:hover {
     background-color: #218838;
   }
+
+  /* Mini cards for similar products */
+  .similar-products-carousel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 10px 0;
+  }
+  .product-card.mini {
+    width: 140px;
+    min-width: 140px;
+    padding: 8px;
+    border-radius: 7px;
+    font-size: 0.97em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    margin-bottom: 0;
+  }
+  .product-card.mini img {
+    max-width: 100%;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  .product-card.mini .info {
+    padding: 4px 0 0 0;
+  }
+  .product-card.mini h4 {
+    font-size: 15px;
+    margin: 6px 0 2px 0;
+  }
+  .product-card.mini p {
+    font-size: 14px;
+    margin: 0 0 6px 0;
+  }
+
+  /* Modal styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    overflow: auto;
+    background: rgba(0,0,0,0.4);
+  }
+  .modal-content {
+    background: #fff;
+    margin: 8% auto;
+    padding: 24px 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    text-align: left;
+  }
+  .modal .close {
+    color: #aaa;
+    position: absolute;
+    right: 18px;
+    top: 12px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .modal .close:hover {
+    color: #ff6f3c;
+  }
+  /* Tabs */
+  .tabs {
+    margin-top: 18px;
+    margin-bottom: 10px;
+    display: flex;
+    gap: 8px;
+  }
+  .tablinks {
+    background: #eee;
+    border: none;
+    padding: 7px 16px;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    font-weight: 600;
+    color: #ff6f3c;
+    transition: background 0.2s;
+  }
+  .tablinks.active, .tablinks:hover {
+    background: #ff6f3c;
+    color: #fff;
+  }
+  .tabcontent {
+    background: #fafafa;
+    padding: 12px 10px;
+    border-radius: 0 0 8px 8px;
+    border: 1px solid #eee;
+    border-top: none;
+    margin-bottom: 0;
+    font-size: 0.98em;
+  }
+
+  .qty-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    gap: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(40, 167, 69, 0.10);
+    border: 2px solid #28a745;
+    width: 160px;
+    min-width: 160px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 40px; /* nastav rovnakú výšku ako .add-button */
+  }
+  .qty-btn, .qty-number {
+    background-color: #28a745 !important;
+    color: #fff !important;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 0 14px; /* zúžené */
+    box-shadow: none;
+    border-radius: 0 !important;
+    height: 40px; /* rovnaká výška */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .qty-btn:first-child {
+    border-radius: 8px 0 0 8px !important;
+  }
+  .qty-btn:last-child {
+    border-radius: 0 8px 8px 0 !important;
+  }
+  .qty-number {
+    border-radius: 0 !important;
+    min-width: 32px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0;
+  }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Otvorenie modalu
+  document.querySelectorAll('.detail-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const id = btn.getAttribute('data-product');
+      document.getElementById('modal-' + id).style.display = 'block';
+    });
+  });
+  // Zatvorenie modalu
+  document.querySelectorAll('.modal .close').forEach(closeBtn => {
+    closeBtn.addEventListener('click', function () {
+      const id = closeBtn.getAttribute('data-product');
+      document.getElementById('modal-' + id).style.display = 'none';
+    });
+  });
+  // Zatvorenie kliknutím mimo modal-content
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', function (e) {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+  });
+
+  // Tab záložky v modale
+  document.querySelectorAll('.modal').forEach(function(modal) {
+    const tabLinks = modal.querySelectorAll('.tablinks');
+    const tabContents = modal.querySelectorAll('.tabcontent');
+    tabLinks.forEach(function(link) {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        tabContents.forEach(tc => tc.style.display = 'none');
+        tabLinks.forEach(l => l.classList.remove('active'));
+        const tabId = link.getAttribute('onclick').match(/'(.*?)'/)[1];
+        modal.querySelector('#' + tabId).style.display = 'block';
+        link.classList.add('active');
+      });
+    });
+  });
+
+  // Pridať do košíka → qty-control
+  document.querySelectorAll('.add-to-basket-form').forEach(form => {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const productId = form.getAttribute('data-product-id');
+      // AJAX pridanie do košíka
+      fetch(form.action, {
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value,
+          'X-Requested-With': 'XMLHttpRequest',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: 'quantity=1'
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          form.style.display = 'none';
+          const qtyControl = document.querySelector('.qty-control[data-product-id="' + productId + '"]');
+          qtyControl.style.display = 'flex';
+          qtyControl.querySelector('.qty-number').textContent = '1';
+        }
+      });
+    });
+  });
+
+  // Ovládanie plus/mínus
+  document.querySelectorAll('.qty-control').forEach(control => {
+    const productId = control.getAttribute('data-product-id');
+    const decBtn = control.querySelector('.qty-btn[data-action="dec"]');
+    const incBtn = control.querySelector('.qty-btn[data-action="inc"]');
+    const qtyNumber = control.querySelector('.qty-number');
+
+    decBtn.addEventListener('click', function () {
+      let qty = parseInt(qtyNumber.textContent, 10);
+      if (qty > 1) {
+        qty -= 1;
+        updateQty(productId, qty, qtyNumber, control);
+      } else if (qty === 1) {
+        // Odstrániť z košíka
+        fetch("{% url 'basket:remove_from_basket' %}", {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: 'produkt_id=' + productId
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            control.style.display = 'none';
+            document.querySelector('.add-to-basket-form[data-product-id="' + productId + '"]').style.display = 'block';
+          }
+        });
+      }
+    });
+
+    incBtn.addEventListener('click', function () {
+      let qty = parseInt(qtyNumber.textContent, 10) + 1;
+      updateQty(productId, qty, qtyNumber, control);
+    });
+  });
+
+  function updateQty(productId, qty, qtyNumber, control) {
+    fetch("{% url 'basket:update_quantity' %}", {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': '{{ csrf_token }}',
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: 'produkt_id=' + productId + '&action=' + (qty > parseInt(qtyNumber.textContent, 10) ? 'inc' : 'dec')
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        qtyNumber.textContent = qty;
+      }
+    });
+  }
+});
+</script>
 {% endblock %}
