@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block slideshow %}
 <div class="slideshow-container">
@@ -11,56 +12,43 @@
     <div class="slide">
         <img src="{% static 'images/slideshow3.jpg' %}" alt="Slide 3">
     </div>
+    <!-- Navigation buttons -->
     <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
     <a class="next" onclick="plusSlides(1)">&#10095;</a>
 </div>
 
-<script>
-    let slideIndex = 0;
-    let slides = document.getElementsByClassName("slide");
-
-    function showSlide(index) {
-        for (let i = 0; i < slides.length; i++) {
-            slides[i].classList.remove("active");
-        }
-        slideIndex = (index + slides.length) % slides.length;
-        slides[slideIndex].classList.add("active");
-    }
-
-    function plusSlides(n) {
-        showSlide(slideIndex + n);
-    }
-
-    function autoSlide() {
-        plusSlides(1);
-        setTimeout(autoSlide, 4000);
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        showSlide(slideIndex);
-        setTimeout(autoSlide, 4000);
-    });
-</script>
+<!-- Dots for slideshow -->
+<div style="text-align:center; margin-top:10px;">
+    <span class="dot" onclick="currentSlide(0)"></span>
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+</div>
 {% endblock %}
 
 {% block content %}
-<section class="hero">
+<section class="container hero">
     <h1>Vitajte na Foodsy!</h1>
     <p>Objednajte si svoje obľúbené jedlá online z pohodlia domova. Čerstvé suroviny, rýchle doručenie a široký výber pre každú chuť.</p>
-    <a href="{% url 'product_list' %}" class="button">Prejsť na ponuku</a>
+    <a href="{% url 'products:kategorie_list' %}" class="button">Prejsť na ponuku</a>
 </section>
 
-<section class="featured-products">
+<section class="container featured-products">
     <h2>Cenové trháky</h2>
-    <div class="product-slider">
-        {% for product in featured_products %}
-            <div class="product-card">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                <h3>{{ product.name }}</h3>
-                <p>{{ product.price }} €</p>
-                <a href="{% url 'products:product_detail' product.slug %}" class="button">Detail</a>
-            </div>
-        {% endfor %}
-    </div>
+    {% if featured_products %}
+        <div class="product-carousel">
+            {% for product in featured_products %}
+                <div class="product-card">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <div class="info">
+                        <h4>{{ product.name }}</h4>
+                        <p>{{ product.price }} €</p>
+                        <a href="{% url 'products:product_detail' product.id %}" class="button">Detail</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Momentálne nie sú k dispozícii žiadne odporúčané produkty.</p>
+    {% endif %}
 </section>
 {% endblock %}

@@ -4,11 +4,13 @@ from django.shortcuts import render
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from foodsy.views import home  # Import the home view
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', lambda request: render(request, 'base.html'), name='home'),
+    path('', home, name='home'),  # Use the home view
 
     # Include app URLs with namespaces
     path('products/', include(('products.urls', 'products'), namespace='products')),
