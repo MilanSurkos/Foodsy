@@ -1,0 +1,6 @@
+<li class="category-item" onclick="toggleSubcategories(this)">
+    {{ category_name }}
+    <ul class="subcategory">
+        {% include "products/subcategory_item.html" with subcategories=subcategories %}
+    </ul>
+</li>

@@ -4,37 +4,65 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="Slideshow test">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/foodsy/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/foodsy/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/foodsy/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/foodsy/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/products/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/products/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/products/product_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/products/product_list.html" afterDir="false" />
-    </list>
+    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="Pridanie loga do nav baru, a prerobenie slideshow pridal som obrazky" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="Features" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
         <option value="git config --global user.name &quot;Iveta Szaboova &lt;git config --global user.email &quot;ivetka.szaboova@gmail.com&gt;" />
       </list>
     </option>
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--follow-tags" />
+        <option name="title" value="Current Branch" />
+      </GitPushTagMode>
+    </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="Features_mimi" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;MilanSurkos&quot;
-  }
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOOsyJec6XHU8U&quot;,
+        &quot;number&quot;: 2
+      },
+      &quot;lastSeen&quot;: 1748276510771
+    },
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOOsyJec6ZAThs&quot;,
+        &quot;number&quot;: 3
+      },
+      &quot;lastSeen&quot;: 1749204541029
+    }
+  ]
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
@@ -46,30 +74,33 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2xK8NUp3EBAzWZ6XBTB1UEacyI9" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Features&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "#2 on Features",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;sqlite&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/static/images" />
@@ -128,6 +159,12 @@
       <workItem from="1747763568364" duration="91000" />
       <workItem from="1747841865415" duration="1003000" />
       <workItem from="1747844122368" duration="9378000" />
+      <workItem from="1747997428538" duration="15283000" />
+      <workItem from="1748025366503" duration="2000" />
+      <workItem from="1748025380577" duration="2863000" />
+      <workItem from="1748274072626" duration="6654000" />
+      <workItem from="1749466048862" duration="947000" />
+      <workItem from="1749483765461" duration="304000" />
     </task>
     <task id="LOCAL-00001" summary="Structura Djanga">
       <option name="closed" value="true" />
@@ -233,13 +270,102 @@
       <option name="project" value="LOCAL" />
       <updated>1747850795146</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Hamburger menu">
+      <option name="closed" value="true" />
+      <created>1748022955295</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1748022955295</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Produkty kategorie">
+      <option name="closed" value="true" />
+      <created>1748280889011</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1748280889011</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Pridani admina">
+      <option name="closed" value="true" />
+      <created>1749052464269</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1749052464269</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Pridani admina">
+      <option name="closed" value="true" />
+      <created>1749052553846</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1749052553846</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Login (prihlasenie)">
+      <option name="closed" value="true" />
+      <created>1749113146846</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1749113146846</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Kosik a objednávky">
+      <option name="closed" value="true" />
+      <created>1749122953120</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1749122953120</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Oprava tlacitka odhlasit sa ..">
+      <option name="closed" value="true" />
+      <created>1749123604727</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1749123604727</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Pridanie loga do nav baru, a prerobenie slideshow pridal som obrazky">
+      <option name="closed" value="true" />
+      <created>1749206270178</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1749206270178</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="Features" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="Features_tina" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/Features" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -263,6 +389,14 @@
     <MESSAGE value="Urls prvy web" />
     <MESSAGE value="Urls prvy web uprava" />
     <MESSAGE value="Slideshow test" />
-    <option name="LAST_COMMIT_MESSAGE" value="Slideshow test" />
+    <MESSAGE value="Hamburger menu" />
+    <MESSAGE value="Produkty kategorie" />
+    <MESSAGE value="Pridani admina" />
+    <MESSAGE value="Login (prihlasenie)" />
+    <MESSAGE value="Kosik a objednávky" />
+    <MESSAGE value="Oprava tlacitka odhlasit sa .." />
+    <MESSAGE value="Pridanie do nav baru login/logout/registracia" />
+    <MESSAGE value="Pridanie loga do nav baru, a prerobenie slideshow pridal som obrazky" />
+    <option name="LAST_COMMIT_MESSAGE" value="Pridanie loga do nav baru, a prerobenie slideshow pridal som obrazky" />
   </component>
 </project>

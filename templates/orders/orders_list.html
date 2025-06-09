@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Moje objednávky</h2>
+
+{% if orders %}
+  {% for order in orders %}
+    <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
+      <strong>Objednávka č.{{ order.id }}</strong><br>
+      <em>Dátum: {{ order.date }}</em><br>
+      <em>Adresa: {{ order.delivery_address }}</em><br>
+      <em>Status: {{ order.get_status_display }}</em><br>
+      <ul>
+        {% for item in order.items.all %}
+          <li>{{ item.quantity }}x {{ item.product.name }} — {{ item.price }} €</li>
+        {% endfor %}
+      </ul>
+      <strong>Spolu:
+        {{
+          order.items.all|map(attribute='price')|sum:""|floatformat:2
+        }} €</strong>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>Nemáte žiadne objednávky.</p>
+{% endif %}
+{% endblock %}

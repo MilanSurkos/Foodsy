@@ -1,14 +1,89 @@
 from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
-# Create your views here.
+from products.models import Kategorie, Product
 
-from django.shortcuts import render
-from .models import Product
 
-def index(request):
-    products = Product.objects.all()
-    return render(request, 'templates/products/index.html', {'products': products})
+def kategorie_list(request):
+    """jedlo_sub = [
+        {
+            'name': 'Čerstvé potraviny',
+            'subsubcategories': [
+                {'id': 10, 'name': 'Ovocie'},
+                {'id': 11, 'name': 'Zelenina'},
+                {'id': 12, 'name': 'Mliečne výrobky'},
+            ]
+        },
+        {
+            'name': 'Trvanlivé potraviny',
+            'subsubcategories': [
+                {'id': 13, 'name': 'Konzervy'},
+                {'id': 14, 'name': 'Sušené potraviny'},
+                {'id': 15, 'name': 'Cestoviny a ryža'},
+            ]
+        },
+        {
+            'name': 'Mrazené potraviny',
+            'subsubcategories': [
+                {'id': 16, 'name': 'Mrazená zelenina'},
+                {'id': 17, 'name': 'Mrazené ovocie'},
+                {'id': 18, 'name': 'Mrazené mäsové výrobky'},
+            ]
+        }
+    ]
 
-def product_list(request):
-    products = Product.objects.all()
-    return render(request, 'products/product_list.html', {'products': products})
+    pitie_sub = [
+        {
+            'name': 'Nealkoholické nápoje',
+            'subsubcategories': [{'id': 4, 'name': 'Nealkoholické nápoje'}]
+        },
+        {
+            'name': 'Alkoholické nápoje',
+            'subsubcategories': [{'id': 5, 'name': 'Alkoholické nápoje'}]
+        },
+        {
+            'name': 'Teplé nápoje',
+            'subsubcategories': [{'id': 6, 'name': 'Teplé nápoje'}]
+        },
+    ]
+
+    ostatne_sub = [
+        {
+            'name': 'Domácnosť a hygiena',
+            'subsubcategories': [{'id': 7, 'name': 'Domácnosť a hygiena'}]
+        },
+        {
+            'name': 'Pre deti a domácich miláčikov',
+            'subsubcategories': [{'id': 8, 'name': 'Pre deti a domácich miláčikov'}]
+        },
+        {
+            'name': 'Drobný tovar a sezónne veci',
+            'subsubcategories': [{'id': 9, 'name': 'Drobný tovar a sezónne veci'}]
+        },
+    ]
+
+    context = {
+        'jedlo_sub': jedlo_sub,
+        'pitie_sub': pitie_sub,
+        'ostatne_sub': ostatne_sub,
+    } """
+    context = {"kategorie_list": Kategorie.objects.all()}
+
+    return render(request, 'products/kategorie_list.html', context)
+
+
+def produkty_podla_kategorie(request, category_id):
+    kategoria = get_object_or_404(Kategorie, id=category_id)
+    produkty = kategoria.produkty.all()
+
+    if request.method == 'POST':
+        produkt_id = request.POST.get('produkt_id')
+        kosik = request.session.get('kosik', {})
+        kosik[produkt_id] = kosik.get(produkt_id, 0) + 1
+        request.session['kosik'] = kosik
+        return redirect('produkty_podla_kategorie', category_id=category_id)
+
+    return render(request, 'products/produkty_podla_kategorie.html', {
+        'produkty': produkty,
+        'kategoria': kategoria,
+    })

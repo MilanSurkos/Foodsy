@@ -1,0 +1,3 @@
+{% for item in subsubcategories %}
+    <li><a href="{% url 'products:produkty_podla_kategorie' item.id %}">{{ item.name }}</a></li>
+{% endfor %}
