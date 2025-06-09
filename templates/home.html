@@ -1,9 +1,66 @@
 {% extends 'base.html' %}
 
+{% block slideshow %}
+<div class="slideshow-container">
+    <div class="slide active">
+        <img src="{% static 'images/slideshow1.jpg' %}" alt="Slide 1">
+    </div>
+    <div class="slide">
+        <img src="{% static 'images/slideshow2.jpg' %}" alt="Slide 2">
+    </div>
+    <div class="slide">
+        <img src="{% static 'images/slideshow3.jpg' %}" alt="Slide 3">
+    </div>
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+
+<script>
+    let slideIndex = 0;
+    let slides = document.getElementsByClassName("slide");
+
+    function showSlide(index) {
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].classList.remove("active");
+        }
+        slideIndex = (index + slides.length) % slides.length;
+        slides[slideIndex].classList.add("active");
+    }
+
+    function plusSlides(n) {
+        showSlide(slideIndex + n);
+    }
+
+    function autoSlide() {
+        plusSlides(1);
+        setTimeout(autoSlide, 4000);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        showSlide(slideIndex);
+        setTimeout(autoSlide, 4000);
+    });
+</script>
+{% endblock %}
+
 {% block content %}
-<section>
+<section class="hero">
     <h1>Vitajte na Foodsy!</h1>
     <p>Objednajte si svoje obľúbené jedlá online z pohodlia domova. Čerstvé suroviny, rýchle doručenie a široký výber pre každú chuť.</p>
     <a href="{% url 'product_list' %}" class="button">Prejsť na ponuku</a>
+</section>
+
+<section class="featured-products">
+    <h2>Cenové trháky</h2>
+    <div class="product-slider">
+        {% for product in featured_products %}
+            <div class="product-card">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <h3>{{ product.name }}</h3>
+                <p>{{ product.price }} €</p>
+                <a href="{% url 'products:product_detail' product.slug %}" class="button">Detail</a>
+            </div>
+        {% endfor %}
+    </div>
 </section>
 {% endblock %}
