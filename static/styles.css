@@ -97,8 +97,10 @@ nav ul.auth-links li a:focus {
 }
 
 .logo-img {
-    height: 40px;
-    width: auto;
+      width: 5rem;
+      height: 5rem;
+      object-fit: contain;
+      vertical-align: middle;
 }
 
 /* === Slideshow === */
@@ -345,3 +347,17 @@ form input[type="number"]:focus {
     outline: none;
     box-shadow: 0 6px 12px rgba(230, 92, 40, 0.6);
 }
+
+.main-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-icon {
+  width: 4rem;
+  height: 4rem;
+  object-fit: contain;
+  vertical-align: middle;
+}
+

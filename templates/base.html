@@ -11,14 +11,34 @@
     <!-- Navigácia -->
     <nav>
         <a href="{% url 'home' %}" class="logo-link">
-            <img src="{% static 'images/logo.png' %}" alt="Foodsy Logo" class="logo-img">
+            <img src="{% static 'icons/logo.svg' %}" alt="Foodsy Logo" class="logo-img">
         </a>
         <ul class="main-nav">
-            <li><a href="{% url 'home' %}">Domov</a></li>
-            <li><a href="{% url 'products:kategorie_list' %}">Produkty</a></li>
-            <li><a href="{% url 'orders:orders' %}">Objednávky</a></li>
-            <li><a href="{% url 'basket:basket' %}">Košík</a></li>
-        </ul>
+    <li>
+      <a href="{% url 'home' %}">
+        <img src="{% static 'icons/dum.svg' %}" alt="Domov" class="nav-icon">
+        Hlavni
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'products:kategorie_list' %}">
+        <img src="{% static 'icons/produkty.svg' %}" alt="Produkty" class="nav-icon">
+        Produkty
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'orders:orders' %}">
+        <img src="{% static 'icons/objednavky.svg' %}" alt="Objednávky" class="nav-icon">
+        Objednávky
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'basket:basket' %}">
+        <img src="{% static 'icons/kosik.svg' %}" alt="Košík" class="nav-icon">
+        Košík
+      </a>
+    </li>
+</ul>
 
         <ul class="auth-links">
             {% if user.is_authenticated %}
