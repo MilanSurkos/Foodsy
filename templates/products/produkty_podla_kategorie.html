@@ -14,9 +14,16 @@
 
       <h3>{{ produkt.name }}</h3>
       <p class="description">{{ produkt.description|truncatewords:20 }}</p>
-      <p class="price">{{ produkt.price }} Kč</p>
+      {% if produkt.is_discounted and produkt.discount_price %}
+        <p class="price">
+          <span style="text-decoration: line-through; color: #888;">{{ produkt.price }} Kč</span>
+          <span style="color: #d32f2f; font-weight: bold;">{{ produkt.discount_price }} Kč</span>
+        </p>
+      {% else %}
+        <p class="price">{{ produkt.price }} Kč</p>
+      {% endif %}
       <p class="product-info">
-        <span>Jednotka predaja: kus</span>
+        <span>Jednotkové množství: {{ produkt.unit }}</span>
       </p>
 
       <form method="post" action="{% url 'basket:add_to_basket' produkt.id %}" class="add-to-basket-form" data-product-id="{{ produkt.id }}">
@@ -48,8 +55,16 @@
           {% csrf_token %}
           <button type="submit" class="add-button" style="margin-bottom:16px;">Přidat do košíku</button>
         </form>
-        <p style="font-weight:bold;">Cena: {{ produkt.price }} Kč</p>
-        <p style="margin-bottom:12px;">Jednotka predaja: kus</p>
+        <!-- Cena a jednotkové množství v detaile -->
+        {% if produkt.is_discounted and produkt.discount_price %}
+          <p>
+            <span style="text-decoration: line-through; color: #888; font-size: 1.1em;">Původní cena: {{ produkt.price }} Kč</span><br>
+            <span style="color: #d32f2f; font-size: 1.4em; font-weight: bold;">{{ produkt.discount_price }} Kč</span>
+          </p>
+        {% else %}
+          <p style="font-weight:bold;">Cena: {{ produkt.price }} Kč</p>
+        {% endif %}
+        <p style="margin-bottom:12px;">Jednotkové množství: {{ produkt.unit }}</p>
         <!-- Záložky -->
         <div class="tabs">
           <button class="tablinks active" onclick="openTab(event, 'popis-{{ produkt.id }}')">Popis</button>
