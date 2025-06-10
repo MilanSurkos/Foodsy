@@ -30,3 +30,8 @@ def produkty_podla_kategorie(request, category_id):
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     return render(request, 'products/product_detail.html', {'product': product})
+
+
+def slevy_list(request):
+    produkty = Product.objects.filter(is_discounted=True, discount_price__isnull=False)
+    return render(request, 'products/slevy.html', {'produkty': produkty})
