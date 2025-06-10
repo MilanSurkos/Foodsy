@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Kategorie, Product
+from .models import Product
 
-admin.site.register(Kategorie)
-admin.site.register(Product)
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ('name', 'price', 'is_discounted', 'discount_price', 'unit')
+    fields = ('name', 'price', 'is_discounted', 'discount_price', 'unit', 'description', 'image', 'category')
