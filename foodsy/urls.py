@@ -17,6 +17,7 @@ urlpatterns = [
     path('orders/', include(('orders.urls', 'orders'), namespace='orders')),
     path('basket/', include(('basket.urls', 'basket'), namespace='basket')),
     path('users/', include(('users.urls', 'users'), namespace='users')),
+    path('recipes/', include(('recipes.urls', 'recipes'), namespace='recipes')),  # Include recipes app URLs
 
     # Authentication URLs
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
