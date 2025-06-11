@@ -4,19 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="Icons">
-      <change afterPath="$PROJECT_DIR$/static/icons/logotype.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/ban.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/ban2.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/ban3.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/banner1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/banner2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/static/images/banner3.jpg" afterDir="false" />
+    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="Banners new format">
       <change beforePath="$PROJECT_DIR$/.idea/Foodsy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Foodsy.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/styles.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -466,7 +457,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749577716758</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Banners new format">
+      <option name="closed" value="true" />
+      <created>1749582106873</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1749582106873</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -525,6 +524,7 @@
     <MESSAGE value="Pridanie do nav baru login/logout/registracia" />
     <MESSAGE value="Pridanie loga do nav baru, a prerobenie slideshow pridal som obrazky" />
     <MESSAGE value="Icons" />
-    <option name="LAST_COMMIT_MESSAGE" value="Icons" />
+    <MESSAGE value="Banners new format" />
+    <option name="LAST_COMMIT_MESSAGE" value="Banners new format" />
   </component>
 </project>
