@@ -1,7 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -10,7 +6,22 @@ from products.models import Product
 
 @login_required
 def orders_view(request):
-    orders = Order.objects.filter(user=request.user).order_by('-date')
+    # Fetch user's orders with related items and products for efficiency
+    orders = Order.objects.filter(user=request.user).order_by('-date').prefetch_related('items__product')
+
+    for order in orders:
+        total = 0
+        for item in order.items.all():
+            item.total_price = item.quantity * item.price  # Total price per item
+            total += item.total_price
+        order.total_price = total  # Total price for the order
+
+        # Delivery cost logic
+        if order.total_price > 1000:
+            order.delivery_cost = 0
+        else:
+            order.delivery_cost = 300
+
     return render(request, 'orders/orders_list.html', {'orders': orders})
 
 @login_required

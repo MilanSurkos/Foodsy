@@ -11,13 +11,20 @@
         <th style="border-bottom: 1px solid #ccc; padding: 8px;">Cena za kus</th>
         <th style="border-bottom: 1px solid #ccc; padding: 8px;">Množství</th>
         <th style="border-bottom: 1px solid #ccc; padding: 8px;">Cena celkem</th>
-        <th style="border-bottom: 1px solid #ccc; padding: 8px;">Akce</th>  <!-- nový stĺpec pre vymazanie -->
+        <th style="border-bottom: 1px solid #ccc; padding: 8px;">Akce</th>
       </tr>
     </thead>
     <tbody>
       {% for item in basket_items %}
         <tr data-product-id="{{ item.product.id }}">
-          <td style="padding: 8px;">{{ item.product.name }}</td>
+          <td style="padding: 8px; display: flex; align-items: center; gap: 10px;">
+            {% if item.product.image %}
+              <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px;">
+            {% else %}
+              <div style="width: 60px; height: 60px; background-color: #eee; display: flex; align-items: center; justify-content: center; border-radius: 8px;">🛒</div>
+            {% endif %}
+            <span>{{ item.product.name }}</span>
+          </td>
           <td style="padding: 8px;">{{ item.product.price }} Kč</td>
           <td style="padding: 8px;">
             <div class="qty-control" style="display: flex; align-items: center; gap: 5px;">
@@ -51,6 +58,7 @@
 {% else %}
   <p>Váš košík je prázdný.</p>
 {% endif %}
+{% endblock %}
 
 {% block extra_js %}
 <script>
@@ -110,20 +118,17 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          // Odstrániť riadok z tabuľky
           row.remove();
 
-          // Prepočítať celkovú cenu v košíku
           let newTotalPrice = 0;
           document.querySelectorAll('.item-total').forEach(el => {
             newTotalPrice += parseFloat(el.textContent.replace(',', '.'));
           });
           document.getElementById('total-price').textContent = newTotalPrice.toFixed(2);
 
-          // Ak už nie sú žiadne produkty, zobraz správu
-          if (document.querySelectorAll('tbody tr').length === 1) { // zostal iba riadok s celkom
+          if (document.querySelectorAll('tbody tr').length === 1) {
             document.querySelector('table').remove();
-            document.querySelector('div').remove(); // tlačidlo objednávky
+            document.querySelector('div').remove();
             const contentBlock = document.querySelector('h2').parentElement;
             const p = document.createElement('p');
             p.textContent = 'Váš košík je prázdný.';
@@ -138,29 +143,3 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 {% endblock %}
-
-{% endblock %}
-Dôležité:
-Musíš mať vo views.py funkciu remove_from_basket, ktorá spracuje túto AJAX požiadavku.
-Príklad pridania do basket/views.py:
-
-python
-Kopírovať
-Upraviť
-from django.views.decorators.http import require_POST
-from django.http import JsonResponse
-
-@require_POST
-def remove_from_basket(request):
-    produkt_id = request.POST.get('produkt_id')
-    basket = request.session.get('basket', {})
-
-    if not isinstance(basket, dict):
-        basket = {}
-
-    if produkt_id in basket:
-        del basket[produkt_id]
-        request.session['basket'] = basket
-        return JsonResponse({'success': True})
-
-    return JsonResponse({'success': False})

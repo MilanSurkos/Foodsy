@@ -5,20 +5,49 @@
 
 {% if orders %}
   {% for order in orders %}
-    <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px;">
-      <strong>Objednávka č.{{ order.id }}</strong><br>
-      <em>Dátum: {{ order.date }}</em><br>
-      <em>Adresa: {{ order.delivery_address }}</em><br>
-      <em>Status: {{ order.get_status_display }}</em><br>
-      <ul>
-        {% for item in order.items.all %}
-          <li>{{ item.quantity }}x {{ item.product.name }} — {{ item.price }} €</li>
-        {% endfor %}
-      </ul>
-      <strong>Spolu:
-        {{
-          order.items.all|map(attribute='price')|sum:""|floatformat:2
-        }} €</strong>
+    <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; margin-bottom: 25px; background-color: #f9f9f9; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+      <h3>Objednávka č. {{ order.id }}</h3>
+      <p><strong>Dátum:</strong> {{ order.date|date:"j. F Y, G:i" }}</p>
+      <p><strong>Adresa:</strong> {{ order.delivery_address }}</p>
+      <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+
+      <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+        <thead>
+          <tr style="background-color: #e0e0e0;">
+            <th style="padding: 8px; text-align: left;">Produkt</th>
+            <th style="padding: 8px; text-align: center;">Množstvo</th>
+            <th style="padding: 8px; text-align: right;">Cena (Kč)</th>
+            <th style="padding: 8px; text-align: right;">Celkom (Kč)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in order.items.all %}
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 8px;">{{ item.product.name }}</td>
+            <td style="padding: 8px; text-align: center;">{{ item.quantity }}</td>
+            <td style="padding: 8px; text-align: right;">{{ item.price|floatformat:2 }}</td>
+            <td style="padding: 8px; text-align: right;">{{ item.total_price|floatformat:2 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <p style="text-align: right; font-weight: bold; margin-top: 15px; font-size: 1.2em;">
+        <span>Celkom bez doručenia:</span> {{ order.total_price|floatformat:2 }} Kč
+      </p>
+
+      <p style="text-align: right; font-weight: bold; margin-top: 5px; font-size: 1.1em; color: #555;">
+        <span>Doručenie:</span>
+        {% if order.delivery_cost == 0 %}
+          Zdarma
+        {% else %}
+          {{ order.delivery_cost|floatformat:2 }} Kč
+        {% endif %}
+      </p>
+
+      <p style="text-align: right; font-weight: bold; margin-top: 10px; font-size: 1.4em; color: #000;">
+        Celkom s doručením: {{ order.total_price|add:order.delivery_cost|floatformat:2 }} Kč
+      </p>
     </div>
   {% endfor %}
 {% else %}

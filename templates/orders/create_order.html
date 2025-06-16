@@ -5,12 +5,29 @@
 
 <form method="post">
   {% csrf_token %}
+
   <label for="address">Doručovacia adresa:</label><br>
   <input type="text" id="address" name="delivery_address" style="width: 300px;" required><br><br>
+
+  <label for="city">Mesto:</label><br>
+  <input type="text" id="city" name="city" style="width: 300px;" required><br><br>
+
+  <label for="phone">Telefónne číslo:</label><br>
+  <input type="tel" id="phone" name="phone" pattern="[0-9+\-\s]+" placeholder="+421 123 456 789" style="width: 300px;" required><br><br>
+
+  <label for="email">E-mail:</label><br>
+  <input type="email" id="email" name="email" style="width: 300px;" required><br><br>
+
+  <label for="delivery_date">Dátum doručenia:</label><br>
+  <input type="date" id="delivery_date" name="delivery_date" style="width: 150px;" required><br><br>
+
+  <label for="delivery_time">Čas doručenia:</label><br>
+  <input type="time" id="delivery_time" name="delivery_time" style="width: 150px;" required><br><br>
 
   <button type="submit">Potvrdiť objednávku</button>
 </form>
 
+<br>
 <a href="{% url 'basket:basket' %}">← Späť do košíka</a>
 
 {% endblock %}
