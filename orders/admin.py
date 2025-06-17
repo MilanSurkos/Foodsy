@@ -8,11 +8,12 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'delivery_address', 'status', 'date')
-    list_filter = ('status', 'date')
+    list_display = ('id', 'user', 'delivery_address', 'status', 'platba', 'date')
+    list_filter = ('status', 'platba', 'date')
     search_fields = ('user__username', 'delivery_address')
     inlines = [OrderItemInline]
     readonly_fields = ('date',)
+    ordering = ('-date',)
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):

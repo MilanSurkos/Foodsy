@@ -6,8 +6,8 @@
 <form method="post">
   {% csrf_token %}
 
-  <label for="address">Doručovacia adresa:</label><br>
-  <input type="text" id="address" name="delivery_address" style="width: 300px;" required><br><br>
+  <label for="delivery_address">Doručovacia adresa:</label><br>
+  <input type="text" id="delivery_address" name="delivery_address" style="width: 300px;" required><br><br>
 
   <label for="city">Mesto:</label><br>
   <input type="text" id="city" name="city" style="width: 300px;" required><br><br>
@@ -22,7 +22,10 @@
   <input type="date" id="delivery_date" name="delivery_date" style="width: 150px;" required><br><br>
 
   <label for="delivery_time">Čas doručenia:</label><br>
-  <input type="time" id="delivery_time" name="delivery_time" style="width: 150px;" required><br><br>
+  <select id="delivery_time" name="delivery_time" style="width: 200px;" required>
+    <option value="morning">Ráno (8:00 - 12:00)</option>
+    <option value="afternoon">Popoludnie (12:00 - 18:00)</option>
+  </select><br><br>
 
   <button type="submit">Potvrdiť objednávku</button>
 </form>

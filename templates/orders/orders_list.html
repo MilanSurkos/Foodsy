@@ -10,6 +10,7 @@
       <p><strong>Dátum:</strong> {{ order.date|date:"j. F Y, G:i" }}</p>
       <p><strong>Adresa:</strong> {{ order.delivery_address }}</p>
       <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+      <p><strong>Platba:</strong> {{ order.get_platba_display }}</p>
 
       <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
         <thead>

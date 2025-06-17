@@ -4,15 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="Banners new format">
+    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="Basket, orders s obrazkami">
       <change beforePath="$PROJECT_DIR$/.idea/Foodsy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Foodsy.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/foodsy/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/foodsy/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/foodsy/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/foodsy/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/orders/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/orders/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/orders/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/orders/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/basket/view_basket.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/basket/view_basket.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/orders/create_order.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/orders/create_order.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/orders/orders_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/orders/orders_list.html" afterDir="false" />
     </list>
@@ -57,17 +55,17 @@
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {}
 }</component>
-  <component name="GitHubPullRequestState"><![CDATA[{
-  "prStates": [
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
     {
-      "id": {
-        "id": "PR_kwDOOsyJec6ZAThs",
-        "number": 3
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOOsyJec6ZAThs&quot;,
+        &quot;number&quot;: 3
       },
-      "lastSeen": 1749204541029
+      &quot;lastSeen&quot;: 1749204541029
     }
   ]
-}]]></component>
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/MilanSurkos/Foodsy.git&quot;,
@@ -175,6 +173,8 @@
       <workItem from="1748274072626" duration="6654000" />
       <workItem from="1749466048862" duration="947000" />
       <workItem from="1749483765461" duration="304000" />
+      <workItem from="1750102240243" duration="403000" />
+      <workItem from="1750175600148" duration="2968000" />
     </task>
     <task id="LOCAL-00001" summary="Structura Djanga">
       <option name="closed" value="true" />
@@ -360,7 +360,15 @@
       <option name="project" value="LOCAL" />
       <updated>1749582106873</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Basket, orders s obrazkami">
+      <option name="closed" value="true" />
+      <created>1750099936672</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1750099936672</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -420,6 +428,7 @@
     <MESSAGE value="Pridanie loga do nav baru, a prerobenie slideshow pridal som obrazky" />
     <MESSAGE value="Icons" />
     <MESSAGE value="Banners new format" />
-    <option name="LAST_COMMIT_MESSAGE" value="Banners new format" />
+    <MESSAGE value="Basket, orders s obrazkami" />
+    <option name="LAST_COMMIT_MESSAGE" value="Basket, orders s obrazkami" />
   </component>
 </project>
