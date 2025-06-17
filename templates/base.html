@@ -14,43 +14,43 @@
             <img src="{% static 'icons/logotype.svg' %}" alt="Foodsy Logo" class="logo-img">
         </a>
         <ul class="main-nav">
-    <li>
-      <a href="{% url 'home' %}">
-        <img src="{% static 'icons/dum.svg' %}" alt="Domov" class="nav-icon">
-        Hlavni
-      </a>
-    </li>
-    <li>
-      <a href="{% url 'products:kategorie_list' %}">
-        <img src="{% static 'icons/produkty.svg' %}" alt="Produkty" class="nav-icon">
-        Produkty
-      </a>
-    </li>
-    <li>
-      <a href="{% url 'products:slevy' %}">
-        <img src="{% static 'icons/slevy.svg' %}" alt="Slevy" class="nav-icon">
-        Slevy
-      </a>
-    </li>
-    <li>
-      <a href="{% url 'recipes:list' %}">
-        <img src="{% static 'icons/recepty.svg' %}" alt="Recepty" class="nav-icon">
-        Recepty
-      </a>
-    </li>
-    <li>
-      <a href="{% url 'orders:orders' %}">
-        <img src="{% static 'icons/objednavky.svg' %}" alt="Objednávky" class="nav-icon">
-        Objednávky
-      </a>
-    </li>
-    <li>
-      <a href="{% url 'basket:basket' %}">
-        <img src="{% static 'icons/kosik.svg' %}" alt="Košík" class="nav-icon">
-        Košík
-      </a>
-    </li>
-</ul>
+            <li>
+                <a href="{% url 'home' %}">
+                    <img src="{% static 'icons/dum.svg' %}" alt="Domov" class="nav-icon">
+                    Hlavni
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'products:kategorie_list' %}">
+                    <img src="{% static 'icons/produkty.svg' %}" alt="Produkty" class="nav-icon">
+                    Produkty
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'products:slevy' %}">
+                    <img src="{% static 'icons/slevy.svg' %}" alt="Slevy" class="nav-icon">
+                    Slevy
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'recipes:list' %}">
+                    <img src="{% static 'icons/recepty.svg' %}" alt="Recepty" class="nav-icon">
+                    Recepty
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'orders:orders' %}">
+                    <img src="{% static 'icons/objednavky.svg' %}" alt="Objednávky" class="nav-icon">
+                    Objednávky
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'basket:basket' %}">
+                    <img src="{% static 'icons/kosik.svg' %}" alt="Košík" class="nav-icon">
+                    Košík
+                </a>
+            </li>
+        </ul>
 
         <ul class="auth-links">
             {% if user.is_authenticated %}
@@ -98,5 +98,6 @@
 
     <!-- Skripty -->
     <script src="{% static 'scripts.js' %}"></script>
+    {% block extra_js %}{% endblock %}
 </body>
 </html>
