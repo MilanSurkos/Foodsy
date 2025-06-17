@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>Slevy</h2>
+<div class="product-grid">
+  {% for product in products %}
+    {% include "products/product_card.html" with product=product %}
+  {% empty %}
+    <p>Žádné zlevněné produkty.</p>
+  {% endfor %}
+</div>
+{% endblock %}

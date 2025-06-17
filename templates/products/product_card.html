@@ -1,0 +1,33 @@
+{% load static %}
+{% load basket_tags %}
+<div class="product-card{% if card_class %} {{ card_class }}{% endif %}" data-product-id="{{ product.id }}">
+  {% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+  {% else %}
+    <img src="{% static 'images/default-food.jpg' %}" alt="Žádný obrázek">
+  {% endif %}
+  <h3>{{ product.name }}</h3>
+  <p class="description">{{ product.description|truncatewords:20 }}</p>
+  {% if product.is_discounted and product.discount_price %}
+    <p class="price">
+      <span style="text-decoration: line-through; color: #888;">{{ product.price }} Kč</span>
+      <span style="color: #d32f2f; font-weight: bold;">{{ product.discount_price }} Kč</span>
+    </p>
+  {% else %}
+    <p class="price">{{ product.price }} Kč</p>
+  {% endif %}
+  <p class="product-info">
+    <span>Jednotkové množství: {{ product.unit }}</span>
+  </p>
+  <form class="add-to-basket-form" action="{% url 'basket:add_to_basket' product.id %}" method="post" style="display: {% if basket|get_item:product.id %}none{% else %}inline-block{% endif %};">
+    {% csrf_token %}
+    <button type="submit" class="add-button">Přidat do košíku</button>
+  </form>
+  <div class="qty-control" style="display: {% if basket|get_item:product.id %}flex{% else %}none{% endif %};">
+    <button class="qty-btn" data-action="dec">−</button>
+    <span class="qty-number">{{ basket|get_item:product.id }}</span>
+    <button class="qty-btn" data-action="inc">+</button>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+  </div>
+  <a href="{% url 'products:product_detail' product.id %}" class="button detail-btn" style="margin-top:8px;">Detail</a>
+</div>

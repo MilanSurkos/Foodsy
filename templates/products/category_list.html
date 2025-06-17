@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Kategorie produktů</h2>
+    <ul class="category-menu">
+        {% for kat_1 in kategorie_list %}
+            {% if not kat_1.parent %}
+                <li class="category-item" onclick="toggleSubcategories(this)">
+                    {{ kat_1.nazev }}
+                    {% if kat_1.potomci.all %}
+                    <ul class="subcategory" style="display:none;">
+                        {% for kat_2 in kat_1.potomci.all %}
+                            <li class="clickable" onclick="toggleSubSubcategories(event, this)">
+                                {{ kat_2.nazev }}
+                                {% if kat_2.potomci.all %}
+                                <ul class="subsubcategory" style="display:none;">
+                                    {% for kat_3 in kat_2.potomci.all %}
+                                        <li>
+                                            <a href="{% url 'products:produkty_podla_kategorie' kat_3.id %}">{{ kat_3.nazev }}</a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+
+<script>
+function toggleSubcategories(element) {
+    const submenu = element.querySelector('.subcategory');
+    if (submenu) {
+        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+    }
+    // Zavrieť ostatné subcategory
+    document.querySelectorAll('.category-item .subcategory').forEach(function(ul) {
+        if (ul !== submenu) ul.style.display = 'none';
+    });
+}
+
+function toggleSubSubcategories(event, element) {
+    event.stopPropagation();
+    const submenu = element.querySelector('.subsubcategory');
+    if (submenu) {
+        submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+    }
+    // Zavrieť ostatné subsubcategory v rámci tejto subcategory
+    element.parentElement.querySelectorAll('.subsubcategory').forEach(function(ul) {
+        if (ul !== submenu) ul.style.display = 'none';
+    });
+}
+</script>
+{% endblock %}
