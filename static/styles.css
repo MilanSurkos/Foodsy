@@ -17,15 +17,25 @@ h1, h2, h3, h4, h5, h6 {
 /* === Navigácia === */
 nav {
     background-color: #ff6f3c;
-    padding: 12px 30px;
+    padding: 18px 30px 22px 30px;
     box-shadow: 0 2px 6px rgba(255, 111, 60, 0.4);
     position: sticky;
     top: 0;
     z-index: 100;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    min-height: 110px;
+}
+
+.auth-top-right {
+    position: absolute;
+    bottom: 8px;
+    right: 40px;
+    display: flex;
+    align-items: flex-end;
+    z-index: 200;
 }
 
 nav ul {
@@ -36,7 +46,13 @@ nav ul {
 }
 
 nav ul.main-nav {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
     gap: 25px;
+    margin-bottom: 0;
+    align-items: center;
+    justify-content: center;
 }
 
 nav ul.main-nav li a {
@@ -101,6 +117,16 @@ nav ul.auth-links li a:focus {
       height: 5rem;
       object-fit: contain;
       vertical-align: middle;
+}
+
+.nav-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    position: relative;
+    justify-content: center;
 }
 
 /* === Slideshow === */
@@ -334,7 +360,6 @@ form input[type="number"]:focus {
     }
 }
 
-/* === Logout button === */
 .logout-button {
     background-color: white;
     color: #ff6f3c;
@@ -446,5 +471,193 @@ form input[type="number"]:focus {
     font-weight: 700;
     font-size: 1.1rem;
     color: #388e3c;
+}
+
+/* === Štýly pre vyhľadávacie pole === */
+.search-form-bar {
+    width: 100%;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    margin: 0 0 10px 0;
+}
+.search-form-wide {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 2px 8px 2px 14px;
+    max-width: 540px;
+    width: 100%;
+    border: 1.5px solid #fff3e6;
+    transition: border-color 0.2s;
+}
+.search-form-wide:focus-within {
+    border-color: #ff6f3c;
+    box-shadow: 0 4px 16px rgba(255,111,60,0.10);
+}
+.search-form-wide input[type="search"] {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 1.1rem;
+    padding: 7px 10px 7px 0;
+    flex: 1 1 auto;
+    color: #222;
+    border-radius: 8px 0 0 8px;
+}
+.search-form-wide input[type="search"]::placeholder {
+    color: #bdbdbd;
+    font-size: 1.1rem;
+    opacity: 1;
+}
+.search-form-wide .logout-button {
+    background: #ff6f3c;
+    color: #fff;
+    border-radius: 0 8px 8px 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 7px 18px;
+    border: none;
+    margin-left: 0;
+    box-shadow: none;
+    transition: background 0.2s, color 0.2s;
+}
+.search-form-wide .logout-button:hover,
+.search-form-wide .logout-button:focus {
+    background: #e65c28;
+    color: #fff;
+}
+@media (max-width: 900px) {
+    .search-form-bar.search-form-bottom {
+        position: static;
+        padding-bottom: 0;
+    }
+    .search-form-wide {
+        max-width: 100%;
+        margin: 0 8px;
+    }
+}
+@media (max-width: 1200px) {
+    .search-form-wide {
+        position: static;
+        left: unset;
+        right: unset;
+        width: 100%;
+        margin-left: 0;
+    }
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    justify-content: flex-start;
+    margin: 30px 0 0 0;
+}
+
+.main-nav-left {
+    min-width: 120px;
+    margin-right: 0;
+}
+.main-nav-right {
+    min-width: 600px;
+    margin-left: 0;
+}
+
+.search-form-under-logo {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin: -38px 0 18px 200px; /* väčšie odsadenie od loga */
+    position: relative;
+    z-index: 20;
+}
+.search-form-under-logo .search-form-wide {
+    max-width: 420px;
+    width: 100%;
+    margin: 0;
+}
+@media (max-width: 900px) {
+    .search-form-under-logo {
+        margin-left: 0;
+        justify-content: center;
+    }
+}
+
+nav {
+    position: relative;
+    /* ...ostatné vlastnosti ostávajú... */
+}
+.search-form-bar.search-form-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 8px;
+    z-index: 50;
+}
+.search-form-wide {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    padding: 2px 8px 2px 14px;
+    max-width: 540px;
+    width: 100%;
+    border: 1.5px solid #fff3e6;
+    transition: border-color 0.2s;
+}
+.search-form-wide:focus-within {
+    border-color: #ff6f3c;
+    box-shadow: 0 4px 16px rgba(255,111,60,0.10);
+}
+.search-form-wide input[type="search"] {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 1.1rem;
+    padding: 7px 10px 7px 0;
+    flex: 1 1 auto;
+    color: #222;
+    border-radius: 8px 0 0 8px;
+}
+.search-form-wide input[type="search"]::placeholder {
+    color: #bdbdbd;
+    font-size: 1.1rem;
+    opacity: 1;
+}
+.search-form-wide .logout-button {
+    background: #ff6f3c;
+    color: #fff;
+    border-radius: 0 8px 8px 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 7px 18px;
+    border: none;
+    margin-left: 0;
+    box-shadow: none;
+    transition: background 0.2s, color 0.2s;
+}
+.search-form-wide .logout-button:hover,
+.search-form-wide .logout-button:focus {
+    background: #e65c28;
+    color: #fff;
+}
+@media (max-width: 900px) {
+    .search-form-bar.search-form-bottom {
+        position: static;
+        padding-bottom: 0;
+    }
+    .search-form-wide {
+        max-width: 100%;
+        margin: 0 8px;
+    }
 }
 

@@ -1,5 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Q
+from django.db.models.functions import Lower
 from products.models import Kategorie, Product
+
+try:
+    from django.db.models.functions import Unaccent
+    HAS_UNACCENT = True
+except ImportError:
+    HAS_UNACCENT = False
 
 
 def kategorie_list(request):
@@ -40,3 +48,33 @@ def product_detail(request, product_id):
 def slevy_list(request):
     produkty = Product.objects.filter(is_discounted=True, discount_price__isnull=False)
     return render(request, 'products/product_list.html', {'products': produkty})
+
+
+def product_search(request):
+    import unicodedata
+    def normalize(text):
+        return unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii').lower()
+
+    query = request.GET.get('q', '')
+    products = Product.objects.all()
+    if query:
+        norm_query = normalize(query)
+        if HAS_UNACCENT:
+            products = products.annotate(
+                cat_name=Lower(Unaccent('category__nazev')),
+                parent_name=Lower(Unaccent('category__parent__nazev')),
+                parent2_name=Lower(Unaccent('category__parent__parent__nazev')),
+                prod_name=Lower(Unaccent('name')),
+            ).filter(
+                Q(prod_name__contains=norm_query) |
+                Q(cat_name__contains=norm_query) |
+                Q(parent_name__contains=norm_query) |
+                Q(parent2_name__contains=norm_query)
+            ).distinct()
+        else:
+            # Fallback: remove accents from query and compare lowercased
+            products = [p for p in products if norm_query in normalize(p.name) or
+                        norm_query in normalize(p.category.nazev) or
+                        (p.category.parent and norm_query in normalize(p.category.parent.nazev)) or
+                        (p.category.parent and p.category.parent.parent and norm_query in normalize(p.category.parent.parent.nazev))]
+    return render(request, 'products/product_search_results.html', {'products': products, 'query': query})

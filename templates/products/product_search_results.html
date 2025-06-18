@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
-  <h2>Výsledky vyhledávání: "{{ query }}"</h2>
+  <h2>Výsledky vyhľadávania: "{{ query }}"</h2>
   {% if products %}
-    <div class="product-list">
+    <div class="product-grid">
       {% for product in products %}
         {% include "products/product_card.html" with product=product %}
       {% endfor %}
     </div>
   {% else %}
-    <p>Žádné produkty nenalezeny.</p>
+    <p>Žiadne produkty nenájdené.</p>
   {% endif %}
 {% endblock %}

@@ -11,63 +11,72 @@
 <body>
     <!-- Navigácia -->
     <nav>
-        <a href="{% url 'home' %}" class="logo-link">
-            <img src="{% static 'icons/logotype.svg' %}" alt="Foodsy Logo" class="logo-img">
-        </a>
-        <ul class="main-nav">
-            <li>
-                <a href="{% url 'home' %}">
-                    <img src="{% static 'icons/dum.svg' %}" alt="Domov" class="nav-icon">
-                    Hlavni
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'products:kategorie_list' %}">
-                    <img src="{% static 'icons/produkty.svg' %}" alt="Produkty" class="nav-icon">
-                    Produkty
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'discounts:discount_list' %}">
-                    <img src="{% static 'icons/slevy.svg' %}" alt="Slevy" class="nav-icon">
-                    Slevy
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'recipes:list' %}">
-                    <img src="{% static 'icons/recepty.svg' %}" alt="Recepty" class="nav-icon">
-                    Recepty
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'orders:orders' %}">
-                    <img src="{% static 'icons/objednavky.svg' %}" alt="Objednávky" class="nav-icon">
-                    Objednávky
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'basket:basket' %}">
-                    <img src="{% static 'icons/kosik.svg' %}" alt="Košík" class="nav-icon">
-                    Košík
-                    <span id="basket-count">{{ basket|length }}</span>
-                </a>
-            </li>
-        </ul>
-
-        <ul class="auth-links">
-            {% if user.is_authenticated %}
-                <li><span class="welcome">Vitaj, {{ user.username }}!</span></li>
+        <div class="nav-row">
+            <a href="{% url 'home' %}" class="logo-link">
+                <img src="{% static 'icons/logotype.svg' %}" alt="Foodsy Logo" class="logo-img">
+            </a>
+            <ul class="main-nav">
                 <li>
-                    <form method="POST" action="{% url 'logout' %}" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="logout-button">Odhlásiť sa</button>
-                    </form>
+                    <a href="{% url 'home' %}">
+                        <img src="{% static 'icons/dum.svg' %}" alt="Domov" class="nav-icon">
+                        Hlavni
+                    </a>
                 </li>
-            {% else %}
-                <li><a href="{% url 'login' %}">Prihlásiť sa</a></li>
-                <li><a href="{% url 'users:register' %}">Registrovať sa</a></li>
-            {% endif %}
-        </ul>
+                <li>
+                    <a href="{% url 'products:kategorie_list' %}">
+                        <img src="{% static 'icons/produkty.svg' %}" alt="Produkty" class="nav-icon">
+                        Produkty
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'discounts:discount_list' %}">
+                        <img src="{% static 'icons/slevy.svg' %}" alt="Slevy" class="nav-icon">
+                        Slevy
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'recipes:list' %}">
+                        <img src="{% static 'icons/recepty.svg' %}" alt="Recepty" class="nav-icon">
+                        Recepty
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'orders:orders' %}">
+                        <img src="{% static 'icons/objednavky.svg' %}" alt="Objednávky" class="nav-icon">
+                        Objednávky
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'basket:basket' %}">
+                        <img src="{% static 'icons/kosik.svg' %}" alt="Košík" class="nav-icon">
+                        Košík
+                        <span id="basket-count">{{ basket|length }}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="auth-top-right">
+            <ul class="auth-links">
+                {% if user.is_authenticated %}
+                    <li><span class="welcome">Vitaj, {{ user.username }}!</span></li>
+                    <li>
+                        <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="logout-button">Odhlásiť sa</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Prihlásiť sa</a></li>
+                    <li><a href="{% url 'users:register' %}">Registrovať sa</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="search-form-bar search-form-bottom">
+            <form method="get" action="{% url 'products:product_search' %}" class="search-form search-form-wide">
+                <input type="search" name="q" placeholder="Hledat produkt, kategorii nebo recept" value="{{ request.GET.q|default:'' }}">
+                <button type="submit" class="logout-button">Hledat</button>
+            </form>
+        </div>
     </nav>
 
     <!-- Slideshow (len ak je definovaný block) -->

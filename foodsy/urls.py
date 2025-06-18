@@ -13,7 +13,7 @@ urlpatterns = [
     path('', home, name='home'),  # Use the home view
 
     # Include app URLs with namespaces
-    path('products/', include(('products.urls', 'products'), namespace='products')),
+    path('products/', include('products.urls')),
     path('orders/', include(('orders.urls', 'orders'), namespace='orders')),
     path('basket/', include(('basket.urls', 'basket'), namespace='basket')),
     path('users/', include(('users.urls', 'users'), namespace='users')),
