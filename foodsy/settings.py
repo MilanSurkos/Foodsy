@@ -74,6 +74,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'foodsy.context_processors.kategorie_processor',
+                'foodsy.context_processors.basket',
             ],
         },
     },

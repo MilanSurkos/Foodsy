@@ -1,0 +1,32 @@
+{% load static %}
+{% load basket_tags %}
+<div class="product-card{% if card_class %} {{ card_class }}{% endif %}" data-product-id="{{ product.id }}">
+  {% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+  {% else %}
+    <img src="{% static 'images/default-food.jpg' %}" alt="Žádný obrázek">
+  {% endif %}
+  <h3>{{ product.name }}</h3>
+  <p class="description">{{ product.description|truncatewords:20 }}</p>
+  {% if product.is_discounted and product.discount_price %}
+    <p class="price">
+      <span style="text-decoration: line-through; color: #888;">{{ product.price }} Kč</span>
+      <span style="color: #d32f2f; font-weight: bold;">{{ product.discount_price }} Kč</span>
+    </p>
+  {% else %}
+    <p class="price">{{ product.price }} Kč</p>
+  {% endif %}
+  <p class="product-info">
+    <span>Jednotkové množství: {{ product.unit }}</span>
+  </p>
+  {% if basket|get_item:product.id %}
+    <div class="qty-control green-qty" style="display: flex; align-items: center; gap: 8px; margin: 10px 0;">
+      <button class="qty-btn green-btn" data-action="dec" style="min-width:32px;">−</button>
+      <input type="number" class="product-amount__input tw-font-strong" pattern="[0-9]*" min="0" max="50" step="1" value="{{ basket|get_item:product.id }}" aria-label="Množstvo v košíku" style="width: 48px; text-align: center; font-weight: bold; font-size: 1.1rem; margin: 0 4px;">
+      <button class="qty-btn green-btn" data-action="inc" style="min-width:32px;">+</button>
+    </div>
+  {% else %}
+    <button type="button" class="add-button green-btn" style="width:100%; margin:10px 0;">Přidat do košíku</button>
+  {% endif %}
+  <a href="{% url 'products:product_detail' product.id %}" class="button detail-btn" style="margin-top:8px; width:50%; font-size:0.9rem;">Detail</a>
+</div>

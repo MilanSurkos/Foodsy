@@ -1,13 +1,72 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load basket_tags %}
 
 {% block content %}
-  <h1>{{ product.name }}</h1>
-  {% if product.image %}
-    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-  {% endif %}
-  <p>{{ product.description }}</p>
-  <p>Cena: {{ product.price }} Kč</p>
-  <a href="{% url 'products:produkty_podla_kategorie' product.kategorie.id %}">Späť na kategóriu</a>
+<div class="container" style="max-width: 900px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); padding: 32px;">
+  <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;">
+    <div style="flex: 1 1 340px; display: flex; align-items: center; justify-content: center;">
+      {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 340px; height: 340px; object-fit: contain; border-radius: 14px; background: #f8f8f8;">
+      {% else %}
+        <img src="{% static 'images/default-food.jpg' %}" alt="Žádný obrázek" style="width: 340px; height: 340px; object-fit: contain; border-radius: 14px; background: #f8f8f8;">
+      {% endif %}
+    </div>
+    <div style="flex: 2 1 400px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;">
+      <h1 style="font-size: 2.5rem; margin-bottom: 18px; color: #ff6f3c; font-weight: 800;">{{ product.name }}</h1>
+      <p style="font-size: 2rem; color: #222; font-weight: bold; margin-bottom: 12px;">{{ product.price }} Kč</p>
+      <p style="font-size: 1.2rem; color: #666; margin-bottom: 24px;">Jednotkové množství: <b>{{ product.unit }}</b></p>
+      <div class="product-card" data-product-id="{{ product.id }}" style="box-shadow:none; background:none; padding:0; width:auto;">
+        <form class="add-to-basket-form" action="{% url 'basket:add_to_basket' product.id %}" method="post" style="margin-bottom: 18px; display: {% if basket|get_item:product.id %}none{% else %}block{% endif %};">
+          {% csrf_token %}
+          <button type="submit" class="add-button" style="width: 240px; font-size: 1.2rem;">Přidat do košíku</button>
+        </form>
+        <div class="qty-control" style="margin-bottom: 18px; display: {% if basket|get_item:product.id %}flex{% else %}none{% endif %};">
+          <button class="qty-btn" data-action="dec">−</button>
+          <span class="qty-number">{{ basket|get_item:product.id }}</span>
+          <button class="qty-btn" data-action="inc">+</button>
+          <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Záložky -->
+  <div style="margin-top: 40px;">
+    <ul class="tab-nav" style="display: flex; gap: 30px; border-bottom: 2px solid #eee; margin-bottom: 0;">
+      <li class="tab-link active" onclick="showTab(event, 'popis')" style="padding: 12px 0; cursor: pointer; font-weight: 700; color: #ff6f3c;">Popis</li>
+      <li class="tab-link" onclick="showTab(event, 'podobne')" style="padding: 12px 0; cursor: pointer; font-weight: 700;">Podobné produkty</li>
+      <li class="tab-link" onclick="showTab(event, 'recepty')" style="padding: 12px 0; cursor: pointer; font-weight: 700;">Recepty</li>
+    </ul>
+    <div id="popis" class="tab-content" style="padding: 24px 0;">{{ product.description|linebreaks }}</div>
+    <div id="podobne" class="tab-content" style="display:none; padding: 24px 0;">
+      {% if similar_products %}
+        <div class="product-grid similar-products-grid">
+          {% for product in similar_products %}
+            {% include "products/product_card.html" with product=product basket=basket card_class="small-card" %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <em>Žiadne ďalšie produkty v tejto podkategórii.</em>
+      {% endif %}
+    </div>
+    <div id="recepty" class="tab-content" style="display:none; padding: 24px 0;">
+      <!-- Tu môžeš vložiť recepty s týmto produktom -->
+      <em>Recepty s týmto produktom budú zobrazené tu.</em>
+    </div>
+  </div>
+
+  <button onclick="window.history.back()" class="button" style="margin: 20px 0 0 0;">&larr; Späť</button>
+</div>
+
+<script>
+function showTab(evt, tabId) {
+  document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
+  evt.target.classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  document.getElementById(tabId).style.display = 'block';
+}
+</script>
 {% endblock %}
+
 

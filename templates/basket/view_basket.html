@@ -25,7 +25,14 @@
             {% endif %}
             <span>{{ item.product.name }}</span>
           </td>
-          <td style="padding: 8px;">{{ item.product.price }} Kč</td>
+          <td style="padding: 8px;">
+            {% if item.product.is_discounted and item.product.discount_price %}
+              <span style="text-decoration: line-through; color: #888;">{{ item.product.price }} Kč</span><br>
+              <span style="color: #d32f2f; font-weight: bold;">{{ item.unit_price }} Kč</span>
+            {% else %}
+              {{ item.unit_price }} Kč
+            {% endif %}
+          </td>
           <td style="padding: 8px;">
             <div class="qty-control" style="display: flex; align-items: center; gap: 5px;">
               <button data-action="dec" style="padding: 2px 6px;">-</button>
@@ -131,7 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
             document.querySelector('div').remove();
             const contentBlock = document.querySelector('h2').parentElement;
             const p = document.createElement('p');
-            p.textContent = 'Váš košík je prázdný.';
+            p.textContent = 'Váš košík je prázdny.';
             contentBlock.appendChild(p);
           }
         } else {

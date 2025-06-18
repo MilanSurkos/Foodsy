@@ -392,11 +392,59 @@ form input[type="number"]:focus {
     color: #fff;
     border-radius: 8px;
     font-weight: 700;
-    font-size: 1rem;
-    padding: 12px 28px;
+    font-size: 0.9rem;
+    padding: 8px 14px;
     border: none;
-    min-width: 160px;
+    min-width: 80px;
+    width: 50%;
     box-shadow: 0 2px 6px rgba(255, 111, 60, 0.15);
     margin-top: 8px;
+    display: inline-block;
+    text-align: center;
+    transition: background 0.3s;
+}
+.button.detail-btn:hover,
+.button.detail-btn:focus {
+    background: #e65c28;
+    color: #fff;
+}
+
+.green-btn {
+    background-color: #4caf50 !important;
+    color: #fff !important;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 6px rgba(76,175,80,0.15);
+}
+.green-btn:hover, .green-btn:focus {
+    background-color: #388e3c !important;
+    color: #fff !important;
+}
+
+.green-qty {
+    background: #e8f5e9;
+    border-radius: 8px;
+    padding: 4px 8px;
+    box-shadow: 0 2px 6px rgba(76,175,80,0.08);
+}
+
+.qty-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.qty-number {
+    min-width: 24px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #388e3c;
 }
 

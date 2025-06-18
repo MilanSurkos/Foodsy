@@ -1,12 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
-{% load basket_tags %}
 
 {% block content %}
-<h1>Naša ponuka produktov</h1>
+<h2>Slevy</h2>
 <div class="product-grid">
   {% for product in products %}
     {% include "products/product_card.html" with product=product basket=basket %}
+  {% empty %}
+    <p>Žádné zlevněné produkty.</p>
   {% endfor %}
 </div>
 {% endblock %}

@@ -1,4 +1,5 @@
 {% load static %}
+{% load basket_tags %}
 <!DOCTYPE html>
 <html lang="sk">
 <head>
@@ -27,7 +28,7 @@
                 </a>
             </li>
             <li>
-                <a href="{% url 'products:slevy' %}">
+                <a href="{% url 'discounts:discount_list' %}">
                     <img src="{% static 'icons/slevy.svg' %}" alt="Slevy" class="nav-icon">
                     Slevy
                 </a>
@@ -48,6 +49,7 @@
                 <a href="{% url 'basket:basket' %}">
                     <img src="{% static 'icons/kosik.svg' %}" alt="Košík" class="nav-icon">
                     Košík
+                    <span id="basket-count">{{ basket|length }}</span>
                 </a>
             </li>
         </ul>
