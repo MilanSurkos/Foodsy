@@ -1,0 +1,25 @@
+{# recipes/templates/recipes/recipe_detail.html #}
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ object.title }}</h1>
+
+  <p><strong>Popis:</strong> {{ object.description }}</p>
+  <p><strong>Doba přípravy:</strong> {{ object.cooking_time }} minut</p>
+  <p><strong>Porcí:</strong> {{ object.servings }}</p>
+
+  <h2>Ingredience</h2>
+  <ul>
+    {% for ing in object.ingredients.all %}
+      <li>{{ ing.name }} — {{ ing.quantity }}</li>
+    {% empty %}
+      <li>Žádné ingredience</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Postup</h2>
+  <div>
+    {{ object.instructions|linebreaks }}
+  </div>
+
+  <a href="{% url 'recipes:recipe-list' %}">← Zpět na seznam</a>
+{% endblock %}

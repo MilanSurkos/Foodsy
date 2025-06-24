@@ -78,3 +78,20 @@ def product_search(request):
                         (p.category.parent and norm_query in normalize(p.category.parent.nazev)) or
                         (p.category.parent and p.category.parent.parent and norm_query in normalize(p.category.parent.parent.nazev))]
     return render(request, 'products/product_search_results.html', {'products': products, 'query': query})
+#pro admina - spravce
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import ProductForm
+from .models import Product
+
+class ProductCreateView(LoginRequiredMixin, CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'products/product_form.html'
+    success_url = reverse_lazy('product-list')
+
+class ProductListView(ListView):
+    model = Product
+    template_name = 'products/product_list.html'
+    context_object_name = 'products'
