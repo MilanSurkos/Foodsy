@@ -25,19 +25,23 @@
   <p class="product-info">
     <span>Jednotkové množství: {{ product.unit }}</span>
   </p>
-  {% if basket|get_item:product.id %}
-    <div class="qty-control green-qty" style="display: flex; align-items: center; gap: 8px; margin: 10px 0;">
-      <button class="qty-btn green-btn" data-action="dec" style="min-width:32px;">−</button>
-      <input type="number" class="product-amount__input tw-font-strong" pattern="[0-9]*" min="0" max="50" step="1" value="{{ basket|get_item:product.id }}" aria-label="Množstvo v košíku" style="width: 48px; text-align: center; font-weight: bold; font-size: 1.1rem; margin: 0 4px;">
-      <button class="qty-btn green-btn" data-action="inc" style="min-width:32px;">+</button>
-    </div>
-  {% else %}
-    <button type="button" class="add-button green-btn" style="width:100%; margin:10px 0;">Přidat do košíku</button>
-  {% endif %}
+  <div class="basket-action" data-product-id="{{ product.id }}">
+    {% if basket|get_item:product.id %}
+      <div class="qty has-unit">
+        <button class="minus">−</button>
+        <span class="qty-value">{{ basket|get_item:product.id }}</span>
+        <span class="qty-unit">kus</span>
+        <button class="plus">+</button>
+      </div>
+    {% else %}
+      <button type="button" class="add-button green-btn" data-product-id="{{ product.id }}" style="width:100%; margin:10px 0;">Přidat do košíku</button>
+    {% endif %}
+  </div>
   <a href="{% url 'products:product_detail' product.id %}" class="button detail-btn" style="margin-top:8px; width:50%; font-size:0.9rem;">Detail</a>
 </div>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+    // EUR conversion
     const eurSpans = document.querySelectorAll('.eur-price');
     eurSpans.forEach(function(span) {
       const czk = span.getAttribute('data-czk');
@@ -51,5 +55,140 @@
           document.getElementById(id).textContent = 'Nedostupné';
         });
     });
+
+    // AJAX basket logic
+    document.querySelectorAll('.add-button').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const productId = btn.getAttribute('data-product-id');
+        fetch(`/basket/pridat/${productId}/`, {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: 'quantity=1'
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            const basketDiv = btn.closest('.basket-action');
+            basketDiv.innerHTML = `
+              <div class="qty has-unit">
+                <button class="minus">−</button>
+                <span class="qty-value">1</span>
+                <span class="qty-unit">kus</span>
+                <button class="plus">+</button>
+              </div>`;
+            attachQtyHandlers(basketDiv, productId);
+            // Aktualizovať počet v hlavičke ihneď
+            if (typeof data.basket_count !== 'undefined') {
+              updateBasketCount(data.basket_count);
+            }
+          } else {
+            console.error('Chyba pri pridávaní do košíka:', data);
+          }
+        })
+        .catch(err => {
+          console.error('AJAX chyba:', err);
+        });
+      });
+    });
+
+    function attachQtyHandlers(basketDiv, productId) {
+      const minusBtn = basketDiv.querySelector('.minus');
+      const plusBtn = basketDiv.querySelector('.plus');
+      const valueSpan = basketDiv.querySelector('.qty-value');
+      if (minusBtn) minusBtn.addEventListener('click', function() {
+        let current = parseInt(valueSpan.textContent);
+        if (current <= 1) {
+          // Prepni späť na tlačidlo
+          basketDiv.innerHTML = `<button type=\"button\" class=\"add-button green-btn\" data-product-id=\"${productId}\" style=\"width:100%; margin:10px 0;\">Přidat do košíku</button>`;
+          basketDiv.querySelector('.add-button').addEventListener('click', function() {
+            document.querySelectorAll('.add-button').forEach(function(btn) { btn.click = null; });
+            btn.click();
+          });
+          // AJAX na nastavenie na 0 (odstránenie)
+          fetch('/basket/update-quantity/', {
+            method: 'POST',
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'X-CSRFToken': getCookie('csrftoken'),
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `produkt_id=${productId}&action=dec`
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (typeof data.basket_count !== 'undefined') {
+              updateBasketCount(data.basket_count);
+            }
+          });
+        } else {
+          fetch('/basket/update-quantity/', {
+            method: 'POST',
+            headers: {
+              'X-Requested-With': 'XMLHttpRequest',
+              'X-CSRFToken': getCookie('csrftoken'),
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `produkt_id=${productId}&action=dec`
+          })
+          .then(res => res.json())
+          .then(data => {
+            if (data.success) {
+              valueSpan.textContent = data.new_qty;
+              if (typeof data.basket_count !== 'undefined') {
+                updateBasketCount(data.basket_count);
+              }
+            }
+          });
+        }
+      });
+      if (plusBtn) plusBtn.addEventListener('click', function() {
+        fetch('/basket/update-quantity/', {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `produkt_id=${productId}&action=inc`
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            valueSpan.textContent = data.new_qty;
+            if (typeof data.basket_count !== 'undefined') {
+              updateBasketCount(data.basket_count);
+            }
+          }
+        });
+      });
+    }
+
+    // Pripojiť handlery na existujúce počítadlá
+    document.querySelectorAll('.basket-action').forEach(function(div) {
+      const productId = div.getAttribute('data-product-id');
+      if (div.querySelector('.qty.has-unit')) {
+        attachQtyHandlers(div, productId);
+      }
+    });
+
+    // Helper na získanie CSRF tokenu
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
   });
 </script>

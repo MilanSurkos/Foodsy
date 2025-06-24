@@ -14,7 +14,11 @@
     </div>
     <div style="flex: 2 1 400px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;">
       <h1 style="font-size: 2.5rem; margin-bottom: 18px; color: #ff6f3c; font-weight: 800;">{{ product.name }}</h1>
-      <p style="font-size: 2rem; color: #222; font-weight: bold; margin-bottom: 12px;">{{ product.price }} Kč</p>
+      <p style="font-size: 2rem; color: #222; font-weight: bold; margin-bottom: 12px;">
+        {{ product.price }} Kč
+        <br>
+        <span class="eur-price" data-czk="{{ product.price }}"><span id="eur-price-{{ product.id }}">...</span></span>
+      </p>
       <p style="font-size: 1.2rem; color: #666; margin-bottom: 24px;">Jednotkové množství: <b>{{ product.unit }}</b></p>
       <div class="product-card" data-product-id="{{ product.id }}" style="box-shadow:none; background:none; padding:0; width:auto;">
         <form class="add-to-basket-form" action="{% url 'basket:add_to_basket' product.id %}" method="post" style="margin-bottom: 18px; display: {% if basket|get_item:product.id %}none{% else %}block{% endif %};">
@@ -66,6 +70,26 @@ function showTab(evt, tabId) {
   document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
   document.getElementById(tabId).style.display = 'block';
 }
+</script>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const eurSpan = document.querySelector('.eur-price');
+  if (eurSpan) {
+    const czk = eurSpan.getAttribute('data-czk');
+    const id = eurSpan.querySelector('span').id;
+    fetch(`https://api.frankfurter.app/latest?amount=${czk}&from=CZK&to=EUR`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById(id).textContent = data.rates.EUR.toFixed(2) + ' €';
+      })
+      .catch(() => {
+        document.getElementById(id).textContent = 'Nedostupné';
+      });
+  }
+});
 </script>
 {% endblock %}
 
