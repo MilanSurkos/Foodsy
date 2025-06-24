@@ -62,8 +62,11 @@
     </tbody>
   </table>
 
-  <div style="margin-top: 20px;" id="order-link-block">
-    <a href="{% url 'orders:create_order' %}" class="btn btn-primary">Přejít k objednávce</a>
+  <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: flex-end;">
+    <button onclick="window.history.back()" class="button" style="margin: 0;">&larr; Späť</button>
+    <div id="order-link-block">
+      <a href="{% url 'orders:create_order' %}" class="btn btn-primary">Přejít k objednávce</a>
+    </div>
   </div>
 
 {% else %}
@@ -101,6 +104,18 @@ document.addEventListener('DOMContentLoaded', function () {
           const newTotal = (unitPrice * data.new_qty).toFixed(2);
           itemTotalElem.textContent = newTotal;
 
+          // Aktualizovať cenu v EUR pre tento riadok
+          const eurSpan = row.querySelector('.eur-price');
+          const eurId = eurSpan.querySelector('span').id;
+          fetch(`https://api.frankfurter.app/latest?amount=${newTotal}&from=CZK&to=EUR`)
+            .then(res => res.json())
+            .then(data => {
+              document.getElementById(eurId).textContent = data.rates.EUR.toFixed(2) + ' €';
+            })
+            .catch(() => {
+              document.getElementById(eurId).textContent = 'Nedostupné';
+            });
+
           // Prepočítať celkovú cenu v košíku
           let newTotalPrice = 0;
           document.querySelectorAll('.item-total').forEach(el => {
@@ -108,50 +123,24 @@ document.addEventListener('DOMContentLoaded', function () {
           });
           document.getElementById('total-price').textContent = newTotalPrice.toFixed(2);
 
+          // Aktualizovať cenu v EUR pre celkovú sumu
+          const totalEurSpan = document.getElementById('eur-total-price');
+          if (totalEurSpan) {
+            const totalPrice = document.getElementById('total-price').textContent;
+            fetch(`https://api.frankfurter.app/latest?amount=${totalPrice}&from=CZK&to=EUR`)
+              .then(res => res.json())
+              .then(data => {
+                totalEurSpan.textContent = data.rates.EUR.toFixed(2) + ' €';
+              })
+              .catch(() => {
+                totalEurSpan.textContent = 'Nedostupné';
+              });
+          }
+
           // Aktualizovať počet v hlavičke
           if (typeof data.basket_count !== 'undefined') {
             const basketCount = document.getElementById('basket-count');
             if (basketCount) basketCount.textContent = data.basket_count;
-          }
-
-          // Ak je nová hodnota 0, nahradiť riadok tlačidlom "Přidat do košíku"
-          if (data.new_qty === 0) {
-            const td = control.parentElement;
-            td.innerHTML = `<button type="button" class="add-button green-btn" style="width:100%; margin:10px 0;">Přidat do košíku</button>`;
-            const addBtn = td.querySelector('.add-button');
-            addBtn.addEventListener('click', function() {
-              // AJAX na opätovné pridanie produktu
-              fetch("{% url 'basket:add_to_basket' 0 %}".replace('0', productId), {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded',
-                  'X-CSRFToken': '{{ csrf_token }}'
-                },
-                body: 'quantity=1'
-              })
-              .then(res => res.json())
-              .then(data => {
-                if (data.success) {
-                  td.innerHTML = `
-                    <div class=\"qty-control\" style=\"display: flex; align-items: center; gap: 5px;\">
-                      <button data-action=\"dec\" style=\"padding: 2px 6px;\">-</button>
-                      <span class=\"qty-number\">1</span> <span>kus</span>
-                      <button data-action=\"inc\" style=\"padding: 2px 6px;\">+</button>
-                    </div>`;
-                  // Znovu pripojiť handler na nové ovládanie
-                  const newControl = td.querySelector('.qty-control');
-                  if (newControl) {
-                    // Rekurzívne pripojiť handler
-                    newControl.addEventListener('click', control.onclick);
-                  }
-                  // Aktualizovať počet v hlavičke
-                  if (typeof data.basket_count !== 'undefined') {
-                    const basketCount = document.getElementById('basket-count');
-                    if (basketCount) basketCount.textContent = data.basket_count;
-                  }
-                }
-              });
-            });
           }
         }
       });

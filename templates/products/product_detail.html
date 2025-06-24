@@ -20,17 +20,17 @@
         <span class="eur-price" data-czk="{{ product.price }}"><span id="eur-price-{{ product.id }}">...</span></span>
       </p>
       <p style="font-size: 1.2rem; color: #666; margin-bottom: 24px;">Jednotkové množství: <b>{{ product.unit }}</b></p>
-      <div class="product-card" data-product-id="{{ product.id }}" style="box-shadow:none; background:none; padding:0; width:auto;">
-        <form class="add-to-basket-form" action="{% url 'basket:add_to_basket' product.id %}" method="post" style="margin-bottom: 18px; display: {% if basket|get_item:product.id %}none{% else %}block{% endif %};">
-          {% csrf_token %}
-          <button type="submit" class="add-button" style="width: 240px; font-size: 1.2rem;">Přidat do košíku</button>
-        </form>
-        <div class="qty-control" style="margin-bottom: 18px; display: {% if basket|get_item:product.id %}flex{% else %}none{% endif %};">
-          <button class="qty-btn" data-action="dec">−</button>
-          <span class="qty-number">{{ basket|get_item:product.id }}</span>
-          <button class="qty-btn" data-action="inc">+</button>
-          <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-        </div>
+      <div class="basket-action" data-product-id="{{ product.id }}">
+        {% if basket|get_item:product.id %}
+          <div class="qty has-unit">
+            <button class="minus">−</button>
+            <span class="qty-value">{{ basket|get_item:product.id }}</span>
+            <span class="qty-unit">kus</span>
+            <button class="plus">+</button>
+          </div>
+        {% else %}
+          <button type="button" class="add-button green-btn" data-product-id="{{ product.id }}" style="width:100%; margin:10px 0;">Přidat do košíku</button>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -88,6 +88,130 @@ document.addEventListener('DOMContentLoaded', function() {
       .catch(() => {
         document.getElementById(id).textContent = 'Nedostupné';
       });
+  }
+
+  // AJAX basket logic for product detail
+  const basketAction = document.querySelector('.basket-action');
+  if (!basketAction) return;
+  const productId = basketAction.getAttribute('data-product-id');
+  function updateBasketHtml(qty) {
+    if (qty > 0) {
+      basketAction.innerHTML = `
+        <div class=\"qty has-unit\">
+          <button class=\"minus\">−</button>
+          <span class=\"qty-value\">${qty}</span>
+          <span class=\"qty-unit\">kus</span>
+          <button class=\"plus\">+</button>
+        </div>`;
+      attachQtyHandlers(basketAction, productId);
+    } else {
+      basketAction.innerHTML = `<button type=\"button\" class=\"add-button green-btn\" data-product-id=\"${productId}\" style=\"width:100%; margin:10px 0;\">Přidat do košíku</button>`;
+      basketAction.querySelector('.add-button').addEventListener('click', addToBasketHandler);
+    }
+  }
+  function addToBasketHandler() {
+    fetch(`/basket/pridat/${productId}/`, {
+      method: 'POST',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRFToken': getCookie('csrftoken'),
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: 'quantity=1'
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        updateBasketHtml(1);
+        if (typeof data.basket_count !== 'undefined') {
+          updateBasketCount(data.basket_count);
+        }
+      }
+    });
+  }
+  function attachQtyHandlers(basketDiv, productId) {
+    const minusBtn = basketDiv.querySelector('.minus');
+    const plusBtn = basketDiv.querySelector('.plus');
+    const valueSpan = basketDiv.querySelector('.qty-value');
+    if (minusBtn) minusBtn.addEventListener('click', function() {
+      let current = parseInt(valueSpan.textContent);
+      if (current <= 1) {
+        updateBasketHtml(0);
+        fetch('/basket/update-quantity/', {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `produkt_id=${productId}&action=dec`
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (typeof data.basket_count !== 'undefined') {
+            updateBasketCount(data.basket_count);
+          }
+        });
+      } else {
+        fetch('/basket/update-quantity/', {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `produkt_id=${productId}&action=dec`
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            valueSpan.textContent = data.new_qty;
+            if (typeof data.basket_count !== 'undefined') {
+              updateBasketCount(data.basket_count);
+            }
+          }
+        });
+      }
+    });
+    if (plusBtn) plusBtn.addEventListener('click', function() {
+      fetch('/basket/update-quantity/', {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `produkt_id=${productId}&action=inc`
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          valueSpan.textContent = data.new_qty;
+          if (typeof data.basket_count !== 'undefined') {
+            updateBasketCount(data.basket_count);
+          }
+        }
+      });
+    });
+  }
+  if (basketAction.querySelector('.add-button')) {
+    basketAction.querySelector('.add-button').addEventListener('click', addToBasketHandler);
+  } else if (basketAction.querySelector('.qty.has-unit')) {
+    attachQtyHandlers(basketAction, productId);
+  }
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
   }
 });
 </script>

@@ -34,21 +34,14 @@
 
 <section class="container featured-products">
     <h2>Cenové trháky</h2>
-    {% if featured_products %}
-        <div class="product-carousel">
-            {% for product in featured_products %}
-                <div class="product-card">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                    <div class="info">
-                        <h4>{{ product.name }}</h4>
-                        <p>{{ product.price }} €</p>
-                        <a href="{% url 'products:product_detail' product.id %}" class="button">Detail</a>
-                    </div>
-                </div>
+    {% if discounts_products and discounts_products.exists %}
+        <div class="product-grid">
+            {% for product in discounts_products %}
+                {% include "products/product_card.html" with product=product basket=basket %}
             {% endfor %}
         </div>
     {% else %}
-        <p>Momentálne nie sú k dispozícii žiadne odporúčané produkty.</p>
+        <p>Momentálne nie sú k dispozícii žiadne zľavnené produkty.</p>
     {% endif %}
 </section>
 {% endblock %}
