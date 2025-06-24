@@ -12,9 +12,15 @@
     <p class="price">
       <span style="text-decoration: line-through; color: #888;">{{ product.price }} Kč</span>
       <span style="color: #d32f2f; font-weight: bold;">{{ product.discount_price }} Kč</span>
+      <br>
+      <span class="eur-price" data-czk="{{ product.discount_price }}"><span id="eur-price-{{ product.id }}">...</span></span>
     </p>
   {% else %}
-    <p class="price">{{ product.price }} Kč</p>
+    <p class="price">
+      {{ product.price }} Kč
+      <br>
+      <span class="eur-price" data-czk="{{ product.price }}"><span id="eur-price-{{ product.id }}">...</span></span>
+    </p>
   {% endif %}
   <p class="product-info">
     <span>Jednotkové množství: {{ product.unit }}</span>
@@ -30,3 +36,20 @@
   {% endif %}
   <a href="{% url 'products:product_detail' product.id %}" class="button detail-btn" style="margin-top:8px; width:50%; font-size:0.9rem;">Detail</a>
 </div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const eurSpans = document.querySelectorAll('.eur-price');
+    eurSpans.forEach(function(span) {
+      const czk = span.getAttribute('data-czk');
+      const id = span.querySelector('span').id;
+      fetch(`https://api.frankfurter.app/latest?amount=${czk}&from=CZK&to=EUR`)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById(id).textContent = data.rates.EUR.toFixed(2) + ' €';
+        })
+        .catch(() => {
+          document.getElementById(id).textContent = 'Nedostupné';
+        });
+    });
+  });
+</script>
