@@ -76,4 +76,5 @@ def create_order(request):
         return redirect('orders:orders')
 
     # If GET request, just render the form template
-    return render(request, 'orders/create_order.html')
+    delivery_time_choices = Order.DELIVERY_TIME_CHOICES
+    return render(request, 'orders/create_order.html', {'delivery_time_choices': delivery_time_choices})

@@ -4,27 +4,27 @@ from products.models import Product
 
 class Order(models.Model):
     STATUS_CHOICES = [
-        ('nova', 'Nova'),
-        ('spracovanie', 'Spracovanie'),
-        ('odoslana', 'Odoslaná'),
-        ('dorucena', 'Doručená'),
+        ('nova', 'Nová'),
+        ('zpracovani', 'Zpracování'),
+        ('odeslano', 'Odesláno'),
+        ('dorucena', 'Doručena'),
     ]
 
     PLATBA_CHOICES = [
-        ('uhradena', 'Uhradená'),
-        ('cakajuca na platbu', 'Čakajúca na platbu'),
+        ('uhrazena', 'Uhrazená'),
+        ('cekajici na platbu', 'Čekající na platbu'),
     ]
 
     DELIVERY_TIME_CHOICES = [
         ('morning', 'Ráno (8:00 - 12:00)'),
-        ('afternoon', 'Popoludnie (12:00 - 18:00)'),
+        ('afternoon', 'Odpoledne (12:00 - 18:00)'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     delivery_address = models.CharField(max_length=255)
     date = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='nova')
-    platba = models.CharField(max_length=50, choices=PLATBA_CHOICES, default='cakajuca na platbu')
+    platba = models.CharField(max_length=50, choices=PLATBA_CHOICES, default='cekajici na platbu')
     delivery_time = models.CharField(max_length=10, choices=DELIVERY_TIME_CHOICES, default='morning')
 
     def __str__(self):

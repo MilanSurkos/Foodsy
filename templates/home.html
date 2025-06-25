@@ -27,9 +27,9 @@
 
 {% block content %}
 <section class="container hero">
-    <h1>Vitajte na Foodsy!</h1>
-    <p>Objednajte si svoje obľúbené jedlá online z pohodlia domova. Čerstvé suroviny, rýchle doručenie a široký výber pre každú chuť.</p>
-    <a href="{% url 'products:kategorie_list' %}" class="button">Prejsť na ponuku</a>
+    <h1>Vítejte na Foodsy!</h1>
+    <p>Objednejte si svá oblíbená jídla online z pohodlí domova. Čerstvé suroviny, rychlé doručení a široký výběr pro každou chuť.</p>
+    <a href="{% url 'products:kategorie_list' %}" class="button">Přejít na nabídku</a>
 </section>
 
 <section class="container featured-products">
@@ -41,7 +41,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <p>Momentálne nie sú k dispozícii žiadne zľavnené produkty.</p>
+        <p>Momentálně nejsou k dispozici žádné zlevněné produkty.</p>
     {% endif %}
 </section>
 {% endblock %}

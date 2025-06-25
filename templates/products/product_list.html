@@ -3,7 +3,7 @@
 {% load basket_tags %}
 
 {% block content %}
-<h1>Naša ponuka produktov</h1>
+<h1>Naše nabídka produktů</h1>
 <div class="product-grid">
   {% for product in products %}
     {% include "products/product_card.html" with product=product basket=basket %}
