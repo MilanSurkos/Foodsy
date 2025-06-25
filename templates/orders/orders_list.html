@@ -34,24 +34,51 @@
       </table>
 
       <p style="text-align: right; font-weight: bold; margin-top: 15px; font-size: 1.2em;">
-        <span>Celkom bez doručenia:</span> {{ order.total_price|floatformat:2 }} Kč
+        <span>Celkom bez doručenia:</span> {{ order.total_price|floatformat:2 }} Kč<br>
+        <span class="eur-price" data-czk="{{ order.total_price|floatformat:2 }}"><span id="eur-total-{{ order.id }}">...</span></span>
       </p>
 
       <p style="text-align: right; font-weight: bold; margin-top: 5px; font-size: 1.1em; color: #555;">
         <span>Doručenie:</span>
         {% if order.delivery_cost == 0 %}
-          Zdarma
+          Zdarma<br>
+          <span class="eur-price" data-czk="0"><span id="eur-delivery-{{ order.id }}">0.00 €</span></span>
         {% else %}
-          {{ order.delivery_cost|floatformat:2 }} Kč
+          {{ order.delivery_cost|floatformat:2 }} Kč<br>
+          <span class="eur-price" data-czk="{{ order.delivery_cost|floatformat:2 }}"><span id="eur-delivery-{{ order.id }}">...</span></span>
         {% endif %}
       </p>
 
       <p style="text-align: right; font-weight: bold; margin-top: 10px; font-size: 1.4em; color: #000;">
-        Celkom s doručením: {{ order.total_price|add:order.delivery_cost|floatformat:2 }} Kč
+        Celkom s doručením: {{ order.total_price|add:order.delivery_cost|floatformat:2 }} Kč<br>
+        <span class="eur-price" data-czk="{{ order.total_price|add:order.delivery_cost|floatformat:2 }}"><span id="eur-grand-{{ order.id }}">...</span></span>
       </p>
     </div>
   {% endfor %}
 {% else %}
   <p>Nemáte žiadne objednávky.</p>
 {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.eur-price').forEach(function(span) {
+    const czk = span.getAttribute('data-czk');
+    const id = span.querySelector('span').id;
+    if (parseFloat(czk) === 0) {
+      document.getElementById(id).textContent = '0.00 €';
+      return;
+    }
+    fetch(`https://api.frankfurter.app/latest?amount=${czk}&from=CZK&to=EUR`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById(id).textContent = data.rates.EUR.toFixed(2) + ' €';
+      })
+      .catch(() => {
+        document.getElementById(id).textContent = 'Nedostupné';
+      });
+  });
+});
+</script>
 {% endblock %}
