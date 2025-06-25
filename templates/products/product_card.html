@@ -83,7 +83,12 @@
             attachQtyHandlers(basketDiv, productId);
             // Aktualizovať počet v hlavičke ihneď
             if (typeof data.basket_count !== 'undefined') {
-              updateBasketCount(data.basket_count);
+              if (typeof updateBasketCount === 'function') {
+                updateBasketCount(data.basket_count);
+              } else {
+                const basketCount = document.getElementById('basket-count');
+                if (basketCount) basketCount.textContent = data.basket_count;
+              }
             }
           } else {
             console.error('Chyba pri pridávaní do košíka:', data);

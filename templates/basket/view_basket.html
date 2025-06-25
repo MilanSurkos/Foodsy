@@ -70,7 +70,7 @@
   </div>
 
 {% else %}
-  <p>Váš košík je prázdný.</p>
+  <p>Váš košík je prázdny.</p>
 {% endif %}
 {% endblock %}
 
@@ -100,20 +100,43 @@ document.addEventListener('DOMContentLoaded', function () {
       .then(res => res.json())
       .then(data => {
         if (data.success) {
+          if (data.new_qty === 0) {
+            // Odstrániť riadok produktu z tabuľky
+            row.remove();
+            // Aktualizovať počet produktov v hlavičke
+            if (typeof updateBasketCount === 'function') {
+              updateBasketCount();
+            } else if (typeof data.basket_count !== 'undefined') {
+              const basketCount = document.getElementById('basket-count');
+              if (basketCount) basketCount.textContent = data.basket_count;
+            }
+            // Skryť linku na objednávku ak je košík prázdny
+            if (document.querySelectorAll('tbody tr').length === 1) {
+              document.querySelector('table').remove();
+              const orderLinkBlock = document.getElementById('order-link-block');
+              if (orderLinkBlock) orderLinkBlock.remove();
+              const contentBlock = document.querySelector('h2').parentElement;
+              const p = document.createElement('p');
+              p.textContent = 'Váš košík je prázdny.';
+              contentBlock.appendChild(p);
+            }
+            return;
+          }
           qtyElem.textContent = data.new_qty;
           const newTotal = (unitPrice * data.new_qty).toFixed(2);
           itemTotalElem.textContent = newTotal;
 
-          // Aktualizovať cenu v EUR pre tento riadok
-          const eurSpan = row.querySelector('.eur-price');
-          const eurId = eurSpan.querySelector('span').id;
+          // Aktualizovať cenu v EUR pre tento riadok v stĺpci Cena celkem
+          const eurTotalSpan = row.querySelector('td:nth-child(4) .eur-price');
+          const eurTotalId = eurTotalSpan.querySelector('span').id;
+          document.getElementById(eurTotalId).textContent = '...';
           fetch(`https://api.frankfurter.app/latest?amount=${newTotal}&from=CZK&to=EUR`)
             .then(res => res.json())
             .then(data => {
-              document.getElementById(eurId).textContent = data.rates.EUR.toFixed(2) + ' €';
+              document.getElementById(eurTotalId).textContent = data.rates.EUR.toFixed(2) + ' €';
             })
             .catch(() => {
-              document.getElementById(eurId).textContent = 'Nedostupné';
+              document.getElementById(eurTotalId).textContent = 'Nedostupné';
             });
 
           // Prepočítať celkovú cenu v košíku
@@ -135,12 +158,6 @@ document.addEventListener('DOMContentLoaded', function () {
               .catch(() => {
                 totalEurSpan.textContent = 'Nedostupné';
               });
-          }
-
-          // Aktualizovať počet v hlavičke
-          if (typeof data.basket_count !== 'undefined') {
-            const basketCount = document.getElementById('basket-count');
-            if (basketCount) basketCount.textContent = data.basket_count;
           }
         }
       });
@@ -181,6 +198,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const p = document.createElement('p');
             p.textContent = 'Váš košík je prázdny.';
             contentBlock.appendChild(p);
+          }
+
+          // Aktualizovať počet produktov v hlavičke (unikátne typy)
+          if (typeof updateBasketCount === 'function') {
+            updateBasketCount();
+          } else if (typeof data.basket_count !== 'undefined') {
+            const basketCount = document.getElementById('basket-count');
+            if (basketCount) basketCount.textContent = data.basket_count;
           }
         } else {
           alert('Nepodarilo sa odstrániť produkt z košíka.');
