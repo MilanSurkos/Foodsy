@@ -690,6 +690,7 @@ nav {
     border: none;
     font-weight: 700;
     border-radius: 8px;
+    height: 50px;
     transition: background 0.2s;
     box-shadow: 0 4px 10px rgba(67, 185, 110, 0.18);
 }
