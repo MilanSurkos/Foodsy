@@ -1,6 +1,26 @@
+{# templates/recipes/recipe_list.html #}
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Recepty</h1>
-<p>Tady budou recepty...</p>
+<div class="container mt-4">
+  <h1 class="mb-4">Seznam receptů</h1>
+  <p>
+    <a href="{% url 'recipes:recipe-add' %}" class="btn btn-success">
+      Přidat nový recept
+    </a>
+  </p>
+
+  {% if recipes %}
+    <ul class="list-group">
+      {% for recipe in recipes %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <a href="{% url 'recipes:recipe-detail' recipe.pk %}">{{ recipe.title }}</a>
+          <small>{{ recipe.created|date:"d.m.Y" }}</small>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Žádné recepty nebyly nalezeny.</p>
+  {% endif %}
+</div>
 {% endblock %}

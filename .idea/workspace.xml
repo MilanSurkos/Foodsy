@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="recipes/, resipes/add/, recipes/1/, products/add">
-      <change beforePath="$PROJECT_DIR$/.idea/Foodsy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Foodsy.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/foodsy/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/foodsy/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/recipes/recipe_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/recipes/recipe_list.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +50,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Features" />
+        <entry key="$PROJECT_DIR$" value="44a7211e8f2b3abfaa1ed61334ea113d37ed228a" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -90,7 +93,7 @@
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "features__tetiana",
+    "git-widget-placeholder": "#2 on Features",
     "last_opened_file_path": "C:/Users/User/PycharmProjects/FoodsyTina/static/icons",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
