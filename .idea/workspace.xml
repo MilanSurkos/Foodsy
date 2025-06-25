@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="TESTY košík">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/orders/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/orders/tests.py" afterDir="false" />
-    </list>
+    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="TESTY objednavky" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -387,7 +384,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750872811183</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="TESTY objednavky">
+      <option name="closed" value="true" />
+      <created>1750873727320</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1750873727320</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -425,7 +430,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Requirements subor" />
     <MESSAGE value="test : form html" />
     <MESSAGE value="configurate settings" />
     <MESSAGE value="configurate settings, databaze , requirements subor" />
@@ -450,6 +454,7 @@
     <MESSAGE value="recipes/, resipes/add/, recipes/1/, products/add" />
     <MESSAGE value="Recepty" />
     <MESSAGE value="TESTY košík" />
-    <option name="LAST_COMMIT_MESSAGE" value="TESTY košík" />
+    <MESSAGE value="TESTY objednavky" />
+    <option name="LAST_COMMIT_MESSAGE" value="TESTY objednavky" />
   </component>
 </project>

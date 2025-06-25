@@ -1,5 +1,8 @@
 asgiref==3.8.1
-Django==5.2
+crispy-bootstrap4==2024.1
+Django==5.2.1
+django-crispy-forms==2.1
+django-extensions==4.1
 pillow==11.2.1
 PyMySQL==1.1.1
 sqlparse==0.5.3
