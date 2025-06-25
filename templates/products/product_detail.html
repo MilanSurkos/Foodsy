@@ -37,11 +37,11 @@
 
   <!-- Záložky -->
   <div style="margin-top: 40px;">
-    <ul class="tab-nav" style="display: flex; gap: 30px; border-bottom: 2px solid #eee; margin-bottom: 0;">
-      <li class="tab-link active" onclick="showTab(event, 'popis')" style="padding: 12px 0; cursor: pointer; font-weight: 700; color: #ff6f3c;">Popis</li>
-      <li class="tab-link" onclick="showTab(event, 'podobne')" style="padding: 12px 0; cursor: pointer; font-weight: 700;">Podobné produkty</li>
-      <li class="tab-link" onclick="showTab(event, 'recepty')" style="padding: 12px 0; cursor: pointer; font-weight: 700;">Recepty</li>
-    </ul>
+    <div class="custom-tabs">
+      <button class="tab-link active" onclick="showTab(event, 'popis')">Popis</button>
+      <button class="tab-link" onclick="showTab(event, 'podobne')">Podobné produkty</button>
+      <button class="tab-link" onclick="showTab(event, 'recepty')">Recepty</button>
+    </div>
     <div id="popis" class="tab-content" style="padding: 24px 0;">{{ product.description|linebreaks }}</div>
     <div id="podobne" class="tab-content" style="display:none; padding: 24px 0;">
       {% if similar_products %}
@@ -51,12 +51,11 @@
           {% endfor %}
         </div>
       {% else %}
-        <em>Žiadne ďalšie produkty v tejto podkategórii.</em>
+        <em>Žádné další produkty v této podkategorii.</em>
       {% endif %}
     </div>
     <div id="recepty" class="tab-content" style="display:none; padding: 24px 0;">
-      <!-- Tu môžeš vložiť recepty s týmto produktom -->
-      <em>Recepty s týmto produktom budú zobrazené tu.</em>
+      <em>Zatím jsme k tomuto produktu nepřidali žádné recepty.</em>
     </div>
   </div>
 
@@ -74,6 +73,55 @@ function showTab(evt, tabId) {
 {% endblock %}
 
 {% block extra_js %}
+<style>
+.custom-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 0;
+  background: #f8f8f8;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+}
+.custom-tabs .tab-link {
+  flex: 0 1 180px; /* allow shrinking, but max 180px per tab */
+  min-width: 120px;
+  max-width: 180px;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 12px 8px; /* slightly reduced padding */
+  font-size: 1rem;
+  font-weight: 700;
+  color: #888;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.custom-tabs .tab-link.active {
+  color: #ff6f3c;
+  background: #fff;
+  border-bottom: 3px solid #ff6f3c;
+  z-index: 2;
+}
+.custom-tabs .tab-link:not(.active):hover {
+  background: #f0e6e0;
+  color: #ff6f3c;
+}
+@media (max-width: 600px) {
+  .custom-tabs .tab-link {
+    font-size: 0.95rem;
+    padding: 8px 4px;
+    min-width: 90px;
+    max-width: 120px;
+  }
+}
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const eurSpan = document.querySelector('.eur-price');

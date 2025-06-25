@@ -396,81 +396,104 @@ form input[type="number"]:focus {
 .product-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 24px;
     margin-top: 20px;
+    justify-content: flex-start;
 }
 
-.add-button {
-    background: #28a745;
-    color: #fff;
-    font-weight: 700;
-    font-size: 1rem;
-    padding: 12px 28px;
-    border: none;
-    border-radius: 8px;
-    min-width: 160px;
-    margin-bottom: 8px;
-    box-shadow: 0 2px 6px rgba(40, 167, 69, 0.15);
+.product-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    padding: 18px 16px 20px 16px;
+    width: 240px;
+    min-width: 220px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: box-shadow 0.2s;
+    margin-bottom: 0;
 }
-.button.detail-btn {
-    background: #ff6f3c;
-    color: #fff;
-    border-radius: 8px;
+.product-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: #f8f8f8;
+    margin-bottom: 12px;
+}
+.product-card h3 {
+    font-size: 1.2rem;
+    margin: 0 0 8px 0;
+    color: #ff6f3c;
     font-weight: 700;
-    font-size: 0.9rem;
-    padding: 8px 14px;
-    border: none;
-    min-width: 80px;
-    width: 50%;
-    box-shadow: 0 2px 6px rgba(255, 111, 60, 0.15);
-    margin-top: 8px;
-    display: inline-block;
     text-align: center;
-    transition: background 0.3s;
 }
-.button.detail-btn:hover,
-.button.detail-btn:focus {
-    background: #e65c28;
-    color: #fff;
+.product-card .description {
+    font-size: 0.98rem;
+    color: #666;
+    margin-bottom: 10px;
+    text-align: center;
+    min-height: 38px;
 }
-
-.green-btn {
-    background-color: #4caf50 !important;
-    color: #fff !important;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 16px;
-    font-weight: 700;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    box-shadow: 0 2px 6px rgba(76,175,80,0.15);
+.product-card .price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #222;
+    margin-bottom: 8px;
+    text-align: center;
 }
-.green-btn:hover, .green-btn:focus {
-    background-color: #388e3c !important;
-    color: #fff !important;
+.product-card .product-info {
+    font-size: 0.95rem;
+    color: #888;
+    margin-bottom: 10px;
+    text-align: center;
 }
-
-.green-qty {
-    background: #e8f5e9;
-    border-radius: 8px;
-    padding: 4px 8px;
-    box-shadow: 0 2px 6px rgba(76,175,80,0.08);
+.product-card .basket-action {
+    width: 100%;
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-
-.qty-control {
+.product-card .add-button {
+    width: 100%;
+    margin: 10px 0 0 0;
+}
+.product-card .qty {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin: 10px 0;
+    gap: 6px;
+    margin-bottom: 0;
 }
-
-.qty-number {
-    min-width: 24px;
-    text-align: center;
-    font-weight: 700;
-    font-size: 1.1rem;
-    color: #388e3c;
+.product-card .qty-unit {
+    font-size: 0.95rem;
+    color: #888;
+}
+.product-card .button.detail-btn {
+    margin-top: 8px;
+    width: 80%;
+    font-size: 0.95rem;
+}
+@media (max-width: 900px) {
+    .product-grid {
+        gap: 14px;
+    }
+    .product-card {
+        width: 48%;
+        min-width: 160px;
+    }
+}
+@media (max-width: 600px) {
+    .product-grid {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .product-card {
+        width: 100%;
+        min-width: 120px;
+    }
 }
 
 /* === Štýly pre vyhľadávacie pole === */
