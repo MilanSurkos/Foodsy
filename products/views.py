@@ -39,9 +39,12 @@ def produkty_podla_kategorie(request, category_id):
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     category = product.category
+    similar_products = Product.objects.filter(category=category).exclude(id=product.id)
     return render(request, 'products/product_detail.html', {
         'product': product,
         'category': category,
+        'similar_products': similar_products,
+        'basket': request.session.get('basket', {}),
     })
 
 

@@ -52,13 +52,13 @@ def add_to_basket(request, produkt_id):
     basket[produkt_id_str] = basket.get(produkt_id_str, 0) + quantity
     request.session['basket'] = basket
 
-    basket_count = sum(basket.values())
+    basket_count = len(basket)  # počet unikátnych produktov
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return JsonResponse({
             'success': True,
             'quantity': basket[produkt_id_str],
-            'basket_count': sum(basket.values())
+            'basket_count': basket_count
         })
 
     return redirect(request.META.get('HTTP_REFERER', '/'))
@@ -71,7 +71,7 @@ def update_quantity(request):
     basket = request.session.get('basket', {})
     if not isinstance(basket, dict):
         basket = {}
-    basket_count = sum(basket.values())
+    basket_count = len(basket)
 
     # Pridané: podpora akcie 'set' pre manuálnu zmenu inputu
     if action == 'set':
@@ -84,13 +84,13 @@ def update_quantity(request):
         else:
             basket.pop(produkt_id, None)
         request.session['basket'] = basket
-        basket_count = sum(basket.values())
+        basket_count = len(basket)
         return JsonResponse({'success': True, 'new_qty': basket.get(produkt_id, 0), 'basket_count': basket_count})
 
     if produkt_id not in basket and action == 'inc':
         basket[produkt_id] = 1
         request.session['basket'] = basket
-        basket_count = sum(basket.values())
+        basket_count = len(basket)
         return JsonResponse({'success': True, 'new_qty': 1, 'basket_count': basket_count})
 
     if produkt_id in basket:
@@ -102,10 +102,10 @@ def update_quantity(request):
             else:
                 del basket[produkt_id]
                 request.session['basket'] = basket
-                basket_count = sum(basket.values())
+                basket_count = len(basket)
                 return JsonResponse({'success': True, 'new_qty': 0, 'basket_count': basket_count})
         request.session['basket'] = basket
-        basket_count = sum(basket.values())
+        basket_count = len(basket)
         return JsonResponse({'success': True, 'new_qty': basket.get(produkt_id, 0), 'basket_count': basket_count})
 
     return JsonResponse({'success': False, 'basket_count': basket_count})
@@ -126,9 +126,10 @@ def remove_from_basket(request):
     if produkt_id in basket:
         del basket[produkt_id]
         request.session['basket'] = basket
-        return JsonResponse({'success': True})
+        basket_count = len(basket)
+        return JsonResponse({'success': True, 'basket_count': basket_count})
 
-    return JsonResponse({'success': False})
+    return JsonResponse({'success': False, 'basket_count': len(basket)})
 
 
 def product_list(request):

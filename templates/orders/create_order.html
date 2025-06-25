@@ -1,36 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Vytvoriť objednávku</h2>
+<h2>Vytvořit objednávku</h2>
 
 <form method="post">
   {% csrf_token %}
 
-  <label for="delivery_address">Doručovacia adresa:</label><br>
+  <label for="delivery_address">Doručovací adresa:</label><br>
   <input type="text" id="delivery_address" name="delivery_address" style="width: 300px;" required><br><br>
 
-  <label for="city">Mesto:</label><br>
+  <label for="city">Město:</label><br>
   <input type="text" id="city" name="city" style="width: 300px;" required><br><br>
 
-  <label for="phone">Telefónne číslo:</label><br>
-  <input type="tel" id="phone" name="phone" pattern="[0-9+\-\s]+" placeholder="+421 123 456 789" style="width: 300px;" required><br><br>
+  <label for="phone">Telefonní číslo:</label><br>
+  <input type="tel" id="phone" name="phone" pattern="[0-9+\-\s]+" placeholder="+420 123 456 789" style="width: 300px;" required><br><br>
 
   <label for="email">E-mail:</label><br>
   <input type="email" id="email" name="email" style="width: 300px;" required><br><br>
 
-  <label for="delivery_date">Dátum doručenia:</label><br>
+  <label for="delivery_date">Datum doručení:</label><br>
   <input type="date" id="delivery_date" name="delivery_date" style="width: 150px;" required><br><br>
 
-  <label for="delivery_time">Čas doručenia:</label><br>
+  <label for="delivery_time">Čas doručení:</label><br>
   <select id="delivery_time" name="delivery_time" style="width: 200px;" required>
-    <option value="morning">Ráno (8:00 - 12:00)</option>
-    <option value="afternoon">Popoludnie (12:00 - 18:00)</option>
+    {% for value, label in delivery_time_choices %}
+      <option value="{{ value }}">{{ label }}</option>
+    {% endfor %}
   </select><br><br>
 
-  <button type="submit">Potvrdiť objednávku</button>
+  <button type="submit">Potvrdit objednávku</button>
 </form>
 
 <br>
-<a href="{% url 'basket:basket' %}">← Späť do košíka</a>
+<a href="{% url 'basket:basket' %}">← Zpět do košíka</a>
 
 {% endblock %}

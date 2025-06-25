@@ -7,18 +7,18 @@
   {% for order in orders %}
     <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; margin-bottom: 25px; background-color: #f9f9f9; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
       <h3>Objednávka č. {{ order.id }}</h3>
-      <p><strong>Dátum:</strong> {{ order.date|date:"j. F Y, G:i" }}</p>
+      <p><strong>Datum:</strong> {{ order.date|date:"j. F Y, G:i" }}</p>
       <p><strong>Adresa:</strong> {{ order.delivery_address }}</p>
-      <p><strong>Status:</strong> {{ order.get_status_display }}</p>
+      <p><strong>Stav:</strong> {{ order.get_status_display }}</p>
       <p><strong>Platba:</strong> {{ order.get_platba_display }}</p>
 
       <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
         <thead>
           <tr style="background-color: #e0e0e0;">
             <th style="padding: 8px; text-align: left;">Produkt</th>
-            <th style="padding: 8px; text-align: center;">Množstvo</th>
+            <th style="padding: 8px; text-align: center;">Množství</th>
             <th style="padding: 8px; text-align: right;">Cena (Kč)</th>
-            <th style="padding: 8px; text-align: right;">Celkom (Kč)</th>
+            <th style="padding: 8px; text-align: right;">Celkem (Kč)</th>
           </tr>
         </thead>
         <tbody>
@@ -34,24 +34,51 @@
       </table>
 
       <p style="text-align: right; font-weight: bold; margin-top: 15px; font-size: 1.2em;">
-        <span>Celkom bez doručenia:</span> {{ order.total_price|floatformat:2 }} Kč
+        <span>Celkem bez doručení:</span> {{ order.total_price|floatformat:2 }} Kč<br>
+        <span class="eur-price" data-czk="{{ order.total_price|floatformat:2 }}"><span id="eur-total-{{ order.id }}">...</span></span>
       </p>
 
       <p style="text-align: right; font-weight: bold; margin-top: 5px; font-size: 1.1em; color: #555;">
-        <span>Doručenie:</span>
+        <span>Doručení:</span>
         {% if order.delivery_cost == 0 %}
-          Zdarma
+          Zdarma<br>
+          <span class="eur-price" data-czk="0"><span id="eur-delivery-{{ order.id }}">0.00 €</span></span>
         {% else %}
-          {{ order.delivery_cost|floatformat:2 }} Kč
+          {{ order.delivery_cost|floatformat:2 }} Kč<br>
+          <span class="eur-price" data-czk="{{ order.delivery_cost|floatformat:2 }}"><span id="eur-delivery-{{ order.id }}">...</span></span>
         {% endif %}
       </p>
 
       <p style="text-align: right; font-weight: bold; margin-top: 10px; font-size: 1.4em; color: #000;">
-        Celkom s doručením: {{ order.total_price|add:order.delivery_cost|floatformat:2 }} Kč
+        Celkem s doručením: {{ order.total_price|add:order.delivery_cost|floatformat:2 }} Kč<br>
+        <span class="eur-price" data-czk="{{ order.total_price|add:order.delivery_cost|floatformat:2 }}"><span id="eur-grand-{{ order.id }}">...</span></span>
       </p>
     </div>
   {% endfor %}
 {% else %}
-  <p>Nemáte žiadne objednávky.</p>
+  <p>Nemáte žádné objednávky.</p>
 {% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.eur-price').forEach(function(span) {
+    const czk = span.getAttribute('data-czk');
+    const id = span.querySelector('span').id;
+    if (parseFloat(czk) === 0) {
+      document.getElementById(id).textContent = '0.00 €';
+      return;
+    }
+    fetch(`https://api.frankfurter.app/latest?amount=${czk}&from=CZK&to=EUR`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById(id).textContent = data.rates.EUR.toFixed(2) + ' €';
+      })
+      .catch(() => {
+        document.getElementById(id).textContent = 'Nedostupné';
+      });
+  });
+});
+</script>
 {% endblock %}

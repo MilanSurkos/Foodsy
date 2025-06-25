@@ -27,28 +27,21 @@
 
 {% block content %}
 <section class="container hero">
-    <h1>Vitajte na Foodsy!</h1>
-    <p>Objednajte si svoje obľúbené jedlá online z pohodlia domova. Čerstvé suroviny, rýchle doručenie a široký výber pre každú chuť.</p>
-    <a href="{% url 'products:kategorie_list' %}" class="button">Prejsť na ponuku</a>
+    <h1>Vítejte na Foodsy!</h1>
+    <p>Objednejte si svá oblíbená jídla online z pohodlí domova. Čerstvé suroviny, rychlé doručení a široký výběr pro každou chuť.</p>
+    <a href="{% url 'products:kategorie_list' %}" class="button">Přejít na nabídku</a>
 </section>
 
 <section class="container featured-products">
     <h2>Cenové trháky</h2>
-    {% if featured_products %}
-        <div class="product-carousel">
-            {% for product in featured_products %}
-                <div class="product-card">
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                    <div class="info">
-                        <h4>{{ product.name }}</h4>
-                        <p>{{ product.price }} €</p>
-                        <a href="{% url 'products:product_detail' product.id %}" class="button">Detail</a>
-                    </div>
-                </div>
+    {% if discounts_products and discounts_products.exists %}
+        <div class="product-grid">
+            {% for product in discounts_products %}
+                {% include "products/product_card.html" with product=product basket=basket %}
             {% endfor %}
         </div>
     {% else %}
-        <p>Momentálne nie sú k dispozícii žiadne odporúčané produkty.</p>
+        <p>Momentálně nejsou k dispozici žádné zlevněné produkty.</p>
     {% endif %}
 </section>
 {% endblock %}

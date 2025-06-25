@@ -72,8 +72,9 @@ def create_order(request):
         # Clear the basket after order is placed
         request.session['basket'] = {}
 
-        messages.success(request, "Objednávka bola úspešne vytvorená.")
+        messages.success(request, f"Objednávka #{order.id} bola úspešne vytvorená.")
         return redirect('orders:orders')
 
     # If GET request, just render the form template
-    return render(request, 'orders/create_order.html')
+    delivery_time_choices = Order.DELIVERY_TIME_CHOICES
+    return render(request, 'orders/create_order.html', {'delivery_time_choices': delivery_time_choices})
