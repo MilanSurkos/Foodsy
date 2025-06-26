@@ -269,9 +269,10 @@ form input[type="number"]:focus {
     align-items: center;
     text-align: center;
     flex: 0 0 auto;
-    width: 220px;
+    width: 280px;
+    min-width: 240px;
     background-color: #fff;
-    border-radius: 10px;
+    border-radius: 14px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     scroll-snap-align: start;
     transition: transform 0.3s ease;
@@ -281,11 +282,13 @@ form input[type="number"]:focus {
     transform: translateY(-6px);
 }
 .product-card img {
-    width: 120px;
-    height: 120px;
+    width: 80%;
+    height: auto;
+    aspect-ratio: 1/1;
     object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 12px;
+    background: #fff;
+    border-radius: 14px;
+    margin-bottom: 20px;
 }
 .product-card .info {
     padding: 12px;

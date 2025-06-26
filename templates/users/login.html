@@ -15,6 +15,12 @@
     <button type="submit">Prihlásiť sa</button>
 </form>
 
+{% if form.errors %}
+  <div class="error">
+    {{ form.errors }}
+  </div>
+{% endif %}
+
 <p>Nemáš účet? <a href="{% url 'users:register' %}">Zaregistruj sa tu</a>.</p>
 
 {% endblock %}
