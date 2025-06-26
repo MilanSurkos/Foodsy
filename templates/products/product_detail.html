@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load basket_tags %}
+
+{% block content %}
+<div class="container" style="max-width: 900px; margin: 40px auto; background: #fff; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.08); padding: 32px;">
+  <div style="display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start;">
+    <div style="flex: 1 1 340px; display: flex; align-items: center; justify-content: center;">
+      {% if product.image %}
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" style="width: 340px; height: 340px; object-fit: contain; border-radius: 14px; background: #f8f8f8;">
+      {% else %}
+        <img src="{% static 'images/default-food.jpg' %}" alt="Žádný obrázek" style="width: 340px; height: 340px; object-fit: contain; border-radius: 14px; background: #f8f8f8;">
+      {% endif %}
+    </div>
+    <div style="flex: 2 1 400px; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-start;">
+      <h1 style="font-size: 2.5rem; margin-bottom: 18px; color: #ff6f3c; font-weight: 800;">{{ product.name }}</h1>
+      <p style="font-size: 2rem; color: #222; font-weight: bold; margin-bottom: 12px;">
+        {{ product.price }} Kč
+        <br>
+        <span class="eur-price" data-czk="{{ product.price }}"><span id="eur-price-{{ product.id }}">...</span></span>
+      </p>
+      <p style="font-size: 1.2rem; color: #666; margin-bottom: 24px;">Jednotkové množství: <b>{{ product.unit }}</b></p>
+      <div class="basket-action" data-product-id="{{ product.id }}">
+        {% if basket|get_item:product.id %}
+          <div class="qty has-unit">
+            <button class="minus">−</button>
+            <span class="qty-value">{{ basket|get_item:product.id }}</span>
+            <span class="qty-unit">kus</span>
+            <button class="plus">+</button>
+          </div>
+        {% else %}
+          <button type="button" class="add-button green-btn" data-product-id="{{ product.id }}" style="width:100%; margin:10px 0;">Přidat do košíku</button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Záložky -->
+  <div style="margin-top: 40px;">
+    <div class="custom-tabs">
+      <button class="tab-link active" onclick="showTab(event, 'popis')">Popis</button>
+      <button class="tab-link" onclick="showTab(event, 'podobne')">Podobné produkty</button>
+      <button class="tab-link" onclick="showTab(event, 'recepty')">Recepty</button>
+    </div>
+    <div id="popis" class="tab-content" style="padding: 24px 0;">{{ product.description|linebreaks }}</div>
+    <div id="podobne" class="tab-content" style="display:none; padding: 24px 0;">
+      {% if similar_products %}
+        <div class="product-grid similar-products-grid">
+          {% for product in similar_products %}
+            {% include "products/product_card.html" with product=product basket=basket card_class="small-card" %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <em>Žádné další produkty v této podkategorii.</em>
+      {% endif %}
+    </div>
+    <div id="recepty" class="tab-content" style="display:none; padding: 24px 0;">
+      <em>Zatím jsme k tomuto produktu nepřidali žádné recepty.</em>
+    </div>
+  </div>
+
+  <button onclick="window.history.back()" class="button" style="margin: 20px 0 0 0;">&larr; Zpět</button>
+</div>
+
+<script>
+function showTab(evt, tabId) {
+  document.querySelectorAll('.tab-link').forEach(el => el.classList.remove('active'));
+  evt.target.classList.add('active');
+  document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+  document.getElementById(tabId).style.display = 'block';
+}
+</script>
+{% endblock %}
+
+{% block extra_js %}
+<style>
+.custom-tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 0;
+  background: #f8f8f8;
+  border-radius: 10px 10px 0 0;
+  overflow: hidden;
+}
+.custom-tabs .tab-link {
+  flex: 0 1 180px; /* allow shrinking, but max 180px per tab */
+  min-width: 120px;
+  max-width: 180px;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 12px 8px; /* slightly reduced padding */
+  font-size: 1rem;
+  font-weight: 700;
+  color: #888;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.custom-tabs .tab-link.active {
+  color: #ff6f3c;
+  background: #fff;
+  border-bottom: 3px solid #ff6f3c;
+  z-index: 2;
+}
+.custom-tabs .tab-link:not(.active):hover {
+  background: #f0e6e0;
+  color: #ff6f3c;
+}
+@media (max-width: 600px) {
+  .custom-tabs .tab-link {
+    font-size: 0.95rem;
+    padding: 8px 4px;
+    min-width: 90px;
+    max-width: 120px;
+  }
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const eurSpan = document.querySelector('.eur-price');
+  if (eurSpan) {
+    const czk = eurSpan.getAttribute('data-czk');
+    const id = eurSpan.querySelector('span').id;
+    fetch(`https://api.frankfurter.app/latest?amount=${czk}&from=CZK&to=EUR`)
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById(id).textContent = data.rates.EUR.toFixed(2) + ' €';
+      })
+      .catch(() => {
+        document.getElementById(id).textContent = 'Nedostupné';
+      });
+  }
+
+  // AJAX basket logic for product detail
+  const basketAction = document.querySelector('.basket-action');
+  if (!basketAction) return;
+  const productId = basketAction.getAttribute('data-product-id');
+  function updateBasketHtml(qty) {
+    if (qty > 0) {
+      basketAction.innerHTML = `
+        <div class=\"qty has-unit\">
+          <button class=\"minus\">−</button>
+          <span class=\"qty-value\">${qty}</span>
+          <span class=\"qty-unit\">kus</span>
+          <button class=\"plus\">+</button>
+        </div>`;
+      attachQtyHandlers(basketAction, productId);
+    } else {
+      basketAction.innerHTML = `<button type=\"button\" class=\"add-button green-btn\" data-product-id=\"${productId}\" style=\"width:100%; margin:10px 0;\">Přidat do košíku</button>`;
+      basketAction.querySelector('.add-button').addEventListener('click', addToBasketHandler);
+    }
+  }
+  function addToBasketHandler() {
+    fetch(`/basket/pridat/${productId}/`, {
+      method: 'POST',
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRFToken': getCookie('csrftoken'),
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: 'quantity=1'
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        updateBasketHtml(1);
+        if (typeof data.basket_count !== 'undefined') {
+          updateBasketCount(data.basket_count);
+        }
+      }
+    });
+  }
+  function attachQtyHandlers(basketDiv, productId) {
+    const minusBtn = basketDiv.querySelector('.minus');
+    const plusBtn = basketDiv.querySelector('.plus');
+    const valueSpan = basketDiv.querySelector('.qty-value');
+    if (minusBtn) minusBtn.addEventListener('click', function() {
+      let current = parseInt(valueSpan.textContent);
+      if (current <= 1) {
+        updateBasketHtml(0);
+        fetch('/basket/update-quantity/', {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `produkt_id=${productId}&action=dec`
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (typeof data.basket_count !== 'undefined') {
+            updateBasketCount(data.basket_count);
+          }
+        });
+      } else {
+        fetch('/basket/update-quantity/', {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `produkt_id=${productId}&action=dec`
+        })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            valueSpan.textContent = data.new_qty;
+            if (typeof data.basket_count !== 'undefined') {
+              updateBasketCount(data.basket_count);
+            }
+          }
+        });
+      }
+    });
+    if (plusBtn) plusBtn.addEventListener('click', function() {
+      fetch('/basket/update-quantity/', {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRFToken': getCookie('csrftoken'),
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `produkt_id=${productId}&action=inc`
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          valueSpan.textContent = data.new_qty;
+          if (typeof data.basket_count !== 'undefined') {
+            updateBasketCount(data.basket_count);
+          }
+        }
+      });
+    });
+  }
+  if (basketAction.querySelector('.add-button')) {
+    basketAction.querySelector('.add-button').addEventListener('click', addToBasketHandler);
+  } else if (basketAction.querySelector('.qty.has-unit')) {
+    attachQtyHandlers(basketAction, productId);
+  }
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+});
+</script>
+{% endblock %}

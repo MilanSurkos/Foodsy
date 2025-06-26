@@ -1,9 +1,104 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block slideshow %}
+<div class="slideshow-container">
+    <div class="slide active">
+        <img src="{% static 'images/ban.webp' %}" alt="Slide 1">
+    </div>
+    <div class="slide">
+        <img src="{% static 'images/ban2.webp' %}" alt="Slide 2">
+    </div>
+    <div class="slide">
+        <img src="{% static 'images/ban3.webp' %}" alt="Slide 3">
+    </div>
+    <!-- Navigation buttons -->
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+
+<!-- Dots for slideshow -->
+<div style="text-align:center; margin-top:10px;">
+    <span class="dot" onclick="currentSlide(0)"></span>
+    <span class="dot" onclick="currentSlide(1)"></span>
+    <span class="dot" onclick="currentSlide(2)"></span>
+</div>
+{% endblock %}
 
 {% block content %}
-<section>
-    <h1>Vitajte na Foodsy!</h1>
-    <p>Objednajte si svoje obľúbené jedlá online z pohodlia domova. Čerstvé suroviny, rýchle doručenie a široký výber pre každú chuť.</p>
-    <a href="{% url 'product_list' %}" class="button">Prejsť na ponuku</a>
+<section class="container hero">
+    <h1>Vítejte na Foodsy!</h1>
+    <p>Objednejte si svá oblíbená jídla online z pohodlí domova. Čerstvé suroviny, rychlé doručení a široký výběr pro každou chuť.</p>
+    <a href="{% url 'products:kategorie_list' %}" class="button">Přejít na nabídku</a>
 </section>
+
+<section class="container featured-products">
+    <h2>Cenové trháky</h2>
+    {% if discounts_products and discounts_products.exists %}
+        <div class="product-grid">
+            {% for product in discounts_products %}
+                {% include "products/product_card.html" with product=product basket=basket %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>Momentálně nejsou k dispozici žádné zlevněné produkty.</p>
+    {% endif %}
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+let slideIndex = 0;
+const slides = document.getElementsByClassName("slide");
+const dots = document.getElementsByClassName("dot");
+
+function showSlides() {
+    // Hide all slides
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].classList.remove("active");
+    }
+
+    // Remove active class from all dots
+    for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.remove("active");
+    }
+
+    // Increment slide index
+    slideIndex++;
+    if (slideIndex > slides.length) {slideIndex = 1}
+
+    // Show current slide and activate corresponding dot
+    slides[slideIndex-1].classList.add("active");
+    if (dots[slideIndex-1]) {
+        dots[slideIndex-1].classList.add("active");
+    }
+
+    // Change slide every 10 seconds
+    setTimeout(showSlides, 10000);
+}
+
+// Next/previous controls
+function plusSlides(n) {
+    slideIndex += n - 1;
+    if (slideIndex >= slides.length) {slideIndex = 0}
+    if (slideIndex < 0) {slideIndex = slides.length - 1}
+    showSlides();
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+    slideIndex = n;
+    showSlides();
+}
+
+// Initialize slideshow when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Show first slide and dot as active
+    if (slides.length > 0) slides[0].classList.add("active");
+    if (dots.length > 0) dots[0].classList.add("active");
+
+    // Start the slideshow
+    setTimeout(showSlides, 5000);
+});
+</script>
 {% endblock %}

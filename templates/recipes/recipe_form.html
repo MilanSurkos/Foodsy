@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <h1>Přidat recept</h1>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <h3>Ingredience</h3>
+    {{ formset.management_form }}
+
+    {% for subform in formset %}
+      {# skryjeme všechna skrytá pole (např. id) #}
+      {% for hidden in subform.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
+
+      <div class="ingredient-form">
+        <div class="field-row">
+          {{ subform.product.label_tag }} {{ subform.product }}
+          {{ subform.custom_ingredient.label_tag }} {{ subform.custom_ingredient }}
+        </div>
+        <div class="field-row">
+          {{ subform.quantity.label_tag }} {{ subform.quantity }}
+        </div>
+        <div class="field-row">
+          {{ subform.DELETE }} {{ subform.DELETE.label_tag }}
+        </div>
+      </div>
+    {% endfor %}
+
+    <button type="submit">Uložit recept</button>
+  </form>
+{% endblock %}
