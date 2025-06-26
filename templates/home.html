@@ -45,3 +45,60 @@
     {% endif %}
 </section>
 {% endblock %}
+
+{% block extra_js %}
+<script>
+let slideIndex = 0;
+const slides = document.getElementsByClassName("slide");
+const dots = document.getElementsByClassName("dot");
+
+function showSlides() {
+    // Hide all slides
+    for (let i = 0; i < slides.length; i++) {
+        slides[i].classList.remove("active");
+    }
+
+    // Remove active class from all dots
+    for (let i = 0; i < dots.length; i++) {
+        dots[i].classList.remove("active");
+    }
+
+    // Increment slide index
+    slideIndex++;
+    if (slideIndex > slides.length) {slideIndex = 1}
+
+    // Show current slide and activate corresponding dot
+    slides[slideIndex-1].classList.add("active");
+    if (dots[slideIndex-1]) {
+        dots[slideIndex-1].classList.add("active");
+    }
+
+    // Change slide every 5 seconds
+    setTimeout(showSlides, 5000);
+}
+
+// Next/previous controls
+function plusSlides(n) {
+    slideIndex += n - 1;
+    if (slideIndex >= slides.length) {slideIndex = 0}
+    if (slideIndex < 0) {slideIndex = slides.length - 1}
+    showSlides();
+}
+
+// Thumbnail image controls
+function currentSlide(n) {
+    slideIndex = n;
+    showSlides();
+}
+
+// Initialize slideshow when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Show first slide and dot as active
+    if (slides.length > 0) slides[0].classList.add("active");
+    if (dots.length > 0) dots[0].classList.add("active");
+
+    // Start the slideshow
+    setTimeout(showSlides, 5000);
+});
+</script>
+{% endblock %}
