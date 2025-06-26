@@ -4,9 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="Update requirements">
+    <list default="true" id="e9d2807d-a618-41aa-807e-4ed64345ae18" name="Changes" comment="TESTY objednavky">
+      <change beforePath="$PROJECT_DIR$/.idea/Foodsy.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Foodsy.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/migrations/0002_auto_20250617_1631.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/migrations/0003_order_delivery_time_alter_orderitem_quantity.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/orders/migrations/0004_alter_order_delivery_time_alter_order_platba_and_more.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/recipes/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/recipes/recipe_list.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/recipes/recipe_list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +59,7 @@
     </option>
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="44a7211e8f2b3abfaa1ed61334ea113d37ed228a" />
+        <entry key="$PROJECT_DIR$" value="Features" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -57,13 +68,13 @@
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {}
 }</component>
-  <component name="GitHubPullRequestState"><![CDATA[{
-  "prStates": []
-}]]></component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: []
+}</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/MilanSurkos/Foodsy.git&quot;,
-    &quot;accountId&quot;: &quot;42aa9c7d-c5a6-4878-85f0-1512fb45315d&quot;
+    &quot;accountId&quot;: &quot;32f258af-bd89-49ba-a209-28b8808c847a&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -77,28 +88,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "#2 on Features",
-    "last_opened_file_path": "C:/Users/User/PycharmProjects/FoodsyTina/static/icons",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;#2 on Features&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/PycharmProjects/FoodsyTina/static/icons&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "sqlite"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;sqlite&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\User\PycharmProjects\FoodsyTina\static\icons" />
@@ -140,8 +152,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
-        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-PY-251.26094.141" />
+        <option value="bundled-python-sdk-9f8e2b94138c-36ea0e71a18c-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-251.26094.141" />
       </set>
     </attachedChunks>
   </component>
@@ -170,6 +182,9 @@
       <workItem from="1749483765461" duration="304000" />
       <workItem from="1750102240243" duration="403000" />
       <workItem from="1750175600148" duration="2968000" />
+      <workItem from="1750949959645" duration="3919000" />
+      <workItem from="1750957807386" duration="120000" />
+      <workItem from="1750957988987" duration="3528000" />
     </task>
     <task id="LOCAL-00001" summary="Structura Djanga">
       <option name="closed" value="true" />
@@ -417,12 +432,17 @@
             <list>
               <RecentGroup>
                 <option name="FILTER_VALUES">
-                  <option value="Features_tina" />
+                  <option value="origin/Features" />
                 </option>
               </RecentGroup>
               <RecentGroup>
                 <option name="FILTER_VALUES">
-                  <option value="origin/Features" />
+                  <option value="Features" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="Features_tina" />
                 </option>
               </RecentGroup>
             </list>
@@ -434,7 +454,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/Features" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>

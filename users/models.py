@@ -18,6 +18,6 @@ class User(AbstractUser):
     avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
     preferred_channel = models.CharField(
         max_length=10,
-        choices=[('email', 'Email'), ('mail', 'Mail')],
+        choices=[('email', 'Email')],
         default='email'
     )

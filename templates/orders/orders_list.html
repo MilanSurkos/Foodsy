@@ -7,7 +7,7 @@
   {% for order in orders %}
     <div style="border: 1px solid #ccc; border-radius: 8px; padding: 20px; margin-bottom: 25px; background-color: #f9f9f9; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
       <h3>Objednávka č. {{ order.id }}</h3>
-      <p><strong>Datum:</strong> {{ order.date|date:"j. F Y, G:i" }}</p>
+      <p><strong>Datum:</strong> {{ order.date|date:"d.m.Y H:i" }}</p>
       <p><strong>Adresa:</strong> {{ order.delivery_address }}</p>
       <p><strong>Stav:</strong> {{ order.get_status_display }}</p>
       <p><strong>Platba:</strong> {{ order.get_platba_display }}</p>
